@@ -1,12 +1,9 @@
 import Link from 'next/link';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 import Image from 'next/image';
 
 export default function Home() {
   return (
     <>
-      <Header></Header>
       <section id="home">
         <div id="main-image" className="min:h-[500px] bg-cover bg-center relative mt-20">
           <Image src="/grouplg.jpg" alt="" className="w-full h-full object-cover absolute mix-blend-overlay" fill />
@@ -224,7 +221,6 @@ export default function Home() {
           </div>
         </section>
       </section >
-      <Footer></Footer>
 
     </>
   );
