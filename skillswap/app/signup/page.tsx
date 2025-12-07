@@ -1,0 +1,177 @@
+
+import SkillInput from "../components/SkillsInput";
+import Image from "next/image";
+import Link from "next/link";
+export default function SignUp() {
+    return (
+        <>
+            
+            <div className="bg-gray-100/30 flex items-center justify-center px-4 max-h-fit mt-20 py-12 lg:py-16">
+                <div className="max-w-6xl bg-white [box-shadow:0_2px_10px_-3px_rgba(6,81,237,0.3)] p-4 lg:p-5 rounded-md">
+
+                    <div className="flex flex-col md:flex-row items-center gap-y-8 md:gap-x-8">
+                        <form className="max-w-xl mx-auto w-full p-4 md:p-6">
+                            <div className="mb-8">
+                                <div className="flex gap-4 items-center">
+                                    <Image src="/icon.png" alt="logo" width={16} height={16}/>
+                                    <span className="text-2xl text-indigo-600 font-bold">SkillSwap</span>
+                                </div>
+                            </div>
+
+                            <div className="space-y-6">
+                                <div className="flex gap-4 justify-center">
+                                    <div className="w-full">
+                                        <label className="text-slate-900 text-sm font-medium mb-2 block">Full Name</label>
+                                        <div className="relative flex items-center">
+                                            <input
+                                                name="name"
+                                                type="text"
+                                                required
+                                                className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
+                                                placeholder="Enter full name.."
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="w-full">
+                                        <label className="text-slate-900 text-sm font-medium mb-2 block">Email</label>
+                                        <div className="relative flex items-center">
+                                            <input
+                                                name="email"
+                                                type="text"
+                                                required
+                                                className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
+                                                placeholder="Enter email"
+                                            />
+                                            <Image src="/mail.png" alt="email-photo" className="absolute right-4" width={18} height={18} />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-4 justify-center">
+                                    <div className="w-full">
+                                        <label className="text-slate-900 text-sm font-medium mb-2 block">Password</label>
+                                        <div className="relative flex items-center">
+                                            <input
+                                                name="confirm-pass"
+                                                type="password"
+                                                required
+                                                className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
+                                                placeholder="Enter password"
+                                            />
+                                            <Image src="/lock.png" alt="password-photo" className=" absolute right-4" width={18} height={18}/>
+                                        </div>
+                                    </div>
+                                    <div className="w-full">
+                                        <label className="text-slate-900 text-sm font-medium mb-2 block">Confirm Password</label>
+                                        <div className="relative flex items-center">
+                                            <input
+                                                name="password"
+                                                type="password"
+                                                required
+                                                className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
+                                                placeholder="Confirm passoword"
+                                            />
+                                            <Image src="/lock.png" alt="password-photo" className="absolute right-4" width={18} height={18}/>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div className="flex gap-4 justify-center">
+                                    <div className="w-full">
+                                        <label className="text-slate-900 text-sm font-medium mb-2 block">Location</label>
+                                        <div className="relative flex items-center">
+                                            <input
+                                                name="location"
+                                                type="text"
+                                                required
+                                                className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
+                                                placeholder="City, Country"
+                                            />
+                                            <Image src="/location.png" alt="location-photo" className="absolute right-4" width={18} height={18} />
+                                        </div>
+                                    </div>
+                                    <div className="w-full">
+                                        <label className="text-slate-900 text-sm font-medium mb-2 block">Availability</label>
+                                        <select
+                                            id="availability"
+                                            className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
+                                        >
+                                            <option value="">Select Availability</option>
+                                            <option value="morning">Morning</option>
+                                            <option value="afternoon">Afternoon</option>
+                                            <option value="evening">Evening</option>
+                                            <option value="weekends">Weekends</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div className="w-full">
+                                    <label className="text-slate-900 text-sm font-medium mb-2 block" htmlFor="userBio">Bio</label>
+                                    <textarea className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all min-h-20 resize-none" id="userBio" placeholder="Hello!!!" required></textarea>
+                                </div>
+                                <hr />
+
+                                <div className="w-full">
+                                    <label className="text-slate-900 text-lg font-medium mb-2 block" htmlFor="skillsOffer">Skills You Can Offer</label>
+                                    <SkillInput id="skillsOffer"></SkillInput>
+                                </div>
+
+                                <div className="w-full">
+                                    <label className="text-slate-900 text-lg font-medium mb-2 block" htmlFor="skillsLearn">Skills You Want to Learn</label>
+                                    <SkillInput id="skillsLearn"></SkillInput>
+                                </div>
+
+                                <div className="flex flex-wrap items-center gap-4 justify-between">
+                                    <div className="text-sm">
+                                        <Link href="#" className="text-blue-600 font-medium hover:underline">
+                                            Forgot password?
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-8">
+                                <button
+                                    type="submit"
+                                    className="w-full shadow-xl py-2 px-4 text-[15px] tracking-wide font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none cursor-pointer"
+                                >
+                                    Sign Up
+                                </button>
+
+                                <p className="text-sm mt-6 text-center text-slate-600">
+                                    Already have an account?
+                                    <a href="/signin" className="text-blue-600 font-medium tracking-wide hover:underline ml-1">
+                                        Sign In here
+                                    </a>
+                                </p>
+                            </div>
+                        </form>
+
+                        <div className="w-full h-full pt-4">
+                            <div className="bg-gray-50 relative before:absolute before:inset-0 before:bg-indigo-600/70 rounded-md overflow-hidden w-full h-full aspect-square md:aspect-auto">
+                                <img
+                                    src="/work.jpg"
+                                    className="w-full h-full object-cover"
+                                    alt="signup img"
+                                    
+                                />
+                                <div className="absolute inset-0 m-auto max-w-sm p-6 flex items-center justify-center">
+                                    <div>
+                                        <h1 className="text-white text-4xl font-semibold">Sign Up</h1>
+                                        <p className="text-slate-100 text-[15px] font-medium mt-6 leading-relaxed">
+                                            Create your account and connect with others.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div >
+            </div>
+            
+        </>
+    );
+}
