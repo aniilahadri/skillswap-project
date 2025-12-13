@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.1.0",
   "engineVersion": "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba",
   "activeProvider": "mysql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../lib/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../lib/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n}\n\nmodel User {\n  id            String         @id @default(cuid())\n  fullName      String\n  email         String         @unique\n  password      String\n  city          String\n  state         String\n  phoneNumber   PhoneNumber[]\n  bio           String         @db.Text\n  role          Role           @default(STUDENT)\n  createdAt     DateTime       @default(now())\n  updatedAt     DateTime       @updatedAt\n  admin         Admin[]\n  student       Student[]\n  refreshTokens RefreshToken[]\n}\n\nmodel PhoneNumber {\n  id     Int    @id @default(autoincrement())\n  number String\n  userId String\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nenum Role {\n  ADMIN\n  STUDENT\n}\n\nmodel Admin {\n  adminId String @id\n  user    User   @relation(fields: [adminId], references: [id], onDelete: Cascade)\n}\n\nmodel Student {\n  studentId       String          @id\n  user            User            @relation(fields: [studentId], references: [id], onDelete: Cascade)\n  experienceLevel ExperienceLevel\n  isProfilePublic Boolean         @default(true)\n  skillsCompleted Int             @default(0)\n  skillOffered    SkillOffered[]\n  skillWanted     SkillWanted[]\n\n  requestSent     Request[]  @relation(\"RequestSent\")\n  requestReceived Request[]  @relation(\"RequestReceived\")\n  favorites       Favorite[] @relation(\"Favorites\")\n  favorited       Favorite[] @relation(\"Favorited\")\n  reports         Report[]   @relation(\"Reporter\")\n  reported        Report[]   @relation(\"Reported\")\n}\n\nenum ExperienceLevel {\n  BEGINNER\n  INTERMEDIATE\n  ADVANCED\n  EXPERT\n}\n\nmodel Skill {\n  id           String         @id @default(cuid())\n  name         String\n  category     String?\n  skillOffered SkillOffered[]\n  skillWanted  SkillWanted[]\n}\n\nmodel SkillOffered {\n  id        String    @id @default(cuid())\n  studentId String\n  skillId   String\n  student   Student   @relation(fields: [studentId], references: [studentId], onDelete: Cascade)\n  skill     Skill     @relation(fields: [skillId], references: [id], onDelete: Cascade)\n  requests  Request[]\n}\n\nmodel SkillWanted {\n  id        String    @id @default(cuid())\n  studentId String\n  skillId   String\n  student   Student   @relation(fields: [studentId], references: [studentId], onDelete: Cascade)\n  skill     Skill     @relation(fields: [skillId], references: [id], onDelete: Cascade)\n  requests  Request[]\n}\n\nmodel Request {\n  id               String  @id @default(cuid())\n  senderId         String\n  receiverId       String?\n  requestedSkillId String\n  offeredSkillId   String\n\n  sender         Student       @relation(\"RequestSent\", fields: [senderId], references: [studentId], onDelete: Cascade)\n  receiver       Student?      @relation(\"RequestReceived\", fields: [receiverId], references: [studentId], onDelete: SetNull)\n  requestedSkill SkillOffered  @relation(fields: [requestedSkillId], references: [id])\n  offeredSkill   SkillWanted   @relation(fields: [offeredSkillId], references: [id])\n  status         RequestStatus @default(PENDING)\n  createdAt      DateTime      @default(now())\n  completedAt    DateTime?\n\n  @@unique([senderId, receiverId, requestedSkillId, offeredSkillId])\n}\n\nenum RequestStatus {\n  PENDING\n  ACCEPTED\n  REJECTED\n  COMPLETED\n}\n\nmodel Favorite {\n  id           String @id @default(cuid())\n  studentId    String\n  favStudentId String\n\n  student    Student  @relation(\"Favorites\", fields: [studentId], references: [studentId], onDelete: Cascade)\n  favStudent Student  @relation(\"Favorited\", fields: [favStudentId], references: [studentId])\n  createdAt  DateTime @default(now())\n}\n\nmodel Report {\n  id             Int     @id @default(autoincrement())\n  reporterId     String\n  reportedUserId String\n  reason         String\n  adminNotes     String?\n\n  reporter     Student  @relation(\"Reporter\", fields: [reporterId], references: [studentId])\n  reportedUser Student  @relation(\"Reported\", fields: [reportedUserId], references: [studentId])\n  createdAt    DateTime @default(now())\n\n  @@index([reporterId])\n  @@index([reportedUserId])\n}\n\nmodel RefreshToken {\n  id        String   @id @default(cuid())\n  token     String   @unique\n  userId    String\n  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  expiresAt DateTime\n  createdAt DateTime @default(now())\n}\n\nmodel Contact {\n  id        Int      @id @default(autoincrement())\n  name      String\n  email     String\n  message   String   @db.Text\n  createdAt DateTime @default(now())\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"city\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"state\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phoneNumber\",\"kind\":\"object\",\"type\":\"PhoneNumber\",\"relationName\":\"PhoneNumberToUser\"},{\"name\":\"bio\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"admin\",\"kind\":\"object\",\"type\":\"Admin\",\"relationName\":\"AdminToUser\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"StudentToUser\"},{\"name\":\"refreshTokens\",\"kind\":\"object\",\"type\":\"RefreshToken\",\"relationName\":\"RefreshTokenToUser\"}],\"dbName\":null},\"PhoneNumber\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"number\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PhoneNumberToUser\"}],\"dbName\":null},\"Admin\":{\"fields\":[{\"name\":\"adminId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AdminToUser\"}],\"dbName\":null},\"Student\":{\"fields\":[{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"StudentToUser\"},{\"name\":\"experienceLevel\",\"kind\":\"enum\",\"type\":\"ExperienceLevel\"},{\"name\":\"isProfilePublic\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"skillsCompleted\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"skillOffered\",\"kind\":\"object\",\"type\":\"SkillOffered\",\"relationName\":\"SkillOfferedToStudent\"},{\"name\":\"skillWanted\",\"kind\":\"object\",\"type\":\"SkillWanted\",\"relationName\":\"SkillWantedToStudent\"},{\"name\":\"requestSent\",\"kind\":\"object\",\"type\":\"Request\",\"relationName\":\"RequestSent\"},{\"name\":\"requestReceived\",\"kind\":\"object\",\"type\":\"Request\",\"relationName\":\"RequestReceived\"},{\"name\":\"favorites\",\"kind\":\"object\",\"type\":\"Favorite\",\"relationName\":\"Favorites\"},{\"name\":\"favorited\",\"kind\":\"object\",\"type\":\"Favorite\",\"relationName\":\"Favorited\"},{\"name\":\"reports\",\"kind\":\"object\",\"type\":\"Report\",\"relationName\":\"Reporter\"},{\"name\":\"reported\",\"kind\":\"object\",\"type\":\"Report\",\"relationName\":\"Reported\"}],\"dbName\":null},\"Skill\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"skillOffered\",\"kind\":\"object\",\"type\":\"SkillOffered\",\"relationName\":\"SkillToSkillOffered\"},{\"name\":\"skillWanted\",\"kind\":\"object\",\"type\":\"SkillWanted\",\"relationName\":\"SkillToSkillWanted\"}],\"dbName\":null},\"SkillOffered\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"skillId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"SkillOfferedToStudent\"},{\"name\":\"skill\",\"kind\":\"object\",\"type\":\"Skill\",\"relationName\":\"SkillToSkillOffered\"},{\"name\":\"requests\",\"kind\":\"object\",\"type\":\"Request\",\"relationName\":\"RequestToSkillOffered\"}],\"dbName\":null},\"SkillWanted\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"skillId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"SkillWantedToStudent\"},{\"name\":\"skill\",\"kind\":\"object\",\"type\":\"Skill\",\"relationName\":\"SkillToSkillWanted\"},{\"name\":\"requests\",\"kind\":\"object\",\"type\":\"Request\",\"relationName\":\"RequestToSkillWanted\"}],\"dbName\":null},\"Request\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"senderId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"receiverId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"requestedSkillId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"offeredSkillId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sender\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"RequestSent\"},{\"name\":\"receiver\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"RequestReceived\"},{\"name\":\"requestedSkill\",\"kind\":\"object\",\"type\":\"SkillOffered\",\"relationName\":\"RequestToSkillOffered\"},{\"name\":\"offeredSkill\",\"kind\":\"object\",\"type\":\"SkillWanted\",\"relationName\":\"RequestToSkillWanted\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"RequestStatus\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"completedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Favorite\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"studentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"favStudentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"student\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"Favorites\"},{\"name\":\"favStudent\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"Favorited\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Report\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"reporterId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reportedUserId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"adminNotes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reporter\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"Reporter\"},{\"name\":\"reportedUser\",\"kind\":\"object\",\"type\":\"Student\",\"relationName\":\"Reported\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"RefreshToken\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"RefreshTokenToUser\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Contact\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"message\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -174,7 +174,125 @@ export interface PrismaClient<
     extArgs: ExtArgs
   }>>
 
-    
+      /**
+   * `prisma.user`: Exposes CRUD operations for the **User** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Users
+    * const users = await prisma.user.findMany()
+    * ```
+    */
+  get user(): Prisma.UserDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.phoneNumber`: Exposes CRUD operations for the **PhoneNumber** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PhoneNumbers
+    * const phoneNumbers = await prisma.phoneNumber.findMany()
+    * ```
+    */
+  get phoneNumber(): Prisma.PhoneNumberDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.admin`: Exposes CRUD operations for the **Admin** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Admins
+    * const admins = await prisma.admin.findMany()
+    * ```
+    */
+  get admin(): Prisma.AdminDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.student`: Exposes CRUD operations for the **Student** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Students
+    * const students = await prisma.student.findMany()
+    * ```
+    */
+  get student(): Prisma.StudentDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.skill`: Exposes CRUD operations for the **Skill** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Skills
+    * const skills = await prisma.skill.findMany()
+    * ```
+    */
+  get skill(): Prisma.SkillDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.skillOffered`: Exposes CRUD operations for the **SkillOffered** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SkillOffereds
+    * const skillOffereds = await prisma.skillOffered.findMany()
+    * ```
+    */
+  get skillOffered(): Prisma.SkillOfferedDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.skillWanted`: Exposes CRUD operations for the **SkillWanted** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SkillWanteds
+    * const skillWanteds = await prisma.skillWanted.findMany()
+    * ```
+    */
+  get skillWanted(): Prisma.SkillWantedDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.request`: Exposes CRUD operations for the **Request** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Requests
+    * const requests = await prisma.request.findMany()
+    * ```
+    */
+  get request(): Prisma.RequestDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.favorite`: Exposes CRUD operations for the **Favorite** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Favorites
+    * const favorites = await prisma.favorite.findMany()
+    * ```
+    */
+  get favorite(): Prisma.FavoriteDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.report`: Exposes CRUD operations for the **Report** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Reports
+    * const reports = await prisma.report.findMany()
+    * ```
+    */
+  get report(): Prisma.ReportDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.refreshToken`: Exposes CRUD operations for the **RefreshToken** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RefreshTokens
+    * const refreshTokens = await prisma.refreshToken.findMany()
+    * ```
+    */
+  get refreshToken(): Prisma.RefreshTokenDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.contact`: Exposes CRUD operations for the **Contact** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Contacts
+    * const contacts = await prisma.contact.findMany()
+    * ```
+    */
+  get contact(): Prisma.ContactDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

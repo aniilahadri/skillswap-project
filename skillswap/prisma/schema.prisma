@@ -8,19 +8,20 @@ datasource db {
 }
 
 model User {
-  id          String        @id @default(cuid())
-  fullName    String
-  email       String        @unique
-  password    String
-  city        String
-  state       String
-  phoneNumber PhoneNumber[]
-  bio         String        @db.Text
-  role        Role
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  admin       Admin[]
-  student     Student[]
+  id            String         @id @default(cuid())
+  fullName      String
+  email         String         @unique
+  password      String
+  city          String
+  state         String
+  phoneNumber   PhoneNumber[]
+  bio           String         @db.Text
+  role          Role           @default(STUDENT)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  admin         Admin[]
+  student       Student[]
+  refreshTokens RefreshToken[]
 }
 
 model PhoneNumber {
@@ -138,4 +139,21 @@ model Report {
 
   @@index([reporterId])
   @@index([reportedUserId])
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Contact {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String   @db.Text
+  createdAt DateTime @default(now())
 }

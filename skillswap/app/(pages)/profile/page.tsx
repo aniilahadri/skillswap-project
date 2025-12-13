@@ -1,5 +1,5 @@
 
-import SkillsInput from "../components/SkillsInput";
+import SkillsInput from "../../components/SkillsInput";
 
 export default function Profile() {
     return (

@@ -51,7 +51,18 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-
+  User: 'User',
+  PhoneNumber: 'PhoneNumber',
+  Admin: 'Admin',
+  Student: 'Student',
+  Skill: 'Skill',
+  SkillOffered: 'SkillOffered',
+  SkillWanted: 'SkillWanted',
+  Request: 'Request',
+  Favorite: 'Favorite',
+  Report: 'Report',
+  RefreshToken: 'RefreshToken',
+  Contact: 'Contact'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -68,4 +79,257 @@ export const TransactionIsolationLevel = {
 } as const
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const UserScalarFieldEnum = {
+  id: 'id',
+  fullName: 'fullName',
+  email: 'email',
+  password: 'password',
+  city: 'city',
+  state: 'state',
+  bio: 'bio',
+  role: 'role',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const PhoneNumberScalarFieldEnum = {
+  id: 'id',
+  number: 'number',
+  userId: 'userId'
+} as const
+
+export type PhoneNumberScalarFieldEnum = (typeof PhoneNumberScalarFieldEnum)[keyof typeof PhoneNumberScalarFieldEnum]
+
+
+export const AdminScalarFieldEnum = {
+  adminId: 'adminId'
+} as const
+
+export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
+
+
+export const StudentScalarFieldEnum = {
+  studentId: 'studentId',
+  experienceLevel: 'experienceLevel',
+  isProfilePublic: 'isProfilePublic',
+  skillsCompleted: 'skillsCompleted'
+} as const
+
+export type StudentScalarFieldEnum = (typeof StudentScalarFieldEnum)[keyof typeof StudentScalarFieldEnum]
+
+
+export const SkillScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  category: 'category'
+} as const
+
+export type SkillScalarFieldEnum = (typeof SkillScalarFieldEnum)[keyof typeof SkillScalarFieldEnum]
+
+
+export const SkillOfferedScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  skillId: 'skillId'
+} as const
+
+export type SkillOfferedScalarFieldEnum = (typeof SkillOfferedScalarFieldEnum)[keyof typeof SkillOfferedScalarFieldEnum]
+
+
+export const SkillWantedScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  skillId: 'skillId'
+} as const
+
+export type SkillWantedScalarFieldEnum = (typeof SkillWantedScalarFieldEnum)[keyof typeof SkillWantedScalarFieldEnum]
+
+
+export const RequestScalarFieldEnum = {
+  id: 'id',
+  senderId: 'senderId',
+  receiverId: 'receiverId',
+  requestedSkillId: 'requestedSkillId',
+  offeredSkillId: 'offeredSkillId',
+  status: 'status',
+  createdAt: 'createdAt',
+  completedAt: 'completedAt'
+} as const
+
+export type RequestScalarFieldEnum = (typeof RequestScalarFieldEnum)[keyof typeof RequestScalarFieldEnum]
+
+
+export const FavoriteScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  favStudentId: 'favStudentId',
+  createdAt: 'createdAt'
+} as const
+
+export type FavoriteScalarFieldEnum = (typeof FavoriteScalarFieldEnum)[keyof typeof FavoriteScalarFieldEnum]
+
+
+export const ReportScalarFieldEnum = {
+  id: 'id',
+  reporterId: 'reporterId',
+  reportedUserId: 'reportedUserId',
+  reason: 'reason',
+  adminNotes: 'adminNotes',
+  createdAt: 'createdAt'
+} as const
+
+export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
+
+
+export const RefreshTokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  userId: 'userId',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
+
+
+export const ContactScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  message: 'message',
+  createdAt: 'createdAt'
+} as const
+
+export type ContactScalarFieldEnum = (typeof ContactScalarFieldEnum)[keyof typeof ContactScalarFieldEnum]
+
+
+export const SortOrder = {
+  asc: 'asc',
+  desc: 'desc'
+} as const
+
+export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const UserOrderByRelevanceFieldEnum = {
+  id: 'id',
+  fullName: 'fullName',
+  email: 'email',
+  password: 'password',
+  city: 'city',
+  state: 'state',
+  bio: 'bio'
+} as const
+
+export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
+
+
+export const PhoneNumberOrderByRelevanceFieldEnum = {
+  number: 'number',
+  userId: 'userId'
+} as const
+
+export type PhoneNumberOrderByRelevanceFieldEnum = (typeof PhoneNumberOrderByRelevanceFieldEnum)[keyof typeof PhoneNumberOrderByRelevanceFieldEnum]
+
+
+export const AdminOrderByRelevanceFieldEnum = {
+  adminId: 'adminId'
+} as const
+
+export type AdminOrderByRelevanceFieldEnum = (typeof AdminOrderByRelevanceFieldEnum)[keyof typeof AdminOrderByRelevanceFieldEnum]
+
+
+export const StudentOrderByRelevanceFieldEnum = {
+  studentId: 'studentId'
+} as const
+
+export type StudentOrderByRelevanceFieldEnum = (typeof StudentOrderByRelevanceFieldEnum)[keyof typeof StudentOrderByRelevanceFieldEnum]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const SkillOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  category: 'category'
+} as const
+
+export type SkillOrderByRelevanceFieldEnum = (typeof SkillOrderByRelevanceFieldEnum)[keyof typeof SkillOrderByRelevanceFieldEnum]
+
+
+export const SkillOfferedOrderByRelevanceFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  skillId: 'skillId'
+} as const
+
+export type SkillOfferedOrderByRelevanceFieldEnum = (typeof SkillOfferedOrderByRelevanceFieldEnum)[keyof typeof SkillOfferedOrderByRelevanceFieldEnum]
+
+
+export const SkillWantedOrderByRelevanceFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  skillId: 'skillId'
+} as const
+
+export type SkillWantedOrderByRelevanceFieldEnum = (typeof SkillWantedOrderByRelevanceFieldEnum)[keyof typeof SkillWantedOrderByRelevanceFieldEnum]
+
+
+export const RequestOrderByRelevanceFieldEnum = {
+  id: 'id',
+  senderId: 'senderId',
+  receiverId: 'receiverId',
+  requestedSkillId: 'requestedSkillId',
+  offeredSkillId: 'offeredSkillId'
+} as const
+
+export type RequestOrderByRelevanceFieldEnum = (typeof RequestOrderByRelevanceFieldEnum)[keyof typeof RequestOrderByRelevanceFieldEnum]
+
+
+export const FavoriteOrderByRelevanceFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  favStudentId: 'favStudentId'
+} as const
+
+export type FavoriteOrderByRelevanceFieldEnum = (typeof FavoriteOrderByRelevanceFieldEnum)[keyof typeof FavoriteOrderByRelevanceFieldEnum]
+
+
+export const ReportOrderByRelevanceFieldEnum = {
+  reporterId: 'reporterId',
+  reportedUserId: 'reportedUserId',
+  reason: 'reason',
+  adminNotes: 'adminNotes'
+} as const
+
+export type ReportOrderByRelevanceFieldEnum = (typeof ReportOrderByRelevanceFieldEnum)[keyof typeof ReportOrderByRelevanceFieldEnum]
+
+
+export const RefreshTokenOrderByRelevanceFieldEnum = {
+  id: 'id',
+  token: 'token',
+  userId: 'userId'
+} as const
+
+export type RefreshTokenOrderByRelevanceFieldEnum = (typeof RefreshTokenOrderByRelevanceFieldEnum)[keyof typeof RefreshTokenOrderByRelevanceFieldEnum]
+
+
+export const ContactOrderByRelevanceFieldEnum = {
+  name: 'name',
+  email: 'email',
+  message: 'message'
+} as const
+
+export type ContactOrderByRelevanceFieldEnum = (typeof ContactOrderByRelevanceFieldEnum)[keyof typeof ContactOrderByRelevanceFieldEnum]
 

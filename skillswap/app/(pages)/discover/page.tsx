@@ -1,4 +1,4 @@
-import BoxOffer from "../components/BoxOffer";
+import BoxOffer from "../../components/BoxOffer";
 
 export default function Discover() {
     return (

@@ -8,4 +8,16 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/User.js'
+export type * from './models/PhoneNumber.js'
+export type * from './models/Admin.js'
+export type * from './models/Student.js'
+export type * from './models/Skill.js'
+export type * from './models/SkillOffered.js'
+export type * from './models/SkillWanted.js'
+export type * from './models/Request.js'
+export type * from './models/Favorite.js'
+export type * from './models/Report.js'
+export type * from './models/RefreshToken.js'
+export type * from './models/Contact.js'
 export type * from './commonInputTypes.js'
