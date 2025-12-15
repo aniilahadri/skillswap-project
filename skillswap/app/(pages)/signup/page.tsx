@@ -80,14 +80,27 @@ export default function SignUp() {
 
                                 <div className="flex gap-4 justify-center">
                                     <div className="w-full">
-                                        <label className="text-slate-900 text-sm font-medium mb-2 block">Location</label>
+                                        <label className="text-slate-900 text-sm font-medium mb-2 block">Country</label>
                                         <div className="relative flex items-center">
                                             <input
-                                                name="location"
+                                                name="country"
                                                 type="text"
                                                 required
                                                 className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
-                                                placeholder="City, Country"
+                                                placeholder="Country"
+                                            />
+                                            <Image src="/location.png" alt="location-photo" className="absolute right-4" width={18} height={18} />
+                                        </div>
+                                    </div>
+                                    <div className="w-full">
+                                        <label className="text-slate-900 text-sm font-medium mb-2 block">City</label>
+                                        <div className="relative flex items-center">
+                                            <input
+                                                name="city"
+                                                type="text"
+                                                required
+                                                className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
+                                                placeholder="City"
                                             />
                                             <Image src="/location.png" alt="location-photo" className="absolute right-4" width={18} height={18} />
                                         </div>
@@ -98,7 +111,7 @@ export default function SignUp() {
                                             id="availability"
                                             className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
                                         >
-                                            <option value="">Select Availability</option>
+                                            <option value="">Select</option>
                                             <option value="morning">Morning</option>
                                             <option value="afternoon">Afternoon</option>
                                             <option value="evening">Evening</option>
@@ -106,6 +119,7 @@ export default function SignUp() {
                                         </select>
                                     </div>
                                 </div>
+                                
 
                                 <div className="w-full">
                                     <label className="text-slate-900 text-sm font-medium mb-2 block" htmlFor="userBio">Bio</label>

@@ -18,7 +18,7 @@ export default function Profile() {
                             <h3 className="text-lg font-bold md:text-xl">John Doe</h3>
                             <div className="flex items-center justify-start gap-2">
                                 <img src="/location.png" alt="" className="max-w-3 max-h-3 md:max-w-4 md:max-h-4" />
-                                <span className="text-gray-500 text-sm md:text-base">Location,Location</span>
+                                <span className="text-gray-500 text-sm md:text-base">Country, City</span>
                             </div>
                             <div className="flex items-center justify-start gap-3">
                                 <div className="flex items-center justify-start gap-2">
@@ -81,15 +81,29 @@ export default function Profile() {
 
                                     <div className="flex gap-4 justify-center">
                                         <div className="w-full">
-                                            <label className="text-slate-900 text-sm font-medium mb-2 block">Location</label>
+                                            <label className="text-slate-900 text-sm font-medium mb-2 block">Country</label>
                                             <div className="relative flex items-center">
                                                 <input
-                                                    name="location"
+                                                    name="country"
                                                     type="text"
                                                     required
                                                     className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border
                                                      border-slate-100 focus:border-blue-600 outline-none transition-all"
-                                                    placeholder="City, Country"
+                                                    placeholder="Country"
+                                                />
+                                                <img src="/location.png" alt="location-photo" className="w-[18px] h-[18px] absolute right-4" />
+                                            </div>
+                                        </div>
+                                        <div className="w-full">
+                                            <label className="text-slate-900 text-sm font-medium mb-2 block">City</label>
+                                            <div className="relative flex items-center">
+                                                <input
+                                                    name="city"
+                                                    type="text"
+                                                    required
+                                                    className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border
+                                                     border-slate-100 focus:border-blue-600 outline-none transition-all"
+                                                    placeholder="City"
                                                 />
                                                 <img src="/location.png" alt="location-photo" className="w-[18px] h-[18px] absolute right-4" />
                                             </div>

@@ -8,12 +8,12 @@ datasource db {
 }
 
 model User {
-  id            String         @id @default(cuid())
+  user_ID            String         @id @default(cuid())
   fullName      String
   email         String         @unique
   password      String
   city          String
-  state         String
+  country         String
   phoneNumber   PhoneNumber[]
   bio           String         @db.Text
   role          Role           @default(STUDENT)
@@ -25,10 +25,10 @@ model User {
 }
 
 model PhoneNumber {
-  id     Int    @id @default(autoincrement())
+  phone_ID     Int    @id @default(autoincrement())
   number String
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user_ID String
+  user   User   @relation(fields: [user_ID], references: [user_ID], onDelete: Cascade)
 }
 
 enum Role {
@@ -37,14 +37,14 @@ enum Role {
 }
 
 model Admin {
-  adminId String   @id
-  user    User     @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  admin_ID String   @id
+  user    User     @relation(fields: [admin_ID], references: [user_ID], onDelete: Cascade)
   reports Report[]
 }
 
 model Student {
-  studentId       String          @id
-  user            User            @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  student_ID       String          @id
+  user            User            @relation(fields: [student_ID], references: [user_ID], onDelete: Cascade)
   experienceLevel ExperienceLevel
   availability    Availability
   isProfilePublic Boolean         @default(true)
@@ -74,7 +74,7 @@ enum ExperienceLevel {
 }
 
 model Skill {
-  id           String         @id @default(cuid())
+  skill_ID           String         @id @default(cuid())
   name         String
   category     String?
   skillOffered SkillOffered[]
@@ -82,39 +82,39 @@ model Skill {
 }
 
 model SkillOffered {
-  id        String    @id @default(cuid())
-  studentId String
-  skillId   String
-  student   Student   @relation(fields: [studentId], references: [studentId], onDelete: Cascade)
-  skill     Skill     @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  skillOffered_ID        String    @id @default(cuid())
+  student_ID String
+  skill_ID   String
+  student   Student   @relation(fields: [student_ID], references: [student_ID], onDelete: Cascade)
+  skill     Skill     @relation(fields: [skill_ID], references: [skill_ID], onDelete: Cascade)
   requests  Request[]
 }
 
 model SkillWanted {
-  id        String    @id @default(cuid())
-  studentId String
-  skillId   String
-  student   Student   @relation(fields: [studentId], references: [studentId], onDelete: Cascade)
-  skill     Skill     @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  skillWanted_ID        String    @id @default(cuid())
+  student_ID String
+  skill_ID   String
+  student   Student   @relation(fields: [student_ID], references: [student_ID], onDelete: Cascade)
+  skill     Skill     @relation(fields: [skill_ID], references: [skill_ID], onDelete: Cascade)
   requests  Request[]
 }
 
 model Request {
-  id               String @id @default(cuid())
-  senderId         String
-  receiverId       String
-  requestedSkillId String
-  offeredSkillId   String
+  request_ID               String @id @default(cuid())
+  sender_ID         String
+  receiver_ID       String
+  requestedSkill_ID String
+  offeredSkill_ID   String
 
-  sender         Student       @relation("RequestSent", fields: [senderId], references: [studentId], onDelete: Cascade)
-  receiver       Student       @relation("RequestReceived", fields: [receiverId], references: [studentId])
-  requestedSkill SkillOffered  @relation(fields: [requestedSkillId], references: [id])
-  offeredSkill   SkillWanted   @relation(fields: [offeredSkillId], references: [id])
+  sender         Student       @relation("RequestSent", fields: [sender_ID], references: [student_ID], onDelete: Cascade)
+  receiver       Student       @relation("RequestReceived", fields: [receiver_ID], references: [student_ID])
+  requestedSkill SkillOffered  @relation(fields: [requestedSkill_ID], references: [skillOffered_ID])
+  offeredSkill   SkillWanted   @relation(fields: [offeredSkill_ID], references: [skillWanted_ID])
   status         RequestStatus @default(PENDING)
   createdAt      DateTime      @default(now())
   completedAt    DateTime?
 
-  @@unique([senderId, receiverId, requestedSkillId, offeredSkillId])
+  @@unique([sender_ID, receiver_ID, requestedSkill_ID, offeredSkill_ID])
 }
 
 enum RequestStatus {
@@ -125,43 +125,43 @@ enum RequestStatus {
 }
 
 model Favorite {
-  id           String @id @default(cuid())
-  studentId    String
-  favStudentId String
+  favorite_ID           String @id @default(cuid())
+  student_ID    String
+  favStudent_ID String
 
-  student    Student  @relation("Favorites", fields: [studentId], references: [studentId], onDelete: Cascade)
-  favStudent Student  @relation("Favorited", fields: [favStudentId], references: [studentId])
+  student    Student  @relation("Favorites", fields: [student_ID], references: [student_ID], onDelete: Cascade)
+  favStudent Student  @relation("Favorited", fields: [favStudent_ID], references: [student_ID])
   createdAt  DateTime @default(now())
 }
 
 model Report {
-  id             Int     @id @default(autoincrement())
-  reporterId     String
-  reportedUserId String
-  adminId        String
+  report_ID             Int     @id @default(autoincrement())
+  reporter_ID     String
+  reportedUser_ID String
+  admin_ID        String
   reason         String
   adminNotes     String?
 
-  reporter     Student  @relation("Reporter", fields: [reporterId], references: [studentId])
-  reportedUser Student  @relation("Reported", fields: [reportedUserId], references: [studentId])
-  admin        Admin    @relation(fields: [adminId], references: [adminId])
+  reporter     Student  @relation("Reporter", fields: [reporter_ID], references: [student_ID])
+  reportedUser Student  @relation("Reported", fields: [reportedUser_ID], references: [student_ID])
+  admin        Admin    @relation(fields: [admin_ID], references: [admin_ID])
   createdAt    DateTime @default(now())
 
-  @@index([reporterId])
-  @@index([reportedUserId])
+  @@index([reporter_ID])
+  @@index([reportedUser_ID])
 }
 
 model RefreshToken {
   id        String   @id @default(cuid())
   token     String   @unique
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user_ID    String
+  user      User     @relation(fields: [user_ID], references: [user_ID], onDelete: Cascade)
   expiresAt DateTime
   createdAt DateTime @default(now())
 }
 
 model Contact {
-  id        Int      @id @default(autoincrement())
+  contact_ID        Int      @id @default(autoincrement())
   name      String
   email     String
   message   String   @db.Text
