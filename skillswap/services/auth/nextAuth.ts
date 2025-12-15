@@ -23,10 +23,18 @@ export const nextAuthHandler = NextAuth({
                 },
             },
             authorize: async (credentials) => {
+                console.log("Authorize called with:", credentials);
+
                 if (!credentials?.email || !credentials?.password) {
                     return null;
                 }
                 return await nextAuthService.logInUser(credentials?.email, credentials?.password);
+                // if (credentials?.email === "student@test.com" && credentials?.password === "password123") {
+                //     console.log("Authorize success");
+                //     return { id: "test-id", role: "student", name: "Test User", email: credentials.email };
+                // }
+                // console.log("Authorize failed");
+                // return null;
             }
         }),
     ],

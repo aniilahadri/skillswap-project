@@ -37,14 +37,16 @@ enum Role {
 }
 
 model Admin {
-  adminId String @id
-  user    User   @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  adminId String   @id
+  user    User     @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  reports Report[]
 }
 
 model Student {
   studentId       String          @id
   user            User            @relation(fields: [studentId], references: [id], onDelete: Cascade)
   experienceLevel ExperienceLevel
+  availabilty     Avaiabilty
   isProfilePublic Boolean         @default(true)
   skillsCompleted Int             @default(0)
   skillOffered    SkillOffered[]
@@ -56,6 +58,12 @@ model Student {
   favorited       Favorite[] @relation("Favorited")
   reports         Report[]   @relation("Reporter")
   reported        Report[]   @relation("Reported")
+}
+
+enum Avaiabilty {
+  Morning
+  Afternoon
+  Evening
 }
 
 enum ExperienceLevel {
@@ -130,11 +138,13 @@ model Report {
   id             Int     @id @default(autoincrement())
   reporterId     String
   reportedUserId String
+  adminId        String
   reason         String
   adminNotes     String?
 
   reporter     Student  @relation("Reporter", fields: [reporterId], references: [studentId])
   reportedUser Student  @relation("Reported", fields: [reportedUserId], references: [studentId])
+  admin        Admin    @relation(fields: [adminId], references: [adminId])
   createdAt    DateTime @default(now())
 
   @@index([reporterId])
