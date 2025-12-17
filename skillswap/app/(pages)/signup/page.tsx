@@ -1,8 +1,86 @@
+'use client'
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import SkillInput from "../../components/SkillsInput";
 import Image from "next/image";
 import Link from "next/link";
+
 export default function SignUp() {
+    const router = useRouter();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState(false);
+    
+    
+    const [skillsOffered, setSkillsOffered] = useState<string[]>([]);
+    const [skillsWanted, setSkillsWanted] = useState<string[]>([]);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setError(null);
+        setSuccess(false);
+
+        try {
+            const formData = new FormData(e.currentTarget);
+
+           
+            const signupData = {
+                fullName: formData.get('name') as string,
+                email: formData.get('email') as string,
+                password: formData.get('confirm-pass') as string,
+                confirmPassword: formData.get('password') as string,
+                city: formData.get('city') as string,
+                country: formData.get('country') as string,
+                bio: formData.get('userBio') as string,
+                availability: (document.getElementById('availability') as HTMLSelectElement)?.value || '',
+                skillsOffered,
+                skillsWanted,
+            };
+
+            
+            const response = await fetch('/api/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(signupData),
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                setSuccess(true);
+                
+               
+                const signInResult = await signIn("credentials", {
+                    email: signupData.email,
+                    password: signupData.password,
+                    redirect: false,
+                });
+
+                if (signInResult?.ok) {
+                    
+                    router.push('/');
+                } else {
+                    
+                    setError("Account created but automatic login failed. Please sign in manually.");
+                    setTimeout(() => {
+                        router.push('/signin');
+                    }, 3000);
+                }
+            } else {
+                setError(result.error || 'Failed to create account');
+            }
+        } catch (err: any) {
+            setError(err.message || 'An error occurred. Please try again.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
         <>
 
@@ -10,7 +88,7 @@ export default function SignUp() {
                 <div className="max-w-6xl bg-white [box-shadow:0_2px_10px_-3px_rgba(6,81,237,0.3)] p-4 lg:p-5 rounded-md">
 
                     <div className="flex flex-col md:flex-row items-center gap-y-8 md:gap-x-8">
-                        <form className="max-w-xl mx-auto w-full p-4 md:p-6">
+                        <form onSubmit={handleSubmit} className="max-w-xl mx-auto w-full p-4 md:p-6">
                             <div className="mb-8">
                                 <div className="flex gap-4 items-center">
                                     <Image src="/icon.png" alt="logo" width={16} height={16} />
@@ -38,7 +116,7 @@ export default function SignUp() {
                                         <div className="relative flex items-center">
                                             <input
                                                 name="email"
-                                                type="text"
+                                                type="email"
                                                 required
                                                 className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
                                                 placeholder="Enter email"
@@ -109,13 +187,14 @@ export default function SignUp() {
                                         <label className="text-slate-900 text-sm font-medium mb-2 block">Availability</label>
                                         <select
                                             id="availability"
+                                            name="availability"
+                                            required
                                             className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
                                         >
                                             <option value="">Select</option>
                                             <option value="morning">Morning</option>
                                             <option value="afternoon">Afternoon</option>
                                             <option value="evening">Evening</option>
-                                            <option value="weekends">Weekends</option>
                                         </select>
                                     </div>
                                 </div>
@@ -123,19 +202,37 @@ export default function SignUp() {
 
                                 <div className="w-full">
                                     <label className="text-slate-900 text-sm font-medium mb-2 block" htmlFor="userBio">Bio</label>
-                                    <textarea className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all min-h-20 resize-none" id="userBio" placeholder="Hello!!!" required></textarea>
+                                    <textarea name="userBio" className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all min-h-20 resize-none" id="userBio" placeholder="Hello!!!" required></textarea>
                                 </div>
                                 <hr />
 
                                 <div className="w-full">
                                     <label className="text-slate-900 text-lg font-medium mb-2 block" htmlFor="skillsOffer">Skills You Can Offer</label>
-                                    <SkillInput id="skillsOffer"></SkillInput>
+                                    <SkillInput 
+                                        id="skillsOffer" 
+                                        onSkillsChange={setSkillsOffered}
+                                    />
                                 </div>
 
                                 <div className="w-full">
                                     <label className="text-slate-900 text-lg font-medium mb-2 block" htmlFor="skillsLearn">Skills You Want to Learn</label>
-                                    <SkillInput id="skillsLearn"></SkillInput>
+                                    <SkillInput 
+                                        id="skillsLearn" 
+                                        onSkillsChange={setSkillsWanted}
+                                    />
                                 </div>
+
+                                {error && (
+                                    <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">
+                                        {error}
+                                    </div>
+                                )}
+
+                                {success && (
+                                    <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md text-sm">
+                                        Account created successfully! Redirecting to sign in...
+                                    </div>
+                                )}
 
                                 <div className="flex flex-wrap items-center gap-4 justify-between">
                                     <div className="text-sm">
@@ -149,9 +246,10 @@ export default function SignUp() {
                             <div className="mt-8">
                                 <button
                                     type="submit"
-                                    className="w-full shadow-xl py-2 px-4 text-[15px] tracking-wide font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none cursor-pointer"
+                                    disabled={isSubmitting}
+                                    className="w-full shadow-xl py-2 px-4 text-[15px] tracking-wide font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    Sign Up
+                                    {isSubmitting ? 'Creating Account...' : 'Sign Up'}
                                 </button>
 
                                 <p className="text-sm mt-6 text-center text-slate-600">

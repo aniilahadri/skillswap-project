@@ -6,7 +6,7 @@ export class RefreshTokenRepository {
         return await prisma.refreshToken.create({
             data: {
                 token,
-                userId,
+                user_ID: userId,
                 expiresAt,
             },
         })
@@ -14,11 +14,8 @@ export class RefreshTokenRepository {
 
     async findFirstToken(token: string, userId: string) {
         return await prisma.refreshToken.findFirst({
-            where: { token, userId }
+            where: { token, user_ID: userId }
         })
     }
 
-    // async delete(token: string) {
-    //     return await prisma.refreshToken.deleteMany({ where: { token } });
-    // }
 }

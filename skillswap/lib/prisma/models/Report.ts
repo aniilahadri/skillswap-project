@@ -27,35 +27,38 @@ export type AggregateReport = {
 }
 
 export type ReportAvgAggregateOutputType = {
-  id: number | null
+  report_ID: number | null
 }
 
 export type ReportSumAggregateOutputType = {
-  id: number | null
+  report_ID: number | null
 }
 
 export type ReportMinAggregateOutputType = {
-  id: number | null
-  reporterId: string | null
-  reportedUserId: string | null
+  report_ID: number | null
+  reporter_ID: string | null
+  reportedUser_ID: string | null
+  admin_ID: string | null
   reason: string | null
   adminNotes: string | null
   createdAt: Date | null
 }
 
 export type ReportMaxAggregateOutputType = {
-  id: number | null
-  reporterId: string | null
-  reportedUserId: string | null
+  report_ID: number | null
+  reporter_ID: string | null
+  reportedUser_ID: string | null
+  admin_ID: string | null
   reason: string | null
   adminNotes: string | null
   createdAt: Date | null
 }
 
 export type ReportCountAggregateOutputType = {
-  id: number
-  reporterId: number
-  reportedUserId: number
+  report_ID: number
+  reporter_ID: number
+  reportedUser_ID: number
+  admin_ID: number
   reason: number
   adminNotes: number
   createdAt: number
@@ -64,35 +67,38 @@ export type ReportCountAggregateOutputType = {
 
 
 export type ReportAvgAggregateInputType = {
-  id?: true
+  report_ID?: true
 }
 
 export type ReportSumAggregateInputType = {
-  id?: true
+  report_ID?: true
 }
 
 export type ReportMinAggregateInputType = {
-  id?: true
-  reporterId?: true
-  reportedUserId?: true
+  report_ID?: true
+  reporter_ID?: true
+  reportedUser_ID?: true
+  admin_ID?: true
   reason?: true
   adminNotes?: true
   createdAt?: true
 }
 
 export type ReportMaxAggregateInputType = {
-  id?: true
-  reporterId?: true
-  reportedUserId?: true
+  report_ID?: true
+  reporter_ID?: true
+  reportedUser_ID?: true
+  admin_ID?: true
   reason?: true
   adminNotes?: true
   createdAt?: true
 }
 
 export type ReportCountAggregateInputType = {
-  id?: true
-  reporterId?: true
-  reportedUserId?: true
+  report_ID?: true
+  reporter_ID?: true
+  reportedUser_ID?: true
+  admin_ID?: true
   reason?: true
   adminNotes?: true
   createdAt?: true
@@ -186,9 +192,10 @@ export type ReportGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 export type ReportGroupByOutputType = {
-  id: number
-  reporterId: string
-  reportedUserId: string
+  report_ID: number
+  reporter_ID: string
+  reportedUser_ID: string
+  admin_ID: string
   reason: string
   adminNotes: string | null
   createdAt: Date
@@ -218,46 +225,53 @@ export type ReportWhereInput = {
   AND?: Prisma.ReportWhereInput | Prisma.ReportWhereInput[]
   OR?: Prisma.ReportWhereInput[]
   NOT?: Prisma.ReportWhereInput | Prisma.ReportWhereInput[]
-  id?: Prisma.IntFilter<"Report"> | number
-  reporterId?: Prisma.StringFilter<"Report"> | string
-  reportedUserId?: Prisma.StringFilter<"Report"> | string
+  report_ID?: Prisma.IntFilter<"Report"> | number
+  reporter_ID?: Prisma.StringFilter<"Report"> | string
+  reportedUser_ID?: Prisma.StringFilter<"Report"> | string
+  admin_ID?: Prisma.StringFilter<"Report"> | string
   reason?: Prisma.StringFilter<"Report"> | string
   adminNotes?: Prisma.StringNullableFilter<"Report"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Report"> | Date | string
   reporter?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   reportedUser?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
+  admin?: Prisma.XOR<Prisma.AdminScalarRelationFilter, Prisma.AdminWhereInput>
 }
 
 export type ReportOrderByWithRelationInput = {
-  id?: Prisma.SortOrder
-  reporterId?: Prisma.SortOrder
-  reportedUserId?: Prisma.SortOrder
+  report_ID?: Prisma.SortOrder
+  reporter_ID?: Prisma.SortOrder
+  reportedUser_ID?: Prisma.SortOrder
+  admin_ID?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   adminNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   reporter?: Prisma.StudentOrderByWithRelationInput
   reportedUser?: Prisma.StudentOrderByWithRelationInput
+  admin?: Prisma.AdminOrderByWithRelationInput
   _relevance?: Prisma.ReportOrderByRelevanceInput
 }
 
 export type ReportWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  report_ID?: number
   AND?: Prisma.ReportWhereInput | Prisma.ReportWhereInput[]
   OR?: Prisma.ReportWhereInput[]
   NOT?: Prisma.ReportWhereInput | Prisma.ReportWhereInput[]
-  reporterId?: Prisma.StringFilter<"Report"> | string
-  reportedUserId?: Prisma.StringFilter<"Report"> | string
+  reporter_ID?: Prisma.StringFilter<"Report"> | string
+  reportedUser_ID?: Prisma.StringFilter<"Report"> | string
+  admin_ID?: Prisma.StringFilter<"Report"> | string
   reason?: Prisma.StringFilter<"Report"> | string
   adminNotes?: Prisma.StringNullableFilter<"Report"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Report"> | Date | string
   reporter?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   reportedUser?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
-}, "id">
+  admin?: Prisma.XOR<Prisma.AdminScalarRelationFilter, Prisma.AdminWhereInput>
+}, "report_ID">
 
 export type ReportOrderByWithAggregationInput = {
-  id?: Prisma.SortOrder
-  reporterId?: Prisma.SortOrder
-  reportedUserId?: Prisma.SortOrder
+  report_ID?: Prisma.SortOrder
+  reporter_ID?: Prisma.SortOrder
+  reportedUser_ID?: Prisma.SortOrder
+  admin_ID?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   adminNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -272,9 +286,10 @@ export type ReportScalarWhereWithAggregatesInput = {
   AND?: Prisma.ReportScalarWhereWithAggregatesInput | Prisma.ReportScalarWhereWithAggregatesInput[]
   OR?: Prisma.ReportScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ReportScalarWhereWithAggregatesInput | Prisma.ReportScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"Report"> | number
-  reporterId?: Prisma.StringWithAggregatesFilter<"Report"> | string
-  reportedUserId?: Prisma.StringWithAggregatesFilter<"Report"> | string
+  report_ID?: Prisma.IntWithAggregatesFilter<"Report"> | number
+  reporter_ID?: Prisma.StringWithAggregatesFilter<"Report"> | string
+  reportedUser_ID?: Prisma.StringWithAggregatesFilter<"Report"> | string
+  admin_ID?: Prisma.StringWithAggregatesFilter<"Report"> | string
   reason?: Prisma.StringWithAggregatesFilter<"Report"> | string
   adminNotes?: Prisma.StringNullableWithAggregatesFilter<"Report"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Report"> | Date | string
@@ -286,12 +301,14 @@ export type ReportCreateInput = {
   createdAt?: Date | string
   reporter: Prisma.StudentCreateNestedOneWithoutReportsInput
   reportedUser: Prisma.StudentCreateNestedOneWithoutReportedInput
+  admin: Prisma.AdminCreateNestedOneWithoutReportsInput
 }
 
 export type ReportUncheckedCreateInput = {
-  id?: number
-  reporterId: string
-  reportedUserId: string
+  report_ID?: number
+  reporter_ID: string
+  reportedUser_ID: string
+  admin_ID: string
   reason: string
   adminNotes?: string | null
   createdAt?: Date | string
@@ -303,21 +320,24 @@ export type ReportUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reporter?: Prisma.StudentUpdateOneRequiredWithoutReportsNestedInput
   reportedUser?: Prisma.StudentUpdateOneRequiredWithoutReportedNestedInput
+  admin?: Prisma.AdminUpdateOneRequiredWithoutReportsNestedInput
 }
 
 export type ReportUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  reporterId?: Prisma.StringFieldUpdateOperationsInput | string
-  reportedUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  report_ID?: Prisma.IntFieldUpdateOperationsInput | number
+  reporter_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  reportedUser_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  admin_ID?: Prisma.StringFieldUpdateOperationsInput | string
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ReportCreateManyInput = {
-  id?: number
-  reporterId: string
-  reportedUserId: string
+  report_ID?: number
+  reporter_ID: string
+  reportedUser_ID: string
+  admin_ID: string
   reason: string
   adminNotes?: string | null
   createdAt?: Date | string
@@ -330,9 +350,10 @@ export type ReportUpdateManyMutationInput = {
 }
 
 export type ReportUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  reporterId?: Prisma.StringFieldUpdateOperationsInput | string
-  reportedUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  report_ID?: Prisma.IntFieldUpdateOperationsInput | number
+  reporter_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  reportedUser_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  admin_ID?: Prisma.StringFieldUpdateOperationsInput | string
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -355,38 +376,83 @@ export type ReportOrderByRelevanceInput = {
 }
 
 export type ReportCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  reporterId?: Prisma.SortOrder
-  reportedUserId?: Prisma.SortOrder
+  report_ID?: Prisma.SortOrder
+  reporter_ID?: Prisma.SortOrder
+  reportedUser_ID?: Prisma.SortOrder
+  admin_ID?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   adminNotes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type ReportAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
+  report_ID?: Prisma.SortOrder
 }
 
 export type ReportMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  reporterId?: Prisma.SortOrder
-  reportedUserId?: Prisma.SortOrder
+  report_ID?: Prisma.SortOrder
+  reporter_ID?: Prisma.SortOrder
+  reportedUser_ID?: Prisma.SortOrder
+  admin_ID?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   adminNotes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type ReportMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  reporterId?: Prisma.SortOrder
-  reportedUserId?: Prisma.SortOrder
+  report_ID?: Prisma.SortOrder
+  reporter_ID?: Prisma.SortOrder
+  reportedUser_ID?: Prisma.SortOrder
+  admin_ID?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   adminNotes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type ReportSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
+  report_ID?: Prisma.SortOrder
+}
+
+export type ReportCreateNestedManyWithoutAdminInput = {
+  create?: Prisma.XOR<Prisma.ReportCreateWithoutAdminInput, Prisma.ReportUncheckedCreateWithoutAdminInput> | Prisma.ReportCreateWithoutAdminInput[] | Prisma.ReportUncheckedCreateWithoutAdminInput[]
+  connectOrCreate?: Prisma.ReportCreateOrConnectWithoutAdminInput | Prisma.ReportCreateOrConnectWithoutAdminInput[]
+  createMany?: Prisma.ReportCreateManyAdminInputEnvelope
+  connect?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+}
+
+export type ReportUncheckedCreateNestedManyWithoutAdminInput = {
+  create?: Prisma.XOR<Prisma.ReportCreateWithoutAdminInput, Prisma.ReportUncheckedCreateWithoutAdminInput> | Prisma.ReportCreateWithoutAdminInput[] | Prisma.ReportUncheckedCreateWithoutAdminInput[]
+  connectOrCreate?: Prisma.ReportCreateOrConnectWithoutAdminInput | Prisma.ReportCreateOrConnectWithoutAdminInput[]
+  createMany?: Prisma.ReportCreateManyAdminInputEnvelope
+  connect?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+}
+
+export type ReportUpdateManyWithoutAdminNestedInput = {
+  create?: Prisma.XOR<Prisma.ReportCreateWithoutAdminInput, Prisma.ReportUncheckedCreateWithoutAdminInput> | Prisma.ReportCreateWithoutAdminInput[] | Prisma.ReportUncheckedCreateWithoutAdminInput[]
+  connectOrCreate?: Prisma.ReportCreateOrConnectWithoutAdminInput | Prisma.ReportCreateOrConnectWithoutAdminInput[]
+  upsert?: Prisma.ReportUpsertWithWhereUniqueWithoutAdminInput | Prisma.ReportUpsertWithWhereUniqueWithoutAdminInput[]
+  createMany?: Prisma.ReportCreateManyAdminInputEnvelope
+  set?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+  disconnect?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+  delete?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+  connect?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+  update?: Prisma.ReportUpdateWithWhereUniqueWithoutAdminInput | Prisma.ReportUpdateWithWhereUniqueWithoutAdminInput[]
+  updateMany?: Prisma.ReportUpdateManyWithWhereWithoutAdminInput | Prisma.ReportUpdateManyWithWhereWithoutAdminInput[]
+  deleteMany?: Prisma.ReportScalarWhereInput | Prisma.ReportScalarWhereInput[]
+}
+
+export type ReportUncheckedUpdateManyWithoutAdminNestedInput = {
+  create?: Prisma.XOR<Prisma.ReportCreateWithoutAdminInput, Prisma.ReportUncheckedCreateWithoutAdminInput> | Prisma.ReportCreateWithoutAdminInput[] | Prisma.ReportUncheckedCreateWithoutAdminInput[]
+  connectOrCreate?: Prisma.ReportCreateOrConnectWithoutAdminInput | Prisma.ReportCreateOrConnectWithoutAdminInput[]
+  upsert?: Prisma.ReportUpsertWithWhereUniqueWithoutAdminInput | Prisma.ReportUpsertWithWhereUniqueWithoutAdminInput[]
+  createMany?: Prisma.ReportCreateManyAdminInputEnvelope
+  set?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+  disconnect?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+  delete?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+  connect?: Prisma.ReportWhereUniqueInput | Prisma.ReportWhereUniqueInput[]
+  update?: Prisma.ReportUpdateWithWhereUniqueWithoutAdminInput | Prisma.ReportUpdateWithWhereUniqueWithoutAdminInput[]
+  updateMany?: Prisma.ReportUpdateManyWithWhereWithoutAdminInput | Prisma.ReportUpdateManyWithWhereWithoutAdminInput[]
+  deleteMany?: Prisma.ReportScalarWhereInput | Prisma.ReportScalarWhereInput[]
 }
 
 export type ReportCreateNestedManyWithoutReporterInput = {
@@ -473,16 +539,74 @@ export type ReportUncheckedUpdateManyWithoutReportedUserNestedInput = {
   deleteMany?: Prisma.ReportScalarWhereInput | Prisma.ReportScalarWhereInput[]
 }
 
+export type ReportCreateWithoutAdminInput = {
+  reason: string
+  adminNotes?: string | null
+  createdAt?: Date | string
+  reporter: Prisma.StudentCreateNestedOneWithoutReportsInput
+  reportedUser: Prisma.StudentCreateNestedOneWithoutReportedInput
+}
+
+export type ReportUncheckedCreateWithoutAdminInput = {
+  report_ID?: number
+  reporter_ID: string
+  reportedUser_ID: string
+  reason: string
+  adminNotes?: string | null
+  createdAt?: Date | string
+}
+
+export type ReportCreateOrConnectWithoutAdminInput = {
+  where: Prisma.ReportWhereUniqueInput
+  create: Prisma.XOR<Prisma.ReportCreateWithoutAdminInput, Prisma.ReportUncheckedCreateWithoutAdminInput>
+}
+
+export type ReportCreateManyAdminInputEnvelope = {
+  data: Prisma.ReportCreateManyAdminInput | Prisma.ReportCreateManyAdminInput[]
+  skipDuplicates?: boolean
+}
+
+export type ReportUpsertWithWhereUniqueWithoutAdminInput = {
+  where: Prisma.ReportWhereUniqueInput
+  update: Prisma.XOR<Prisma.ReportUpdateWithoutAdminInput, Prisma.ReportUncheckedUpdateWithoutAdminInput>
+  create: Prisma.XOR<Prisma.ReportCreateWithoutAdminInput, Prisma.ReportUncheckedCreateWithoutAdminInput>
+}
+
+export type ReportUpdateWithWhereUniqueWithoutAdminInput = {
+  where: Prisma.ReportWhereUniqueInput
+  data: Prisma.XOR<Prisma.ReportUpdateWithoutAdminInput, Prisma.ReportUncheckedUpdateWithoutAdminInput>
+}
+
+export type ReportUpdateManyWithWhereWithoutAdminInput = {
+  where: Prisma.ReportScalarWhereInput
+  data: Prisma.XOR<Prisma.ReportUpdateManyMutationInput, Prisma.ReportUncheckedUpdateManyWithoutAdminInput>
+}
+
+export type ReportScalarWhereInput = {
+  AND?: Prisma.ReportScalarWhereInput | Prisma.ReportScalarWhereInput[]
+  OR?: Prisma.ReportScalarWhereInput[]
+  NOT?: Prisma.ReportScalarWhereInput | Prisma.ReportScalarWhereInput[]
+  report_ID?: Prisma.IntFilter<"Report"> | number
+  reporter_ID?: Prisma.StringFilter<"Report"> | string
+  reportedUser_ID?: Prisma.StringFilter<"Report"> | string
+  admin_ID?: Prisma.StringFilter<"Report"> | string
+  reason?: Prisma.StringFilter<"Report"> | string
+  adminNotes?: Prisma.StringNullableFilter<"Report"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Report"> | Date | string
+}
+
 export type ReportCreateWithoutReporterInput = {
   reason: string
   adminNotes?: string | null
   createdAt?: Date | string
   reportedUser: Prisma.StudentCreateNestedOneWithoutReportedInput
+  admin: Prisma.AdminCreateNestedOneWithoutReportsInput
 }
 
 export type ReportUncheckedCreateWithoutReporterInput = {
-  id?: number
-  reportedUserId: string
+  report_ID?: number
+  reportedUser_ID: string
+  admin_ID: string
   reason: string
   adminNotes?: string | null
   createdAt?: Date | string
@@ -503,11 +627,13 @@ export type ReportCreateWithoutReportedUserInput = {
   adminNotes?: string | null
   createdAt?: Date | string
   reporter: Prisma.StudentCreateNestedOneWithoutReportsInput
+  admin: Prisma.AdminCreateNestedOneWithoutReportsInput
 }
 
 export type ReportUncheckedCreateWithoutReportedUserInput = {
-  id?: number
-  reporterId: string
+  report_ID?: number
+  reporter_ID: string
+  admin_ID: string
   reason: string
   adminNotes?: string | null
   createdAt?: Date | string
@@ -539,18 +665,6 @@ export type ReportUpdateManyWithWhereWithoutReporterInput = {
   data: Prisma.XOR<Prisma.ReportUpdateManyMutationInput, Prisma.ReportUncheckedUpdateManyWithoutReporterInput>
 }
 
-export type ReportScalarWhereInput = {
-  AND?: Prisma.ReportScalarWhereInput | Prisma.ReportScalarWhereInput[]
-  OR?: Prisma.ReportScalarWhereInput[]
-  NOT?: Prisma.ReportScalarWhereInput | Prisma.ReportScalarWhereInput[]
-  id?: Prisma.IntFilter<"Report"> | number
-  reporterId?: Prisma.StringFilter<"Report"> | string
-  reportedUserId?: Prisma.StringFilter<"Report"> | string
-  reason?: Prisma.StringFilter<"Report"> | string
-  adminNotes?: Prisma.StringNullableFilter<"Report"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"Report"> | Date | string
-}
-
 export type ReportUpsertWithWhereUniqueWithoutReportedUserInput = {
   where: Prisma.ReportWhereUniqueInput
   update: Prisma.XOR<Prisma.ReportUpdateWithoutReportedUserInput, Prisma.ReportUncheckedUpdateWithoutReportedUserInput>
@@ -567,17 +681,54 @@ export type ReportUpdateManyWithWhereWithoutReportedUserInput = {
   data: Prisma.XOR<Prisma.ReportUpdateManyMutationInput, Prisma.ReportUncheckedUpdateManyWithoutReportedUserInput>
 }
 
+export type ReportCreateManyAdminInput = {
+  report_ID?: number
+  reporter_ID: string
+  reportedUser_ID: string
+  reason: string
+  adminNotes?: string | null
+  createdAt?: Date | string
+}
+
+export type ReportUpdateWithoutAdminInput = {
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reporter?: Prisma.StudentUpdateOneRequiredWithoutReportsNestedInput
+  reportedUser?: Prisma.StudentUpdateOneRequiredWithoutReportedNestedInput
+}
+
+export type ReportUncheckedUpdateWithoutAdminInput = {
+  report_ID?: Prisma.IntFieldUpdateOperationsInput | number
+  reporter_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  reportedUser_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ReportUncheckedUpdateManyWithoutAdminInput = {
+  report_ID?: Prisma.IntFieldUpdateOperationsInput | number
+  reporter_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  reportedUser_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type ReportCreateManyReporterInput = {
-  id?: number
-  reportedUserId: string
+  report_ID?: number
+  reportedUser_ID: string
+  admin_ID: string
   reason: string
   adminNotes?: string | null
   createdAt?: Date | string
 }
 
 export type ReportCreateManyReportedUserInput = {
-  id?: number
-  reporterId: string
+  report_ID?: number
+  reporter_ID: string
+  admin_ID: string
   reason: string
   adminNotes?: string | null
   createdAt?: Date | string
@@ -588,19 +739,22 @@ export type ReportUpdateWithoutReporterInput = {
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reportedUser?: Prisma.StudentUpdateOneRequiredWithoutReportedNestedInput
+  admin?: Prisma.AdminUpdateOneRequiredWithoutReportsNestedInput
 }
 
 export type ReportUncheckedUpdateWithoutReporterInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  reportedUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  report_ID?: Prisma.IntFieldUpdateOperationsInput | number
+  reportedUser_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  admin_ID?: Prisma.StringFieldUpdateOperationsInput | string
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ReportUncheckedUpdateManyWithoutReporterInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  reportedUserId?: Prisma.StringFieldUpdateOperationsInput | string
+  report_ID?: Prisma.IntFieldUpdateOperationsInput | number
+  reportedUser_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  admin_ID?: Prisma.StringFieldUpdateOperationsInput | string
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -611,19 +765,22 @@ export type ReportUpdateWithoutReportedUserInput = {
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reporter?: Prisma.StudentUpdateOneRequiredWithoutReportsNestedInput
+  admin?: Prisma.AdminUpdateOneRequiredWithoutReportsNestedInput
 }
 
 export type ReportUncheckedUpdateWithoutReportedUserInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  reporterId?: Prisma.StringFieldUpdateOperationsInput | string
+  report_ID?: Prisma.IntFieldUpdateOperationsInput | number
+  reporter_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  admin_ID?: Prisma.StringFieldUpdateOperationsInput | string
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ReportUncheckedUpdateManyWithoutReportedUserInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  reporterId?: Prisma.StringFieldUpdateOperationsInput | string
+  report_ID?: Prisma.IntFieldUpdateOperationsInput | number
+  reporter_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  admin_ID?: Prisma.StringFieldUpdateOperationsInput | string
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -632,31 +789,35 @@ export type ReportUncheckedUpdateManyWithoutReportedUserInput = {
 
 
 export type ReportSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  reporterId?: boolean
-  reportedUserId?: boolean
+  report_ID?: boolean
+  reporter_ID?: boolean
+  reportedUser_ID?: boolean
+  admin_ID?: boolean
   reason?: boolean
   adminNotes?: boolean
   createdAt?: boolean
   reporter?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   reportedUser?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  admin?: boolean | Prisma.AdminDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["report"]>
 
 
 
 export type ReportSelectScalar = {
-  id?: boolean
-  reporterId?: boolean
-  reportedUserId?: boolean
+  report_ID?: boolean
+  reporter_ID?: boolean
+  reportedUser_ID?: boolean
+  admin_ID?: boolean
   reason?: boolean
   adminNotes?: boolean
   createdAt?: boolean
 }
 
-export type ReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reporterId" | "reportedUserId" | "reason" | "adminNotes" | "createdAt", ExtArgs["result"]["report"]>
+export type ReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"report_ID" | "reporter_ID" | "reportedUser_ID" | "admin_ID" | "reason" | "adminNotes" | "createdAt", ExtArgs["result"]["report"]>
 export type ReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   reporter?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   reportedUser?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  admin?: boolean | Prisma.AdminDefaultArgs<ExtArgs>
 }
 
 export type $ReportPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -664,11 +825,13 @@ export type $ReportPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   objects: {
     reporter: Prisma.$StudentPayload<ExtArgs>
     reportedUser: Prisma.$StudentPayload<ExtArgs>
+    admin: Prisma.$AdminPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
-    reporterId: string
-    reportedUserId: string
+    report_ID: number
+    reporter_ID: string
+    reportedUser_ID: string
+    admin_ID: string
     reason: string
     adminNotes: string | null
     createdAt: Date
@@ -755,8 +918,8 @@ export interface ReportDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    * // Get first 10 Reports
    * const reports = await prisma.report.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const reportWithIdOnly = await prisma.report.findMany({ select: { id: true } })
+   * // Only select the `report_ID`
+   * const reportWithReport_IDOnly = await prisma.report.findMany({ select: { report_ID: true } })
    * 
    */
   findMany<T extends ReportFindManyArgs>(args?: Prisma.SelectSubset<T, ReportFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -1014,6 +1177,7 @@ export interface Prisma__ReportClient<T, Null = never, ExtArgs extends runtime.T
   readonly [Symbol.toStringTag]: "PrismaPromise"
   reporter<T extends Prisma.StudentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentDefaultArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   reportedUser<T extends Prisma.StudentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentDefaultArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  admin<T extends Prisma.AdminDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdminDefaultArgs<ExtArgs>>): Prisma.Prisma__AdminClient<runtime.Types.Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1043,9 +1207,10 @@ export interface Prisma__ReportClient<T, Null = never, ExtArgs extends runtime.T
  * Fields of the Report model
  */
 export interface ReportFieldRefs {
-  readonly id: Prisma.FieldRef<"Report", 'Int'>
-  readonly reporterId: Prisma.FieldRef<"Report", 'String'>
-  readonly reportedUserId: Prisma.FieldRef<"Report", 'String'>
+  readonly report_ID: Prisma.FieldRef<"Report", 'Int'>
+  readonly reporter_ID: Prisma.FieldRef<"Report", 'String'>
+  readonly reportedUser_ID: Prisma.FieldRef<"Report", 'String'>
+  readonly admin_ID: Prisma.FieldRef<"Report", 'String'>
   readonly reason: Prisma.FieldRef<"Report", 'String'>
   readonly adminNotes: Prisma.FieldRef<"Report", 'String'>
   readonly createdAt: Prisma.FieldRef<"Report", 'DateTime'>

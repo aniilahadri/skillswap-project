@@ -3,17 +3,20 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import menuData from "./menuData";
 import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
 
 export default function Header() {
+    const { data: session, status } = useSession();
+    const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
-
     const [navbarOpen, setNavbarOpen] = useState(false);
+    const [sticky, setSticky] = useState(false);
+    const [openIndex, setOpenIndex] = useState(-1);
+
     const navbarToggleHandler = () => {
         setNavbarOpen(!navbarOpen);
     };
 
-
-    const [sticky, setSticky] = useState(false);
     const handleStickyNavbar = () => {
         if (window.scrollY >= 80) {
             setSticky(true);
@@ -21,11 +24,11 @@ export default function Header() {
             setSticky(false);
         }
     };
+
     useEffect(() => {
         window.addEventListener("scroll", handleStickyNavbar);
     });
 
-    const [openIndex, setOpenIndex] = useState(-1);
     const handleSubmenu = (index: number) => {
         if (openIndex === index) {
             setOpenIndex(-1);
@@ -33,6 +36,20 @@ export default function Header() {
             setOpenIndex(index);
         }
     };
+
+    // Show loading spinner while session is loading
+    if (status === "loading") {
+        return (
+            <div className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center bg-gray-100 z-[9999]">
+                <div className="flex space-x-2" role="status">
+                    <div className="w-4 h-4 bg-blue-500 rounded-full animate-bounce"></div>
+                    <div className="w-4 h-4 bg-blue-500 rounded-full animate-bounce [animation-delay:0.1s]"></div>
+                    <div className="w-4 h-4 bg-blue-500 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                    <span className="sr-only">Loading...</span>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -136,32 +153,85 @@ export default function Header() {
                                     </ul>
                                 </nav>
                             </div>
-                            {/* FIX WHEN USER LOGS IN TO SHOW PROFILE UP */}
-                            <div className="flex items-center justify-end pr-16 lg:pr-0 gap-2">
-
-                                {/* {<Link href="/profile" >
-                                    <img src="/avatar.png" alt="" className="max-w-12 max-h-12 m-3" />
-                                </Link>} */}
-
-                                <Link
-                                    href="/signin"
-                                    className=" px-2 py-3 text-sm font-medium text-dark hover:opacity-70 block md:text-base "
-                                >
-                                    Sign In
-                                </Link>
-                                <Link
-                                    href="/signup"
-                                    className="ease-in-up shadow-btn hover:shadow-btn-hover rounded-2xl bg-primary px-4 py-2 text-sm font-medium 
+                            {!session?.user ? (
+                                <div className="flex items-center justify-end pr-16 lg:pr-0 gap-2">
+                                    <Link
+                                        href="/signin"
+                                        className=" px-2 py-3 text-sm font-medium text-dark hover:opacity-70 block md:text-base "
+                                    >
+                                        Sign In
+                                    </Link>
+                                    <Link
+                                        href="/signup"
+                                        className="ease-in-up shadow-btn hover:shadow-btn-hover rounded-2xl bg-primary px-4 py-2 text-sm font-medium 
                                     text-white transition duration-300 hover:bg-opacity-90 block md:px-9 lg:px-6 xl:px-9 md:text-base"
-                                >
-                                    Sign Up
-                                </Link>
-                            </div>
+                                    >
+                                        Sign Up
+                                    </Link>
+                                </div>
+                            ) : (
+                                <li className="relative group">
+                                    <button
+                                        className="flex items-center px-4 py-2 text-sm font-medium text-dark hover:text-primary"
+                                        onClick={() => setIsOpen(!isOpen)}
+                                    >
+                                        <img className="mr-2" src="/avatar.png"></img>
+                                        {session?.user.fullname || "Account"}
+                                    </button>
+
+                                    <ul className={`absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200 ${isOpen ? 'block' : 'hidden'}`}>
+                                        <li>
+                                            <Link
+                                                className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                href="/profile"
+                                                onClick={() => setIsOpen(false)}
+                                            >
+                                                Profile
+                                            </Link>
+                                        </li>
+
+                                        {session?.user?.role === "STUDENT" && (
+                                            <li>
+                                                <Link
+                                                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                    href="/resume"
+                                                    onClick={() => setIsOpen(false)}
+                                                >
+                                                    Request
+                                                </Link>
+                                            </li>
+                                        )}
+
+                                        {session?.user?.role === "ADMIN" && (
+                                            <li>
+                                                <Link
+                                                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                    href="/dashboard"
+                                                    onClick={() => setIsOpen(false)}
+                                                >
+                                                    <i className="lni lni-dashboard mr-2"></i> Admin Panel
+                                                </Link>
+                                            </li>
+                                        )}
+
+                                        <li>
+                                            <button
+                                                onClick={async () => {
+                                                    await fetch('api/token', { method: 'DELETE' });
+                                                    await signOut({ callbackUrl: "/" });
+                                                }}
+                                                className="flex items-center w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                                            >
+                                                <i className="lni lni-exit mr-2 -ml-0.5"></i> Sign Out
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </li>
+                            )}
                         </div>
                     </div>
                 </div>
-            </header >
+            </header>
         </>
     );
-};
-
+}

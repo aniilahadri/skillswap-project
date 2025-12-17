@@ -82,12 +82,12 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 
 export const UserScalarFieldEnum = {
-  id: 'id',
+  user_ID: 'user_ID',
   fullName: 'fullName',
   email: 'email',
   password: 'password',
   city: 'city',
-  state: 'state',
+  country: 'country',
   bio: 'bio',
   role: 'role',
   createdAt: 'createdAt',
@@ -98,24 +98,25 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 
 
 export const PhoneNumberScalarFieldEnum = {
-  id: 'id',
+  phone_ID: 'phone_ID',
   number: 'number',
-  userId: 'userId'
+  user_ID: 'user_ID'
 } as const
 
 export type PhoneNumberScalarFieldEnum = (typeof PhoneNumberScalarFieldEnum)[keyof typeof PhoneNumberScalarFieldEnum]
 
 
 export const AdminScalarFieldEnum = {
-  adminId: 'adminId'
+  admin_ID: 'admin_ID'
 } as const
 
 export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
 
 
 export const StudentScalarFieldEnum = {
-  studentId: 'studentId',
+  student_ID: 'student_ID',
   experienceLevel: 'experienceLevel',
+  availability: 'availability',
   isProfilePublic: 'isProfilePublic',
   skillsCompleted: 'skillsCompleted'
 } as const
@@ -124,7 +125,7 @@ export type StudentScalarFieldEnum = (typeof StudentScalarFieldEnum)[keyof typeo
 
 
 export const SkillScalarFieldEnum = {
-  id: 'id',
+  skill_ID: 'skill_ID',
   name: 'name',
   category: 'category'
 } as const
@@ -133,29 +134,29 @@ export type SkillScalarFieldEnum = (typeof SkillScalarFieldEnum)[keyof typeof Sk
 
 
 export const SkillOfferedScalarFieldEnum = {
-  id: 'id',
-  studentId: 'studentId',
-  skillId: 'skillId'
+  skillOffered_ID: 'skillOffered_ID',
+  student_ID: 'student_ID',
+  skill_ID: 'skill_ID'
 } as const
 
 export type SkillOfferedScalarFieldEnum = (typeof SkillOfferedScalarFieldEnum)[keyof typeof SkillOfferedScalarFieldEnum]
 
 
 export const SkillWantedScalarFieldEnum = {
-  id: 'id',
-  studentId: 'studentId',
-  skillId: 'skillId'
+  skillWanted_ID: 'skillWanted_ID',
+  student_ID: 'student_ID',
+  skill_ID: 'skill_ID'
 } as const
 
 export type SkillWantedScalarFieldEnum = (typeof SkillWantedScalarFieldEnum)[keyof typeof SkillWantedScalarFieldEnum]
 
 
 export const RequestScalarFieldEnum = {
-  id: 'id',
-  senderId: 'senderId',
-  receiverId: 'receiverId',
-  requestedSkillId: 'requestedSkillId',
-  offeredSkillId: 'offeredSkillId',
+  request_ID: 'request_ID',
+  sender_ID: 'sender_ID',
+  receiver_ID: 'receiver_ID',
+  requestedSkill_ID: 'requestedSkill_ID',
+  offeredSkill_ID: 'offeredSkill_ID',
   status: 'status',
   createdAt: 'createdAt',
   completedAt: 'completedAt'
@@ -165,9 +166,9 @@ export type RequestScalarFieldEnum = (typeof RequestScalarFieldEnum)[keyof typeo
 
 
 export const FavoriteScalarFieldEnum = {
-  id: 'id',
-  studentId: 'studentId',
-  favStudentId: 'favStudentId',
+  favorite_ID: 'favorite_ID',
+  student_ID: 'student_ID',
+  favStudent_ID: 'favStudent_ID',
   createdAt: 'createdAt'
 } as const
 
@@ -175,9 +176,10 @@ export type FavoriteScalarFieldEnum = (typeof FavoriteScalarFieldEnum)[keyof typ
 
 
 export const ReportScalarFieldEnum = {
-  id: 'id',
-  reporterId: 'reporterId',
-  reportedUserId: 'reportedUserId',
+  report_ID: 'report_ID',
+  reporter_ID: 'reporter_ID',
+  reportedUser_ID: 'reportedUser_ID',
+  admin_ID: 'admin_ID',
   reason: 'reason',
   adminNotes: 'adminNotes',
   createdAt: 'createdAt'
@@ -189,7 +191,7 @@ export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof 
 export const RefreshTokenScalarFieldEnum = {
   id: 'id',
   token: 'token',
-  userId: 'userId',
+  user_ID: 'user_ID',
   expiresAt: 'expiresAt',
   createdAt: 'createdAt'
 } as const
@@ -198,7 +200,7 @@ export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[k
 
 
 export const ContactScalarFieldEnum = {
-  id: 'id',
+  contact_ID: 'contact_ID',
   name: 'name',
   email: 'email',
   message: 'message',
@@ -217,12 +219,12 @@ export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
 export const UserOrderByRelevanceFieldEnum = {
-  id: 'id',
+  user_ID: 'user_ID',
   fullName: 'fullName',
   email: 'email',
   password: 'password',
   city: 'city',
-  state: 'state',
+  country: 'country',
   bio: 'bio'
 } as const
 
@@ -231,21 +233,21 @@ export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnu
 
 export const PhoneNumberOrderByRelevanceFieldEnum = {
   number: 'number',
-  userId: 'userId'
+  user_ID: 'user_ID'
 } as const
 
 export type PhoneNumberOrderByRelevanceFieldEnum = (typeof PhoneNumberOrderByRelevanceFieldEnum)[keyof typeof PhoneNumberOrderByRelevanceFieldEnum]
 
 
 export const AdminOrderByRelevanceFieldEnum = {
-  adminId: 'adminId'
+  admin_ID: 'admin_ID'
 } as const
 
 export type AdminOrderByRelevanceFieldEnum = (typeof AdminOrderByRelevanceFieldEnum)[keyof typeof AdminOrderByRelevanceFieldEnum]
 
 
 export const StudentOrderByRelevanceFieldEnum = {
-  studentId: 'studentId'
+  student_ID: 'student_ID'
 } as const
 
 export type StudentOrderByRelevanceFieldEnum = (typeof StudentOrderByRelevanceFieldEnum)[keyof typeof StudentOrderByRelevanceFieldEnum]
@@ -260,7 +262,7 @@ export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 export const SkillOrderByRelevanceFieldEnum = {
-  id: 'id',
+  skill_ID: 'skill_ID',
   name: 'name',
   category: 'category'
 } as const
@@ -269,46 +271,47 @@ export type SkillOrderByRelevanceFieldEnum = (typeof SkillOrderByRelevanceFieldE
 
 
 export const SkillOfferedOrderByRelevanceFieldEnum = {
-  id: 'id',
-  studentId: 'studentId',
-  skillId: 'skillId'
+  skillOffered_ID: 'skillOffered_ID',
+  student_ID: 'student_ID',
+  skill_ID: 'skill_ID'
 } as const
 
 export type SkillOfferedOrderByRelevanceFieldEnum = (typeof SkillOfferedOrderByRelevanceFieldEnum)[keyof typeof SkillOfferedOrderByRelevanceFieldEnum]
 
 
 export const SkillWantedOrderByRelevanceFieldEnum = {
-  id: 'id',
-  studentId: 'studentId',
-  skillId: 'skillId'
+  skillWanted_ID: 'skillWanted_ID',
+  student_ID: 'student_ID',
+  skill_ID: 'skill_ID'
 } as const
 
 export type SkillWantedOrderByRelevanceFieldEnum = (typeof SkillWantedOrderByRelevanceFieldEnum)[keyof typeof SkillWantedOrderByRelevanceFieldEnum]
 
 
 export const RequestOrderByRelevanceFieldEnum = {
-  id: 'id',
-  senderId: 'senderId',
-  receiverId: 'receiverId',
-  requestedSkillId: 'requestedSkillId',
-  offeredSkillId: 'offeredSkillId'
+  request_ID: 'request_ID',
+  sender_ID: 'sender_ID',
+  receiver_ID: 'receiver_ID',
+  requestedSkill_ID: 'requestedSkill_ID',
+  offeredSkill_ID: 'offeredSkill_ID'
 } as const
 
 export type RequestOrderByRelevanceFieldEnum = (typeof RequestOrderByRelevanceFieldEnum)[keyof typeof RequestOrderByRelevanceFieldEnum]
 
 
 export const FavoriteOrderByRelevanceFieldEnum = {
-  id: 'id',
-  studentId: 'studentId',
-  favStudentId: 'favStudentId'
+  favorite_ID: 'favorite_ID',
+  student_ID: 'student_ID',
+  favStudent_ID: 'favStudent_ID'
 } as const
 
 export type FavoriteOrderByRelevanceFieldEnum = (typeof FavoriteOrderByRelevanceFieldEnum)[keyof typeof FavoriteOrderByRelevanceFieldEnum]
 
 
 export const ReportOrderByRelevanceFieldEnum = {
-  reporterId: 'reporterId',
-  reportedUserId: 'reportedUserId',
+  reporter_ID: 'reporter_ID',
+  reportedUser_ID: 'reportedUser_ID',
+  admin_ID: 'admin_ID',
   reason: 'reason',
   adminNotes: 'adminNotes'
 } as const
@@ -319,7 +322,7 @@ export type ReportOrderByRelevanceFieldEnum = (typeof ReportOrderByRelevanceFiel
 export const RefreshTokenOrderByRelevanceFieldEnum = {
   id: 'id',
   token: 'token',
-  userId: 'userId'
+  user_ID: 'user_ID'
 } as const
 
 export type RefreshTokenOrderByRelevanceFieldEnum = (typeof RefreshTokenOrderByRelevanceFieldEnum)[keyof typeof RefreshTokenOrderByRelevanceFieldEnum]

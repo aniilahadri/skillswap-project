@@ -17,6 +17,15 @@ export const Role = {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const Availability = {
+  Morning: 'Morning',
+  Afternoon: 'Afternoon',
+  Evening: 'Evening'
+} as const
+
+export type Availability = (typeof Availability)[keyof typeof Availability]
+
+
 export const ExperienceLevel = {
   BEGINNER: 'BEGINNER',
   INTERMEDIATE: 'INTERMEDIATE',

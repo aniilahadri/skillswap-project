@@ -25,12 +25,12 @@ export type AggregateUser = {
 }
 
 export type UserMinAggregateOutputType = {
-  id: string | null
+  user_ID: string | null
   fullName: string | null
   email: string | null
   password: string | null
   city: string | null
-  state: string | null
+  country: string | null
   bio: string | null
   role: $Enums.Role | null
   createdAt: Date | null
@@ -38,12 +38,12 @@ export type UserMinAggregateOutputType = {
 }
 
 export type UserMaxAggregateOutputType = {
-  id: string | null
+  user_ID: string | null
   fullName: string | null
   email: string | null
   password: string | null
   city: string | null
-  state: string | null
+  country: string | null
   bio: string | null
   role: $Enums.Role | null
   createdAt: Date | null
@@ -51,12 +51,12 @@ export type UserMaxAggregateOutputType = {
 }
 
 export type UserCountAggregateOutputType = {
-  id: number
+  user_ID: number
   fullName: number
   email: number
   password: number
   city: number
-  state: number
+  country: number
   bio: number
   role: number
   createdAt: number
@@ -66,12 +66,12 @@ export type UserCountAggregateOutputType = {
 
 
 export type UserMinAggregateInputType = {
-  id?: true
+  user_ID?: true
   fullName?: true
   email?: true
   password?: true
   city?: true
-  state?: true
+  country?: true
   bio?: true
   role?: true
   createdAt?: true
@@ -79,12 +79,12 @@ export type UserMinAggregateInputType = {
 }
 
 export type UserMaxAggregateInputType = {
-  id?: true
+  user_ID?: true
   fullName?: true
   email?: true
   password?: true
   city?: true
-  state?: true
+  country?: true
   bio?: true
   role?: true
   createdAt?: true
@@ -92,12 +92,12 @@ export type UserMaxAggregateInputType = {
 }
 
 export type UserCountAggregateInputType = {
-  id?: true
+  user_ID?: true
   fullName?: true
   email?: true
   password?: true
   city?: true
-  state?: true
+  country?: true
   bio?: true
   role?: true
   createdAt?: true
@@ -178,12 +178,12 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 }
 
 export type UserGroupByOutputType = {
-  id: string
+  user_ID: string
   fullName: string
   email: string
   password: string
   city: string
-  state: string
+  country: string
   bio: string
   role: $Enums.Role
   createdAt: Date
@@ -212,12 +212,12 @@ export type UserWhereInput = {
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
-  id?: Prisma.StringFilter<"User"> | string
+  user_ID?: Prisma.StringFilter<"User"> | string
   fullName?: Prisma.StringFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
   city?: Prisma.StringFilter<"User"> | string
-  state?: Prisma.StringFilter<"User"> | string
+  country?: Prisma.StringFilter<"User"> | string
   bio?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -229,12 +229,12 @@ export type UserWhereInput = {
 }
 
 export type UserOrderByWithRelationInput = {
-  id?: Prisma.SortOrder
+  user_ID?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   city?: Prisma.SortOrder
-  state?: Prisma.SortOrder
+  country?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -247,7 +247,7 @@ export type UserOrderByWithRelationInput = {
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  user_ID?: string
   email?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
@@ -255,7 +255,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   fullName?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
   city?: Prisma.StringFilter<"User"> | string
-  state?: Prisma.StringFilter<"User"> | string
+  country?: Prisma.StringFilter<"User"> | string
   bio?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -264,15 +264,15 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   admin?: Prisma.AdminListRelationFilter
   student?: Prisma.StudentListRelationFilter
   refreshTokens?: Prisma.RefreshTokenListRelationFilter
-}, "id" | "email">
+}, "user_ID" | "email">
 
 export type UserOrderByWithAggregationInput = {
-  id?: Prisma.SortOrder
+  user_ID?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   city?: Prisma.SortOrder
-  state?: Prisma.SortOrder
+  country?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -286,12 +286,12 @@ export type UserScalarWhereWithAggregatesInput = {
   AND?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[]
   OR?: Prisma.UserScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"User"> | string
+  user_ID?: Prisma.StringWithAggregatesFilter<"User"> | string
   fullName?: Prisma.StringWithAggregatesFilter<"User"> | string
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
   city?: Prisma.StringWithAggregatesFilter<"User"> | string
-  state?: Prisma.StringWithAggregatesFilter<"User"> | string
+  country?: Prisma.StringWithAggregatesFilter<"User"> | string
   bio?: Prisma.StringWithAggregatesFilter<"User"> | string
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -299,12 +299,12 @@ export type UserScalarWhereWithAggregatesInput = {
 }
 
 export type UserCreateInput = {
-  id?: string
+  user_ID?: string
   fullName: string
   email: string
   password: string
   city: string
-  state: string
+  country: string
   bio: string
   role?: $Enums.Role
   createdAt?: Date | string
@@ -316,12 +316,12 @@ export type UserCreateInput = {
 }
 
 export type UserUncheckedCreateInput = {
-  id?: string
+  user_ID?: string
   fullName: string
   email: string
   password: string
   city: string
-  state: string
+  country: string
   bio: string
   role?: $Enums.Role
   createdAt?: Date | string
@@ -333,12 +333,12 @@ export type UserUncheckedCreateInput = {
 }
 
 export type UserUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_ID?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  state?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
   bio?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -350,12 +350,12 @@ export type UserUpdateInput = {
 }
 
 export type UserUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_ID?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  state?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
   bio?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -367,12 +367,12 @@ export type UserUncheckedUpdateInput = {
 }
 
 export type UserCreateManyInput = {
-  id?: string
+  user_ID?: string
   fullName: string
   email: string
   password: string
   city: string
-  state: string
+  country: string
   bio: string
   role?: $Enums.Role
   createdAt?: Date | string
@@ -380,12 +380,12 @@ export type UserCreateManyInput = {
 }
 
 export type UserUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_ID?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  state?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
   bio?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -393,12 +393,12 @@ export type UserUpdateManyMutationInput = {
 }
 
 export type UserUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_ID?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  state?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
   bio?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -412,12 +412,12 @@ export type UserOrderByRelevanceInput = {
 }
 
 export type UserCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
+  user_ID?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   city?: Prisma.SortOrder
-  state?: Prisma.SortOrder
+  country?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -425,12 +425,12 @@ export type UserCountOrderByAggregateInput = {
 }
 
 export type UserMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
+  user_ID?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   city?: Prisma.SortOrder
-  state?: Prisma.SortOrder
+  country?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -438,12 +438,12 @@ export type UserMaxOrderByAggregateInput = {
 }
 
 export type UserMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
+  user_ID?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   city?: Prisma.SortOrder
-  state?: Prisma.SortOrder
+  country?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -524,12 +524,12 @@ export type UserUpdateOneRequiredWithoutRefreshTokensNestedInput = {
 }
 
 export type UserCreateWithoutPhoneNumberInput = {
-  id?: string
+  user_ID?: string
   fullName: string
   email: string
   password: string
   city: string
-  state: string
+  country: string
   bio: string
   role?: $Enums.Role
   createdAt?: Date | string
@@ -540,12 +540,12 @@ export type UserCreateWithoutPhoneNumberInput = {
 }
 
 export type UserUncheckedCreateWithoutPhoneNumberInput = {
-  id?: string
+  user_ID?: string
   fullName: string
   email: string
   password: string
   city: string
-  state: string
+  country: string
   bio: string
   role?: $Enums.Role
   createdAt?: Date | string
@@ -572,12 +572,12 @@ export type UserUpdateToOneWithWhereWithoutPhoneNumberInput = {
 }
 
 export type UserUpdateWithoutPhoneNumberInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_ID?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  state?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
   bio?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -588,12 +588,12 @@ export type UserUpdateWithoutPhoneNumberInput = {
 }
 
 export type UserUncheckedUpdateWithoutPhoneNumberInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_ID?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  state?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
   bio?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -604,12 +604,12 @@ export type UserUncheckedUpdateWithoutPhoneNumberInput = {
 }
 
 export type UserCreateWithoutAdminInput = {
-  id?: string
+  user_ID?: string
   fullName: string
   email: string
   password: string
   city: string
-  state: string
+  country: string
   bio: string
   role?: $Enums.Role
   createdAt?: Date | string
@@ -620,12 +620,12 @@ export type UserCreateWithoutAdminInput = {
 }
 
 export type UserUncheckedCreateWithoutAdminInput = {
-  id?: string
+  user_ID?: string
   fullName: string
   email: string
   password: string
   city: string
-  state: string
+  country: string
   bio: string
   role?: $Enums.Role
   createdAt?: Date | string
@@ -652,12 +652,12 @@ export type UserUpdateToOneWithWhereWithoutAdminInput = {
 }
 
 export type UserUpdateWithoutAdminInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_ID?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  state?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
   bio?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -668,12 +668,12 @@ export type UserUpdateWithoutAdminInput = {
 }
 
 export type UserUncheckedUpdateWithoutAdminInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_ID?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  state?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
   bio?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -684,12 +684,12 @@ export type UserUncheckedUpdateWithoutAdminInput = {
 }
 
 export type UserCreateWithoutStudentInput = {
-  id?: string
+  user_ID?: string
   fullName: string
   email: string
   password: string
   city: string
-  state: string
+  country: string
   bio: string
   role?: $Enums.Role
   createdAt?: Date | string
@@ -700,12 +700,12 @@ export type UserCreateWithoutStudentInput = {
 }
 
 export type UserUncheckedCreateWithoutStudentInput = {
-  id?: string
+  user_ID?: string
   fullName: string
   email: string
   password: string
   city: string
-  state: string
+  country: string
   bio: string
   role?: $Enums.Role
   createdAt?: Date | string
@@ -732,12 +732,12 @@ export type UserUpdateToOneWithWhereWithoutStudentInput = {
 }
 
 export type UserUpdateWithoutStudentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_ID?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  state?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
   bio?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -748,12 +748,12 @@ export type UserUpdateWithoutStudentInput = {
 }
 
 export type UserUncheckedUpdateWithoutStudentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_ID?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  state?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
   bio?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -764,12 +764,12 @@ export type UserUncheckedUpdateWithoutStudentInput = {
 }
 
 export type UserCreateWithoutRefreshTokensInput = {
-  id?: string
+  user_ID?: string
   fullName: string
   email: string
   password: string
   city: string
-  state: string
+  country: string
   bio: string
   role?: $Enums.Role
   createdAt?: Date | string
@@ -780,12 +780,12 @@ export type UserCreateWithoutRefreshTokensInput = {
 }
 
 export type UserUncheckedCreateWithoutRefreshTokensInput = {
-  id?: string
+  user_ID?: string
   fullName: string
   email: string
   password: string
   city: string
-  state: string
+  country: string
   bio: string
   role?: $Enums.Role
   createdAt?: Date | string
@@ -812,12 +812,12 @@ export type UserUpdateToOneWithWhereWithoutRefreshTokensInput = {
 }
 
 export type UserUpdateWithoutRefreshTokensInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_ID?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  state?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
   bio?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -828,12 +828,12 @@ export type UserUpdateWithoutRefreshTokensInput = {
 }
 
 export type UserUncheckedUpdateWithoutRefreshTokensInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_ID?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  state?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
   bio?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -902,12 +902,12 @@ export type UserCountOutputTypeCountRefreshTokensArgs<ExtArgs extends runtime.Ty
 
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
+  user_ID?: boolean
   fullName?: boolean
   email?: boolean
   password?: boolean
   city?: boolean
-  state?: boolean
+  country?: boolean
   bio?: boolean
   role?: boolean
   createdAt?: boolean
@@ -922,19 +922,19 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 
 
 export type UserSelectScalar = {
-  id?: boolean
+  user_ID?: boolean
   fullName?: boolean
   email?: boolean
   password?: boolean
   city?: boolean
-  state?: boolean
+  country?: boolean
   bio?: boolean
   role?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "email" | "password" | "city" | "state" | "bio" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"user_ID" | "fullName" | "email" | "password" | "city" | "country" | "bio" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   phoneNumber?: boolean | Prisma.User$phoneNumberArgs<ExtArgs>
   admin?: boolean | Prisma.User$adminArgs<ExtArgs>
@@ -952,12 +952,12 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
+    user_ID: string
     fullName: string
     email: string
     password: string
     city: string
-    state: string
+    country: string
     bio: string
     role: $Enums.Role
     createdAt: Date
@@ -1045,8 +1045,8 @@ export interface UserDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
    * // Get first 10 Users
    * const users = await prisma.user.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const userWithIdOnly = await prisma.user.findMany({ select: { id: true } })
+   * // Only select the `user_ID`
+   * const userWithUser_IDOnly = await prisma.user.findMany({ select: { user_ID: true } })
    * 
    */
   findMany<T extends UserFindManyArgs>(args?: Prisma.SelectSubset<T, UserFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -1335,12 +1335,12 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
  * Fields of the User model
  */
 export interface UserFieldRefs {
-  readonly id: Prisma.FieldRef<"User", 'String'>
+  readonly user_ID: Prisma.FieldRef<"User", 'String'>
   readonly fullName: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly password: Prisma.FieldRef<"User", 'String'>
   readonly city: Prisma.FieldRef<"User", 'String'>
-  readonly state: Prisma.FieldRef<"User", 'String'>
+  readonly country: Prisma.FieldRef<"User", 'String'>
   readonly bio: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>

@@ -25,33 +25,33 @@ export type AggregateRequest = {
 }
 
 export type RequestMinAggregateOutputType = {
-  id: string | null
-  senderId: string | null
-  receiverId: string | null
-  requestedSkillId: string | null
-  offeredSkillId: string | null
+  request_ID: string | null
+  sender_ID: string | null
+  receiver_ID: string | null
+  requestedSkill_ID: string | null
+  offeredSkill_ID: string | null
   status: $Enums.RequestStatus | null
   createdAt: Date | null
   completedAt: Date | null
 }
 
 export type RequestMaxAggregateOutputType = {
-  id: string | null
-  senderId: string | null
-  receiverId: string | null
-  requestedSkillId: string | null
-  offeredSkillId: string | null
+  request_ID: string | null
+  sender_ID: string | null
+  receiver_ID: string | null
+  requestedSkill_ID: string | null
+  offeredSkill_ID: string | null
   status: $Enums.RequestStatus | null
   createdAt: Date | null
   completedAt: Date | null
 }
 
 export type RequestCountAggregateOutputType = {
-  id: number
-  senderId: number
-  receiverId: number
-  requestedSkillId: number
-  offeredSkillId: number
+  request_ID: number
+  sender_ID: number
+  receiver_ID: number
+  requestedSkill_ID: number
+  offeredSkill_ID: number
   status: number
   createdAt: number
   completedAt: number
@@ -60,33 +60,33 @@ export type RequestCountAggregateOutputType = {
 
 
 export type RequestMinAggregateInputType = {
-  id?: true
-  senderId?: true
-  receiverId?: true
-  requestedSkillId?: true
-  offeredSkillId?: true
+  request_ID?: true
+  sender_ID?: true
+  receiver_ID?: true
+  requestedSkill_ID?: true
+  offeredSkill_ID?: true
   status?: true
   createdAt?: true
   completedAt?: true
 }
 
 export type RequestMaxAggregateInputType = {
-  id?: true
-  senderId?: true
-  receiverId?: true
-  requestedSkillId?: true
-  offeredSkillId?: true
+  request_ID?: true
+  sender_ID?: true
+  receiver_ID?: true
+  requestedSkill_ID?: true
+  offeredSkill_ID?: true
   status?: true
   createdAt?: true
   completedAt?: true
 }
 
 export type RequestCountAggregateInputType = {
-  id?: true
-  senderId?: true
-  receiverId?: true
-  requestedSkillId?: true
-  offeredSkillId?: true
+  request_ID?: true
+  sender_ID?: true
+  receiver_ID?: true
+  requestedSkill_ID?: true
+  offeredSkill_ID?: true
   status?: true
   createdAt?: true
   completedAt?: true
@@ -166,11 +166,11 @@ export type RequestGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 export type RequestGroupByOutputType = {
-  id: string
-  senderId: string
-  receiverId: string | null
-  requestedSkillId: string
-  offeredSkillId: string
+  request_ID: string
+  sender_ID: string
+  receiver_ID: string
+  requestedSkill_ID: string
+  offeredSkill_ID: string
   status: $Enums.RequestStatus
   createdAt: Date
   completedAt: Date | null
@@ -198,26 +198,26 @@ export type RequestWhereInput = {
   AND?: Prisma.RequestWhereInput | Prisma.RequestWhereInput[]
   OR?: Prisma.RequestWhereInput[]
   NOT?: Prisma.RequestWhereInput | Prisma.RequestWhereInput[]
-  id?: Prisma.StringFilter<"Request"> | string
-  senderId?: Prisma.StringFilter<"Request"> | string
-  receiverId?: Prisma.StringNullableFilter<"Request"> | string | null
-  requestedSkillId?: Prisma.StringFilter<"Request"> | string
-  offeredSkillId?: Prisma.StringFilter<"Request"> | string
+  request_ID?: Prisma.StringFilter<"Request"> | string
+  sender_ID?: Prisma.StringFilter<"Request"> | string
+  receiver_ID?: Prisma.StringFilter<"Request"> | string
+  requestedSkill_ID?: Prisma.StringFilter<"Request"> | string
+  offeredSkill_ID?: Prisma.StringFilter<"Request"> | string
   status?: Prisma.EnumRequestStatusFilter<"Request"> | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFilter<"Request"> | Date | string
   completedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
   sender?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
-  receiver?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
+  receiver?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   requestedSkill?: Prisma.XOR<Prisma.SkillOfferedScalarRelationFilter, Prisma.SkillOfferedWhereInput>
   offeredSkill?: Prisma.XOR<Prisma.SkillWantedScalarRelationFilter, Prisma.SkillWantedWhereInput>
 }
 
 export type RequestOrderByWithRelationInput = {
-  id?: Prisma.SortOrder
-  senderId?: Prisma.SortOrder
-  receiverId?: Prisma.SortOrderInput | Prisma.SortOrder
-  requestedSkillId?: Prisma.SortOrder
-  offeredSkillId?: Prisma.SortOrder
+  request_ID?: Prisma.SortOrder
+  sender_ID?: Prisma.SortOrder
+  receiver_ID?: Prisma.SortOrder
+  requestedSkill_ID?: Prisma.SortOrder
+  offeredSkill_ID?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -229,30 +229,30 @@ export type RequestOrderByWithRelationInput = {
 }
 
 export type RequestWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
-  senderId_receiverId_requestedSkillId_offeredSkillId?: Prisma.RequestSenderIdReceiverIdRequestedSkillIdOfferedSkillIdCompoundUniqueInput
+  request_ID?: string
+  sender_ID_receiver_ID_requestedSkill_ID_offeredSkill_ID?: Prisma.RequestSender_IDReceiver_IDRequestedSkill_IDOfferedSkill_IDCompoundUniqueInput
   AND?: Prisma.RequestWhereInput | Prisma.RequestWhereInput[]
   OR?: Prisma.RequestWhereInput[]
   NOT?: Prisma.RequestWhereInput | Prisma.RequestWhereInput[]
-  senderId?: Prisma.StringFilter<"Request"> | string
-  receiverId?: Prisma.StringNullableFilter<"Request"> | string | null
-  requestedSkillId?: Prisma.StringFilter<"Request"> | string
-  offeredSkillId?: Prisma.StringFilter<"Request"> | string
+  sender_ID?: Prisma.StringFilter<"Request"> | string
+  receiver_ID?: Prisma.StringFilter<"Request"> | string
+  requestedSkill_ID?: Prisma.StringFilter<"Request"> | string
+  offeredSkill_ID?: Prisma.StringFilter<"Request"> | string
   status?: Prisma.EnumRequestStatusFilter<"Request"> | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFilter<"Request"> | Date | string
   completedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
   sender?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
-  receiver?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
+  receiver?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   requestedSkill?: Prisma.XOR<Prisma.SkillOfferedScalarRelationFilter, Prisma.SkillOfferedWhereInput>
   offeredSkill?: Prisma.XOR<Prisma.SkillWantedScalarRelationFilter, Prisma.SkillWantedWhereInput>
-}, "id" | "senderId_receiverId_requestedSkillId_offeredSkillId">
+}, "request_ID" | "sender_ID_receiver_ID_requestedSkill_ID_offeredSkill_ID">
 
 export type RequestOrderByWithAggregationInput = {
-  id?: Prisma.SortOrder
-  senderId?: Prisma.SortOrder
-  receiverId?: Prisma.SortOrderInput | Prisma.SortOrder
-  requestedSkillId?: Prisma.SortOrder
-  offeredSkillId?: Prisma.SortOrder
+  request_ID?: Prisma.SortOrder
+  sender_ID?: Prisma.SortOrder
+  receiver_ID?: Prisma.SortOrder
+  requestedSkill_ID?: Prisma.SortOrder
+  offeredSkill_ID?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -265,84 +265,84 @@ export type RequestScalarWhereWithAggregatesInput = {
   AND?: Prisma.RequestScalarWhereWithAggregatesInput | Prisma.RequestScalarWhereWithAggregatesInput[]
   OR?: Prisma.RequestScalarWhereWithAggregatesInput[]
   NOT?: Prisma.RequestScalarWhereWithAggregatesInput | Prisma.RequestScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Request"> | string
-  senderId?: Prisma.StringWithAggregatesFilter<"Request"> | string
-  receiverId?: Prisma.StringNullableWithAggregatesFilter<"Request"> | string | null
-  requestedSkillId?: Prisma.StringWithAggregatesFilter<"Request"> | string
-  offeredSkillId?: Prisma.StringWithAggregatesFilter<"Request"> | string
+  request_ID?: Prisma.StringWithAggregatesFilter<"Request"> | string
+  sender_ID?: Prisma.StringWithAggregatesFilter<"Request"> | string
+  receiver_ID?: Prisma.StringWithAggregatesFilter<"Request"> | string
+  requestedSkill_ID?: Prisma.StringWithAggregatesFilter<"Request"> | string
+  offeredSkill_ID?: Prisma.StringWithAggregatesFilter<"Request"> | string
   status?: Prisma.EnumRequestStatusWithAggregatesFilter<"Request"> | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Request"> | Date | string
   completedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Request"> | Date | string | null
 }
 
 export type RequestCreateInput = {
-  id?: string
+  request_ID?: string
   status?: $Enums.RequestStatus
   createdAt?: Date | string
   completedAt?: Date | string | null
   sender: Prisma.StudentCreateNestedOneWithoutRequestSentInput
-  receiver?: Prisma.StudentCreateNestedOneWithoutRequestReceivedInput
+  receiver: Prisma.StudentCreateNestedOneWithoutRequestReceivedInput
   requestedSkill: Prisma.SkillOfferedCreateNestedOneWithoutRequestsInput
   offeredSkill: Prisma.SkillWantedCreateNestedOneWithoutRequestsInput
 }
 
 export type RequestUncheckedCreateInput = {
-  id?: string
-  senderId: string
-  receiverId?: string | null
-  requestedSkillId: string
-  offeredSkillId: string
+  request_ID?: string
+  sender_ID: string
+  receiver_ID: string
+  requestedSkill_ID: string
+  offeredSkill_ID: string
   status?: $Enums.RequestStatus
   createdAt?: Date | string
   completedAt?: Date | string | null
 }
 
 export type RequestUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  request_ID?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sender?: Prisma.StudentUpdateOneRequiredWithoutRequestSentNestedInput
-  receiver?: Prisma.StudentUpdateOneWithoutRequestReceivedNestedInput
+  receiver?: Prisma.StudentUpdateOneRequiredWithoutRequestReceivedNestedInput
   requestedSkill?: Prisma.SkillOfferedUpdateOneRequiredWithoutRequestsNestedInput
   offeredSkill?: Prisma.SkillWantedUpdateOneRequiredWithoutRequestsNestedInput
 }
 
 export type RequestUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  senderId?: Prisma.StringFieldUpdateOperationsInput | string
-  receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  requestedSkillId?: Prisma.StringFieldUpdateOperationsInput | string
-  offeredSkillId?: Prisma.StringFieldUpdateOperationsInput | string
+  request_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  sender_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  receiver_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  requestedSkill_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  offeredSkill_ID?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RequestCreateManyInput = {
-  id?: string
-  senderId: string
-  receiverId?: string | null
-  requestedSkillId: string
-  offeredSkillId: string
+  request_ID?: string
+  sender_ID: string
+  receiver_ID: string
+  requestedSkill_ID: string
+  offeredSkill_ID: string
   status?: $Enums.RequestStatus
   createdAt?: Date | string
   completedAt?: Date | string | null
 }
 
 export type RequestUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  request_ID?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RequestUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  senderId?: Prisma.StringFieldUpdateOperationsInput | string
-  receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  requestedSkillId?: Prisma.StringFieldUpdateOperationsInput | string
-  offeredSkillId?: Prisma.StringFieldUpdateOperationsInput | string
+  request_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  sender_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  receiver_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  requestedSkill_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  offeredSkill_ID?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -364,41 +364,41 @@ export type RequestOrderByRelevanceInput = {
   search: string
 }
 
-export type RequestSenderIdReceiverIdRequestedSkillIdOfferedSkillIdCompoundUniqueInput = {
-  senderId: string
-  receiverId: string
-  requestedSkillId: string
-  offeredSkillId: string
+export type RequestSender_IDReceiver_IDRequestedSkill_IDOfferedSkill_IDCompoundUniqueInput = {
+  sender_ID: string
+  receiver_ID: string
+  requestedSkill_ID: string
+  offeredSkill_ID: string
 }
 
 export type RequestCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  senderId?: Prisma.SortOrder
-  receiverId?: Prisma.SortOrder
-  requestedSkillId?: Prisma.SortOrder
-  offeredSkillId?: Prisma.SortOrder
+  request_ID?: Prisma.SortOrder
+  sender_ID?: Prisma.SortOrder
+  receiver_ID?: Prisma.SortOrder
+  requestedSkill_ID?: Prisma.SortOrder
+  offeredSkill_ID?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
 }
 
 export type RequestMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  senderId?: Prisma.SortOrder
-  receiverId?: Prisma.SortOrder
-  requestedSkillId?: Prisma.SortOrder
-  offeredSkillId?: Prisma.SortOrder
+  request_ID?: Prisma.SortOrder
+  sender_ID?: Prisma.SortOrder
+  receiver_ID?: Prisma.SortOrder
+  requestedSkill_ID?: Prisma.SortOrder
+  offeredSkill_ID?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
 }
 
 export type RequestMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  senderId?: Prisma.SortOrder
-  receiverId?: Prisma.SortOrder
-  requestedSkillId?: Prisma.SortOrder
-  offeredSkillId?: Prisma.SortOrder
+  request_ID?: Prisma.SortOrder
+  sender_ID?: Prisma.SortOrder
+  receiver_ID?: Prisma.SortOrder
+  requestedSkill_ID?: Prisma.SortOrder
+  offeredSkill_ID?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
@@ -581,20 +581,20 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
 }
 
 export type RequestCreateWithoutSenderInput = {
-  id?: string
+  request_ID?: string
   status?: $Enums.RequestStatus
   createdAt?: Date | string
   completedAt?: Date | string | null
-  receiver?: Prisma.StudentCreateNestedOneWithoutRequestReceivedInput
+  receiver: Prisma.StudentCreateNestedOneWithoutRequestReceivedInput
   requestedSkill: Prisma.SkillOfferedCreateNestedOneWithoutRequestsInput
   offeredSkill: Prisma.SkillWantedCreateNestedOneWithoutRequestsInput
 }
 
 export type RequestUncheckedCreateWithoutSenderInput = {
-  id?: string
-  receiverId?: string | null
-  requestedSkillId: string
-  offeredSkillId: string
+  request_ID?: string
+  receiver_ID: string
+  requestedSkill_ID: string
+  offeredSkill_ID: string
   status?: $Enums.RequestStatus
   createdAt?: Date | string
   completedAt?: Date | string | null
@@ -611,7 +611,7 @@ export type RequestCreateManySenderInputEnvelope = {
 }
 
 export type RequestCreateWithoutReceiverInput = {
-  id?: string
+  request_ID?: string
   status?: $Enums.RequestStatus
   createdAt?: Date | string
   completedAt?: Date | string | null
@@ -621,10 +621,10 @@ export type RequestCreateWithoutReceiverInput = {
 }
 
 export type RequestUncheckedCreateWithoutReceiverInput = {
-  id?: string
-  senderId: string
-  requestedSkillId: string
-  offeredSkillId: string
+  request_ID?: string
+  sender_ID: string
+  requestedSkill_ID: string
+  offeredSkill_ID: string
   status?: $Enums.RequestStatus
   createdAt?: Date | string
   completedAt?: Date | string | null
@@ -660,11 +660,11 @@ export type RequestScalarWhereInput = {
   AND?: Prisma.RequestScalarWhereInput | Prisma.RequestScalarWhereInput[]
   OR?: Prisma.RequestScalarWhereInput[]
   NOT?: Prisma.RequestScalarWhereInput | Prisma.RequestScalarWhereInput[]
-  id?: Prisma.StringFilter<"Request"> | string
-  senderId?: Prisma.StringFilter<"Request"> | string
-  receiverId?: Prisma.StringNullableFilter<"Request"> | string | null
-  requestedSkillId?: Prisma.StringFilter<"Request"> | string
-  offeredSkillId?: Prisma.StringFilter<"Request"> | string
+  request_ID?: Prisma.StringFilter<"Request"> | string
+  sender_ID?: Prisma.StringFilter<"Request"> | string
+  receiver_ID?: Prisma.StringFilter<"Request"> | string
+  requestedSkill_ID?: Prisma.StringFilter<"Request"> | string
+  offeredSkill_ID?: Prisma.StringFilter<"Request"> | string
   status?: Prisma.EnumRequestStatusFilter<"Request"> | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFilter<"Request"> | Date | string
   completedAt?: Prisma.DateTimeNullableFilter<"Request"> | Date | string | null
@@ -687,20 +687,20 @@ export type RequestUpdateManyWithWhereWithoutReceiverInput = {
 }
 
 export type RequestCreateWithoutRequestedSkillInput = {
-  id?: string
+  request_ID?: string
   status?: $Enums.RequestStatus
   createdAt?: Date | string
   completedAt?: Date | string | null
   sender: Prisma.StudentCreateNestedOneWithoutRequestSentInput
-  receiver?: Prisma.StudentCreateNestedOneWithoutRequestReceivedInput
+  receiver: Prisma.StudentCreateNestedOneWithoutRequestReceivedInput
   offeredSkill: Prisma.SkillWantedCreateNestedOneWithoutRequestsInput
 }
 
 export type RequestUncheckedCreateWithoutRequestedSkillInput = {
-  id?: string
-  senderId: string
-  receiverId?: string | null
-  offeredSkillId: string
+  request_ID?: string
+  sender_ID: string
+  receiver_ID: string
+  offeredSkill_ID: string
   status?: $Enums.RequestStatus
   createdAt?: Date | string
   completedAt?: Date | string | null
@@ -733,20 +733,20 @@ export type RequestUpdateManyWithWhereWithoutRequestedSkillInput = {
 }
 
 export type RequestCreateWithoutOfferedSkillInput = {
-  id?: string
+  request_ID?: string
   status?: $Enums.RequestStatus
   createdAt?: Date | string
   completedAt?: Date | string | null
   sender: Prisma.StudentCreateNestedOneWithoutRequestSentInput
-  receiver?: Prisma.StudentCreateNestedOneWithoutRequestReceivedInput
+  receiver: Prisma.StudentCreateNestedOneWithoutRequestReceivedInput
   requestedSkill: Prisma.SkillOfferedCreateNestedOneWithoutRequestsInput
 }
 
 export type RequestUncheckedCreateWithoutOfferedSkillInput = {
-  id?: string
-  senderId: string
-  receiverId?: string | null
-  requestedSkillId: string
+  request_ID?: string
+  sender_ID: string
+  receiver_ID: string
+  requestedSkill_ID: string
   status?: $Enums.RequestStatus
   createdAt?: Date | string
   completedAt?: Date | string | null
@@ -779,57 +779,57 @@ export type RequestUpdateManyWithWhereWithoutOfferedSkillInput = {
 }
 
 export type RequestCreateManySenderInput = {
-  id?: string
-  receiverId?: string | null
-  requestedSkillId: string
-  offeredSkillId: string
+  request_ID?: string
+  receiver_ID: string
+  requestedSkill_ID: string
+  offeredSkill_ID: string
   status?: $Enums.RequestStatus
   createdAt?: Date | string
   completedAt?: Date | string | null
 }
 
 export type RequestCreateManyReceiverInput = {
-  id?: string
-  senderId: string
-  requestedSkillId: string
-  offeredSkillId: string
+  request_ID?: string
+  sender_ID: string
+  requestedSkill_ID: string
+  offeredSkill_ID: string
   status?: $Enums.RequestStatus
   createdAt?: Date | string
   completedAt?: Date | string | null
 }
 
 export type RequestUpdateWithoutSenderInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  request_ID?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  receiver?: Prisma.StudentUpdateOneWithoutRequestReceivedNestedInput
+  receiver?: Prisma.StudentUpdateOneRequiredWithoutRequestReceivedNestedInput
   requestedSkill?: Prisma.SkillOfferedUpdateOneRequiredWithoutRequestsNestedInput
   offeredSkill?: Prisma.SkillWantedUpdateOneRequiredWithoutRequestsNestedInput
 }
 
 export type RequestUncheckedUpdateWithoutSenderInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  requestedSkillId?: Prisma.StringFieldUpdateOperationsInput | string
-  offeredSkillId?: Prisma.StringFieldUpdateOperationsInput | string
+  request_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  receiver_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  requestedSkill_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  offeredSkill_ID?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RequestUncheckedUpdateManyWithoutSenderInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  requestedSkillId?: Prisma.StringFieldUpdateOperationsInput | string
-  offeredSkillId?: Prisma.StringFieldUpdateOperationsInput | string
+  request_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  receiver_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  requestedSkill_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  offeredSkill_ID?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RequestUpdateWithoutReceiverInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  request_ID?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -839,100 +839,100 @@ export type RequestUpdateWithoutReceiverInput = {
 }
 
 export type RequestUncheckedUpdateWithoutReceiverInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  senderId?: Prisma.StringFieldUpdateOperationsInput | string
-  requestedSkillId?: Prisma.StringFieldUpdateOperationsInput | string
-  offeredSkillId?: Prisma.StringFieldUpdateOperationsInput | string
+  request_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  sender_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  requestedSkill_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  offeredSkill_ID?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RequestUncheckedUpdateManyWithoutReceiverInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  senderId?: Prisma.StringFieldUpdateOperationsInput | string
-  requestedSkillId?: Prisma.StringFieldUpdateOperationsInput | string
-  offeredSkillId?: Prisma.StringFieldUpdateOperationsInput | string
+  request_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  sender_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  requestedSkill_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  offeredSkill_ID?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RequestCreateManyRequestedSkillInput = {
-  id?: string
-  senderId: string
-  receiverId?: string | null
-  offeredSkillId: string
+  request_ID?: string
+  sender_ID: string
+  receiver_ID: string
+  offeredSkill_ID: string
   status?: $Enums.RequestStatus
   createdAt?: Date | string
   completedAt?: Date | string | null
 }
 
 export type RequestUpdateWithoutRequestedSkillInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  request_ID?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sender?: Prisma.StudentUpdateOneRequiredWithoutRequestSentNestedInput
-  receiver?: Prisma.StudentUpdateOneWithoutRequestReceivedNestedInput
+  receiver?: Prisma.StudentUpdateOneRequiredWithoutRequestReceivedNestedInput
   offeredSkill?: Prisma.SkillWantedUpdateOneRequiredWithoutRequestsNestedInput
 }
 
 export type RequestUncheckedUpdateWithoutRequestedSkillInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  senderId?: Prisma.StringFieldUpdateOperationsInput | string
-  receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  offeredSkillId?: Prisma.StringFieldUpdateOperationsInput | string
+  request_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  sender_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  receiver_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  offeredSkill_ID?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RequestUncheckedUpdateManyWithoutRequestedSkillInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  senderId?: Prisma.StringFieldUpdateOperationsInput | string
-  receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  offeredSkillId?: Prisma.StringFieldUpdateOperationsInput | string
+  request_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  sender_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  receiver_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  offeredSkill_ID?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RequestCreateManyOfferedSkillInput = {
-  id?: string
-  senderId: string
-  receiverId?: string | null
-  requestedSkillId: string
+  request_ID?: string
+  sender_ID: string
+  receiver_ID: string
+  requestedSkill_ID: string
   status?: $Enums.RequestStatus
   createdAt?: Date | string
   completedAt?: Date | string | null
 }
 
 export type RequestUpdateWithoutOfferedSkillInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  request_ID?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sender?: Prisma.StudentUpdateOneRequiredWithoutRequestSentNestedInput
-  receiver?: Prisma.StudentUpdateOneWithoutRequestReceivedNestedInput
+  receiver?: Prisma.StudentUpdateOneRequiredWithoutRequestReceivedNestedInput
   requestedSkill?: Prisma.SkillOfferedUpdateOneRequiredWithoutRequestsNestedInput
 }
 
 export type RequestUncheckedUpdateWithoutOfferedSkillInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  senderId?: Prisma.StringFieldUpdateOperationsInput | string
-  receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  requestedSkillId?: Prisma.StringFieldUpdateOperationsInput | string
+  request_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  sender_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  receiver_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  requestedSkill_ID?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RequestUncheckedUpdateManyWithoutOfferedSkillInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  senderId?: Prisma.StringFieldUpdateOperationsInput | string
-  receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  requestedSkillId?: Prisma.StringFieldUpdateOperationsInput | string
+  request_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  sender_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  receiver_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  requestedSkill_ID?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -941,16 +941,16 @@ export type RequestUncheckedUpdateManyWithoutOfferedSkillInput = {
 
 
 export type RequestSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  senderId?: boolean
-  receiverId?: boolean
-  requestedSkillId?: boolean
-  offeredSkillId?: boolean
+  request_ID?: boolean
+  sender_ID?: boolean
+  receiver_ID?: boolean
+  requestedSkill_ID?: boolean
+  offeredSkill_ID?: boolean
   status?: boolean
   createdAt?: boolean
   completedAt?: boolean
   sender?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
-  receiver?: boolean | Prisma.Request$receiverArgs<ExtArgs>
+  receiver?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   requestedSkill?: boolean | Prisma.SkillOfferedDefaultArgs<ExtArgs>
   offeredSkill?: boolean | Prisma.SkillWantedDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["request"]>
@@ -958,20 +958,20 @@ export type RequestSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 
 
 export type RequestSelectScalar = {
-  id?: boolean
-  senderId?: boolean
-  receiverId?: boolean
-  requestedSkillId?: boolean
-  offeredSkillId?: boolean
+  request_ID?: boolean
+  sender_ID?: boolean
+  receiver_ID?: boolean
+  requestedSkill_ID?: boolean
+  offeredSkill_ID?: boolean
   status?: boolean
   createdAt?: boolean
   completedAt?: boolean
 }
 
-export type RequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "senderId" | "receiverId" | "requestedSkillId" | "offeredSkillId" | "status" | "createdAt" | "completedAt", ExtArgs["result"]["request"]>
+export type RequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"request_ID" | "sender_ID" | "receiver_ID" | "requestedSkill_ID" | "offeredSkill_ID" | "status" | "createdAt" | "completedAt", ExtArgs["result"]["request"]>
 export type RequestInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sender?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
-  receiver?: boolean | Prisma.Request$receiverArgs<ExtArgs>
+  receiver?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   requestedSkill?: boolean | Prisma.SkillOfferedDefaultArgs<ExtArgs>
   offeredSkill?: boolean | Prisma.SkillWantedDefaultArgs<ExtArgs>
 }
@@ -980,16 +980,16 @@ export type $RequestPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "Request"
   objects: {
     sender: Prisma.$StudentPayload<ExtArgs>
-    receiver: Prisma.$StudentPayload<ExtArgs> | null
+    receiver: Prisma.$StudentPayload<ExtArgs>
     requestedSkill: Prisma.$SkillOfferedPayload<ExtArgs>
     offeredSkill: Prisma.$SkillWantedPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
-    senderId: string
-    receiverId: string | null
-    requestedSkillId: string
-    offeredSkillId: string
+    request_ID: string
+    sender_ID: string
+    receiver_ID: string
+    requestedSkill_ID: string
+    offeredSkill_ID: string
     status: $Enums.RequestStatus
     createdAt: Date
     completedAt: Date | null
@@ -1076,8 +1076,8 @@ export interface RequestDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    * // Get first 10 Requests
    * const requests = await prisma.request.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const requestWithIdOnly = await prisma.request.findMany({ select: { id: true } })
+   * // Only select the `request_ID`
+   * const requestWithRequest_IDOnly = await prisma.request.findMany({ select: { request_ID: true } })
    * 
    */
   findMany<T extends RequestFindManyArgs>(args?: Prisma.SelectSubset<T, RequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -1334,7 +1334,7 @@ readonly fields: RequestFieldRefs;
 export interface Prisma__RequestClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   sender<T extends Prisma.StudentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentDefaultArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  receiver<T extends Prisma.Request$receiverArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Request$receiverArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  receiver<T extends Prisma.StudentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentDefaultArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   requestedSkill<T extends Prisma.SkillOfferedDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SkillOfferedDefaultArgs<ExtArgs>>): Prisma.Prisma__SkillOfferedClient<runtime.Types.Result.GetResult<Prisma.$SkillOfferedPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   offeredSkill<T extends Prisma.SkillWantedDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SkillWantedDefaultArgs<ExtArgs>>): Prisma.Prisma__SkillWantedClient<runtime.Types.Result.GetResult<Prisma.$SkillWantedPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
@@ -1366,11 +1366,11 @@ export interface Prisma__RequestClient<T, Null = never, ExtArgs extends runtime.
  * Fields of the Request model
  */
 export interface RequestFieldRefs {
-  readonly id: Prisma.FieldRef<"Request", 'String'>
-  readonly senderId: Prisma.FieldRef<"Request", 'String'>
-  readonly receiverId: Prisma.FieldRef<"Request", 'String'>
-  readonly requestedSkillId: Prisma.FieldRef<"Request", 'String'>
-  readonly offeredSkillId: Prisma.FieldRef<"Request", 'String'>
+  readonly request_ID: Prisma.FieldRef<"Request", 'String'>
+  readonly sender_ID: Prisma.FieldRef<"Request", 'String'>
+  readonly receiver_ID: Prisma.FieldRef<"Request", 'String'>
+  readonly requestedSkill_ID: Prisma.FieldRef<"Request", 'String'>
+  readonly offeredSkill_ID: Prisma.FieldRef<"Request", 'String'>
   readonly status: Prisma.FieldRef<"Request", 'RequestStatus'>
   readonly createdAt: Prisma.FieldRef<"Request", 'DateTime'>
   readonly completedAt: Prisma.FieldRef<"Request", 'DateTime'>
@@ -1714,25 +1714,6 @@ export type RequestDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Requests to delete.
    */
   limit?: number
-}
-
-/**
- * Request.receiver
- */
-export type Request$receiverArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Student
-   */
-  select?: Prisma.StudentSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Student
-   */
-  omit?: Prisma.StudentOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.StudentInclude<ExtArgs> | null
-  where?: Prisma.StudentWhereInput
 }
 
 /**

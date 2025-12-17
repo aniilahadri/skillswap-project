@@ -27,6 +27,10 @@ export class NextAuthDomain {
 
         const { password, ...userWithoutPassword } = user;
 
-        return userWithoutPassword;
+        
+        return {
+            ...userWithoutPassword,
+            id: user.user_ID,
+        };
     }
 }

@@ -35,22 +35,25 @@ export type StudentSumAggregateOutputType = {
 }
 
 export type StudentMinAggregateOutputType = {
-  studentId: string | null
+  student_ID: string | null
   experienceLevel: $Enums.ExperienceLevel | null
+  availability: $Enums.Availability | null
   isProfilePublic: boolean | null
   skillsCompleted: number | null
 }
 
 export type StudentMaxAggregateOutputType = {
-  studentId: string | null
+  student_ID: string | null
   experienceLevel: $Enums.ExperienceLevel | null
+  availability: $Enums.Availability | null
   isProfilePublic: boolean | null
   skillsCompleted: number | null
 }
 
 export type StudentCountAggregateOutputType = {
-  studentId: number
+  student_ID: number
   experienceLevel: number
+  availability: number
   isProfilePublic: number
   skillsCompleted: number
   _all: number
@@ -66,22 +69,25 @@ export type StudentSumAggregateInputType = {
 }
 
 export type StudentMinAggregateInputType = {
-  studentId?: true
+  student_ID?: true
   experienceLevel?: true
+  availability?: true
   isProfilePublic?: true
   skillsCompleted?: true
 }
 
 export type StudentMaxAggregateInputType = {
-  studentId?: true
+  student_ID?: true
   experienceLevel?: true
+  availability?: true
   isProfilePublic?: true
   skillsCompleted?: true
 }
 
 export type StudentCountAggregateInputType = {
-  studentId?: true
+  student_ID?: true
   experienceLevel?: true
+  availability?: true
   isProfilePublic?: true
   skillsCompleted?: true
   _all?: true
@@ -174,8 +180,9 @@ export type StudentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 export type StudentGroupByOutputType = {
-  studentId: string
+  student_ID: string
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic: boolean
   skillsCompleted: number
   _count: StudentCountAggregateOutputType | null
@@ -204,8 +211,9 @@ export type StudentWhereInput = {
   AND?: Prisma.StudentWhereInput | Prisma.StudentWhereInput[]
   OR?: Prisma.StudentWhereInput[]
   NOT?: Prisma.StudentWhereInput | Prisma.StudentWhereInput[]
-  studentId?: Prisma.StringFilter<"Student"> | string
+  student_ID?: Prisma.StringFilter<"Student"> | string
   experienceLevel?: Prisma.EnumExperienceLevelFilter<"Student"> | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFilter<"Student"> | $Enums.Availability
   isProfilePublic?: Prisma.BoolFilter<"Student"> | boolean
   skillsCompleted?: Prisma.IntFilter<"Student"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -220,8 +228,9 @@ export type StudentWhereInput = {
 }
 
 export type StudentOrderByWithRelationInput = {
-  studentId?: Prisma.SortOrder
+  student_ID?: Prisma.SortOrder
   experienceLevel?: Prisma.SortOrder
+  availability?: Prisma.SortOrder
   isProfilePublic?: Prisma.SortOrder
   skillsCompleted?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -237,11 +246,12 @@ export type StudentOrderByWithRelationInput = {
 }
 
 export type StudentWhereUniqueInput = Prisma.AtLeast<{
-  studentId?: string
+  student_ID?: string
   AND?: Prisma.StudentWhereInput | Prisma.StudentWhereInput[]
   OR?: Prisma.StudentWhereInput[]
   NOT?: Prisma.StudentWhereInput | Prisma.StudentWhereInput[]
   experienceLevel?: Prisma.EnumExperienceLevelFilter<"Student"> | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFilter<"Student"> | $Enums.Availability
   isProfilePublic?: Prisma.BoolFilter<"Student"> | boolean
   skillsCompleted?: Prisma.IntFilter<"Student"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -253,11 +263,12 @@ export type StudentWhereUniqueInput = Prisma.AtLeast<{
   favorited?: Prisma.FavoriteListRelationFilter
   reports?: Prisma.ReportListRelationFilter
   reported?: Prisma.ReportListRelationFilter
-}, "studentId">
+}, "student_ID">
 
 export type StudentOrderByWithAggregationInput = {
-  studentId?: Prisma.SortOrder
+  student_ID?: Prisma.SortOrder
   experienceLevel?: Prisma.SortOrder
+  availability?: Prisma.SortOrder
   isProfilePublic?: Prisma.SortOrder
   skillsCompleted?: Prisma.SortOrder
   _count?: Prisma.StudentCountOrderByAggregateInput
@@ -271,14 +282,16 @@ export type StudentScalarWhereWithAggregatesInput = {
   AND?: Prisma.StudentScalarWhereWithAggregatesInput | Prisma.StudentScalarWhereWithAggregatesInput[]
   OR?: Prisma.StudentScalarWhereWithAggregatesInput[]
   NOT?: Prisma.StudentScalarWhereWithAggregatesInput | Prisma.StudentScalarWhereWithAggregatesInput[]
-  studentId?: Prisma.StringWithAggregatesFilter<"Student"> | string
+  student_ID?: Prisma.StringWithAggregatesFilter<"Student"> | string
   experienceLevel?: Prisma.EnumExperienceLevelWithAggregatesFilter<"Student"> | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityWithAggregatesFilter<"Student"> | $Enums.Availability
   isProfilePublic?: Prisma.BoolWithAggregatesFilter<"Student"> | boolean
   skillsCompleted?: Prisma.IntWithAggregatesFilter<"Student"> | number
 }
 
 export type StudentCreateInput = {
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   user: Prisma.UserCreateNestedOneWithoutStudentInput
@@ -293,8 +306,9 @@ export type StudentCreateInput = {
 }
 
 export type StudentUncheckedCreateInput = {
-  studentId: string
+  student_ID: string
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   skillOffered?: Prisma.SkillOfferedUncheckedCreateNestedManyWithoutStudentInput
@@ -309,6 +323,7 @@ export type StudentUncheckedCreateInput = {
 
 export type StudentUpdateInput = {
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutStudentNestedInput
@@ -323,8 +338,9 @@ export type StudentUpdateInput = {
 }
 
 export type StudentUncheckedUpdateInput = {
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  student_ID?: Prisma.StringFieldUpdateOperationsInput | string
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   skillOffered?: Prisma.SkillOfferedUncheckedUpdateManyWithoutStudentNestedInput
@@ -338,21 +354,24 @@ export type StudentUncheckedUpdateInput = {
 }
 
 export type StudentCreateManyInput = {
-  studentId: string
+  student_ID: string
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
 }
 
 export type StudentUpdateManyMutationInput = {
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type StudentUncheckedUpdateManyInput = {
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  student_ID?: Prisma.StringFieldUpdateOperationsInput | string
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -374,8 +393,9 @@ export type StudentOrderByRelevanceInput = {
 }
 
 export type StudentCountOrderByAggregateInput = {
-  studentId?: Prisma.SortOrder
+  student_ID?: Prisma.SortOrder
   experienceLevel?: Prisma.SortOrder
+  availability?: Prisma.SortOrder
   isProfilePublic?: Prisma.SortOrder
   skillsCompleted?: Prisma.SortOrder
 }
@@ -385,15 +405,17 @@ export type StudentAvgOrderByAggregateInput = {
 }
 
 export type StudentMaxOrderByAggregateInput = {
-  studentId?: Prisma.SortOrder
+  student_ID?: Prisma.SortOrder
   experienceLevel?: Prisma.SortOrder
+  availability?: Prisma.SortOrder
   isProfilePublic?: Prisma.SortOrder
   skillsCompleted?: Prisma.SortOrder
 }
 
 export type StudentMinOrderByAggregateInput = {
-  studentId?: Prisma.SortOrder
+  student_ID?: Prisma.SortOrder
   experienceLevel?: Prisma.SortOrder
+  availability?: Prisma.SortOrder
   isProfilePublic?: Prisma.SortOrder
   skillsCompleted?: Prisma.SortOrder
 }
@@ -405,11 +427,6 @@ export type StudentSumOrderByAggregateInput = {
 export type StudentScalarRelationFilter = {
   is?: Prisma.StudentWhereInput
   isNot?: Prisma.StudentWhereInput
-}
-
-export type StudentNullableScalarRelationFilter = {
-  is?: Prisma.StudentWhereInput | null
-  isNot?: Prisma.StudentWhereInput | null
 }
 
 export type StudentCreateNestedManyWithoutUserInput = {
@@ -456,6 +473,10 @@ export type StudentUncheckedUpdateManyWithoutUserNestedInput = {
 
 export type EnumExperienceLevelFieldUpdateOperationsInput = {
   set?: $Enums.ExperienceLevel
+}
+
+export type EnumAvailabilityFieldUpdateOperationsInput = {
+  set?: $Enums.Availability
 }
 
 export type BoolFieldUpdateOperationsInput = {
@@ -510,12 +531,10 @@ export type StudentUpdateOneRequiredWithoutRequestSentNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StudentUpdateToOneWithWhereWithoutRequestSentInput, Prisma.StudentUpdateWithoutRequestSentInput>, Prisma.StudentUncheckedUpdateWithoutRequestSentInput>
 }
 
-export type StudentUpdateOneWithoutRequestReceivedNestedInput = {
+export type StudentUpdateOneRequiredWithoutRequestReceivedNestedInput = {
   create?: Prisma.XOR<Prisma.StudentCreateWithoutRequestReceivedInput, Prisma.StudentUncheckedCreateWithoutRequestReceivedInput>
   connectOrCreate?: Prisma.StudentCreateOrConnectWithoutRequestReceivedInput
   upsert?: Prisma.StudentUpsertWithoutRequestReceivedInput
-  disconnect?: Prisma.StudentWhereInput | boolean
-  delete?: Prisma.StudentWhereInput | boolean
   connect?: Prisma.StudentWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.StudentUpdateToOneWithWhereWithoutRequestReceivedInput, Prisma.StudentUpdateWithoutRequestReceivedInput>, Prisma.StudentUncheckedUpdateWithoutRequestReceivedInput>
 }
@@ -578,6 +597,7 @@ export type StudentUpdateOneRequiredWithoutReportedNestedInput = {
 
 export type StudentCreateWithoutUserInput = {
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   skillOffered?: Prisma.SkillOfferedCreateNestedManyWithoutStudentInput
@@ -592,6 +612,7 @@ export type StudentCreateWithoutUserInput = {
 
 export type StudentUncheckedCreateWithoutUserInput = {
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   skillOffered?: Prisma.SkillOfferedUncheckedCreateNestedManyWithoutStudentInput
@@ -634,14 +655,16 @@ export type StudentScalarWhereInput = {
   AND?: Prisma.StudentScalarWhereInput | Prisma.StudentScalarWhereInput[]
   OR?: Prisma.StudentScalarWhereInput[]
   NOT?: Prisma.StudentScalarWhereInput | Prisma.StudentScalarWhereInput[]
-  studentId?: Prisma.StringFilter<"Student"> | string
+  student_ID?: Prisma.StringFilter<"Student"> | string
   experienceLevel?: Prisma.EnumExperienceLevelFilter<"Student"> | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFilter<"Student"> | $Enums.Availability
   isProfilePublic?: Prisma.BoolFilter<"Student"> | boolean
   skillsCompleted?: Prisma.IntFilter<"Student"> | number
 }
 
 export type StudentCreateWithoutSkillOfferedInput = {
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   user: Prisma.UserCreateNestedOneWithoutStudentInput
@@ -655,8 +678,9 @@ export type StudentCreateWithoutSkillOfferedInput = {
 }
 
 export type StudentUncheckedCreateWithoutSkillOfferedInput = {
-  studentId: string
+  student_ID: string
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   skillWanted?: Prisma.SkillWantedUncheckedCreateNestedManyWithoutStudentInput
@@ -686,6 +710,7 @@ export type StudentUpdateToOneWithWhereWithoutSkillOfferedInput = {
 
 export type StudentUpdateWithoutSkillOfferedInput = {
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutStudentNestedInput
@@ -699,8 +724,9 @@ export type StudentUpdateWithoutSkillOfferedInput = {
 }
 
 export type StudentUncheckedUpdateWithoutSkillOfferedInput = {
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  student_ID?: Prisma.StringFieldUpdateOperationsInput | string
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   skillWanted?: Prisma.SkillWantedUncheckedUpdateManyWithoutStudentNestedInput
@@ -714,6 +740,7 @@ export type StudentUncheckedUpdateWithoutSkillOfferedInput = {
 
 export type StudentCreateWithoutSkillWantedInput = {
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   user: Prisma.UserCreateNestedOneWithoutStudentInput
@@ -727,8 +754,9 @@ export type StudentCreateWithoutSkillWantedInput = {
 }
 
 export type StudentUncheckedCreateWithoutSkillWantedInput = {
-  studentId: string
+  student_ID: string
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   skillOffered?: Prisma.SkillOfferedUncheckedCreateNestedManyWithoutStudentInput
@@ -758,6 +786,7 @@ export type StudentUpdateToOneWithWhereWithoutSkillWantedInput = {
 
 export type StudentUpdateWithoutSkillWantedInput = {
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutStudentNestedInput
@@ -771,8 +800,9 @@ export type StudentUpdateWithoutSkillWantedInput = {
 }
 
 export type StudentUncheckedUpdateWithoutSkillWantedInput = {
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  student_ID?: Prisma.StringFieldUpdateOperationsInput | string
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   skillOffered?: Prisma.SkillOfferedUncheckedUpdateManyWithoutStudentNestedInput
@@ -786,6 +816,7 @@ export type StudentUncheckedUpdateWithoutSkillWantedInput = {
 
 export type StudentCreateWithoutRequestSentInput = {
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   user: Prisma.UserCreateNestedOneWithoutStudentInput
@@ -799,8 +830,9 @@ export type StudentCreateWithoutRequestSentInput = {
 }
 
 export type StudentUncheckedCreateWithoutRequestSentInput = {
-  studentId: string
+  student_ID: string
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   skillOffered?: Prisma.SkillOfferedUncheckedCreateNestedManyWithoutStudentInput
@@ -819,6 +851,7 @@ export type StudentCreateOrConnectWithoutRequestSentInput = {
 
 export type StudentCreateWithoutRequestReceivedInput = {
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   user: Prisma.UserCreateNestedOneWithoutStudentInput
@@ -832,8 +865,9 @@ export type StudentCreateWithoutRequestReceivedInput = {
 }
 
 export type StudentUncheckedCreateWithoutRequestReceivedInput = {
-  studentId: string
+  student_ID: string
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   skillOffered?: Prisma.SkillOfferedUncheckedCreateNestedManyWithoutStudentInput
@@ -863,6 +897,7 @@ export type StudentUpdateToOneWithWhereWithoutRequestSentInput = {
 
 export type StudentUpdateWithoutRequestSentInput = {
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutStudentNestedInput
@@ -876,8 +911,9 @@ export type StudentUpdateWithoutRequestSentInput = {
 }
 
 export type StudentUncheckedUpdateWithoutRequestSentInput = {
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  student_ID?: Prisma.StringFieldUpdateOperationsInput | string
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   skillOffered?: Prisma.SkillOfferedUncheckedUpdateManyWithoutStudentNestedInput
@@ -902,6 +938,7 @@ export type StudentUpdateToOneWithWhereWithoutRequestReceivedInput = {
 
 export type StudentUpdateWithoutRequestReceivedInput = {
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutStudentNestedInput
@@ -915,8 +952,9 @@ export type StudentUpdateWithoutRequestReceivedInput = {
 }
 
 export type StudentUncheckedUpdateWithoutRequestReceivedInput = {
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  student_ID?: Prisma.StringFieldUpdateOperationsInput | string
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   skillOffered?: Prisma.SkillOfferedUncheckedUpdateManyWithoutStudentNestedInput
@@ -930,6 +968,7 @@ export type StudentUncheckedUpdateWithoutRequestReceivedInput = {
 
 export type StudentCreateWithoutFavoritesInput = {
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   user: Prisma.UserCreateNestedOneWithoutStudentInput
@@ -943,8 +982,9 @@ export type StudentCreateWithoutFavoritesInput = {
 }
 
 export type StudentUncheckedCreateWithoutFavoritesInput = {
-  studentId: string
+  student_ID: string
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   skillOffered?: Prisma.SkillOfferedUncheckedCreateNestedManyWithoutStudentInput
@@ -963,6 +1003,7 @@ export type StudentCreateOrConnectWithoutFavoritesInput = {
 
 export type StudentCreateWithoutFavoritedInput = {
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   user: Prisma.UserCreateNestedOneWithoutStudentInput
@@ -976,8 +1017,9 @@ export type StudentCreateWithoutFavoritedInput = {
 }
 
 export type StudentUncheckedCreateWithoutFavoritedInput = {
-  studentId: string
+  student_ID: string
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   skillOffered?: Prisma.SkillOfferedUncheckedCreateNestedManyWithoutStudentInput
@@ -1007,6 +1049,7 @@ export type StudentUpdateToOneWithWhereWithoutFavoritesInput = {
 
 export type StudentUpdateWithoutFavoritesInput = {
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutStudentNestedInput
@@ -1020,8 +1063,9 @@ export type StudentUpdateWithoutFavoritesInput = {
 }
 
 export type StudentUncheckedUpdateWithoutFavoritesInput = {
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  student_ID?: Prisma.StringFieldUpdateOperationsInput | string
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   skillOffered?: Prisma.SkillOfferedUncheckedUpdateManyWithoutStudentNestedInput
@@ -1046,6 +1090,7 @@ export type StudentUpdateToOneWithWhereWithoutFavoritedInput = {
 
 export type StudentUpdateWithoutFavoritedInput = {
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutStudentNestedInput
@@ -1059,8 +1104,9 @@ export type StudentUpdateWithoutFavoritedInput = {
 }
 
 export type StudentUncheckedUpdateWithoutFavoritedInput = {
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  student_ID?: Prisma.StringFieldUpdateOperationsInput | string
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   skillOffered?: Prisma.SkillOfferedUncheckedUpdateManyWithoutStudentNestedInput
@@ -1074,6 +1120,7 @@ export type StudentUncheckedUpdateWithoutFavoritedInput = {
 
 export type StudentCreateWithoutReportsInput = {
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   user: Prisma.UserCreateNestedOneWithoutStudentInput
@@ -1087,8 +1134,9 @@ export type StudentCreateWithoutReportsInput = {
 }
 
 export type StudentUncheckedCreateWithoutReportsInput = {
-  studentId: string
+  student_ID: string
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   skillOffered?: Prisma.SkillOfferedUncheckedCreateNestedManyWithoutStudentInput
@@ -1107,6 +1155,7 @@ export type StudentCreateOrConnectWithoutReportsInput = {
 
 export type StudentCreateWithoutReportedInput = {
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   user: Prisma.UserCreateNestedOneWithoutStudentInput
@@ -1120,8 +1169,9 @@ export type StudentCreateWithoutReportedInput = {
 }
 
 export type StudentUncheckedCreateWithoutReportedInput = {
-  studentId: string
+  student_ID: string
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
   skillOffered?: Prisma.SkillOfferedUncheckedCreateNestedManyWithoutStudentInput
@@ -1151,6 +1201,7 @@ export type StudentUpdateToOneWithWhereWithoutReportsInput = {
 
 export type StudentUpdateWithoutReportsInput = {
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutStudentNestedInput
@@ -1164,8 +1215,9 @@ export type StudentUpdateWithoutReportsInput = {
 }
 
 export type StudentUncheckedUpdateWithoutReportsInput = {
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  student_ID?: Prisma.StringFieldUpdateOperationsInput | string
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   skillOffered?: Prisma.SkillOfferedUncheckedUpdateManyWithoutStudentNestedInput
@@ -1190,6 +1242,7 @@ export type StudentUpdateToOneWithWhereWithoutReportedInput = {
 
 export type StudentUpdateWithoutReportedInput = {
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutStudentNestedInput
@@ -1203,8 +1256,9 @@ export type StudentUpdateWithoutReportedInput = {
 }
 
 export type StudentUncheckedUpdateWithoutReportedInput = {
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  student_ID?: Prisma.StringFieldUpdateOperationsInput | string
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   skillOffered?: Prisma.SkillOfferedUncheckedUpdateManyWithoutStudentNestedInput
@@ -1218,12 +1272,14 @@ export type StudentUncheckedUpdateWithoutReportedInput = {
 
 export type StudentCreateManyUserInput = {
   experienceLevel: $Enums.ExperienceLevel
+  availability: $Enums.Availability
   isProfilePublic?: boolean
   skillsCompleted?: number
 }
 
 export type StudentUpdateWithoutUserInput = {
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   skillOffered?: Prisma.SkillOfferedUpdateManyWithoutStudentNestedInput
@@ -1238,6 +1294,7 @@ export type StudentUpdateWithoutUserInput = {
 
 export type StudentUncheckedUpdateWithoutUserInput = {
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
   skillOffered?: Prisma.SkillOfferedUncheckedUpdateManyWithoutStudentNestedInput
@@ -1252,6 +1309,7 @@ export type StudentUncheckedUpdateWithoutUserInput = {
 
 export type StudentUncheckedUpdateManyWithoutUserInput = {
   experienceLevel?: Prisma.EnumExperienceLevelFieldUpdateOperationsInput | $Enums.ExperienceLevel
+  availability?: Prisma.EnumAvailabilityFieldUpdateOperationsInput | $Enums.Availability
   isProfilePublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   skillsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -1351,8 +1409,9 @@ export type StudentCountOutputTypeCountReportedArgs<ExtArgs extends runtime.Type
 
 
 export type StudentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  studentId?: boolean
+  student_ID?: boolean
   experienceLevel?: boolean
+  availability?: boolean
   isProfilePublic?: boolean
   skillsCompleted?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1370,13 +1429,14 @@ export type StudentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 
 
 export type StudentSelectScalar = {
-  studentId?: boolean
+  student_ID?: boolean
   experienceLevel?: boolean
+  availability?: boolean
   isProfilePublic?: boolean
   skillsCompleted?: boolean
 }
 
-export type StudentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"studentId" | "experienceLevel" | "isProfilePublic" | "skillsCompleted", ExtArgs["result"]["student"]>
+export type StudentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"student_ID" | "experienceLevel" | "availability" | "isProfilePublic" | "skillsCompleted", ExtArgs["result"]["student"]>
 export type StudentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   skillOffered?: boolean | Prisma.Student$skillOfferedArgs<ExtArgs>
@@ -1404,8 +1464,9 @@ export type $StudentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     reported: Prisma.$ReportPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    studentId: string
+    student_ID: string
     experienceLevel: $Enums.ExperienceLevel
+    availability: $Enums.Availability
     isProfilePublic: boolean
     skillsCompleted: number
   }, ExtArgs["result"]["student"]>
@@ -1491,8 +1552,8 @@ export interface StudentDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    * // Get first 10 Students
    * const students = await prisma.student.findMany({ take: 10 })
    * 
-   * // Only select the `studentId`
-   * const studentWithStudentIdOnly = await prisma.student.findMany({ select: { studentId: true } })
+   * // Only select the `student_ID`
+   * const studentWithStudent_IDOnly = await prisma.student.findMany({ select: { student_ID: true } })
    * 
    */
   findMany<T extends StudentFindManyArgs>(args?: Prisma.SelectSubset<T, StudentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -1786,8 +1847,9 @@ export interface Prisma__StudentClient<T, Null = never, ExtArgs extends runtime.
  * Fields of the Student model
  */
 export interface StudentFieldRefs {
-  readonly studentId: Prisma.FieldRef<"Student", 'String'>
+  readonly student_ID: Prisma.FieldRef<"Student", 'String'>
   readonly experienceLevel: Prisma.FieldRef<"Student", 'ExperienceLevel'>
+  readonly availability: Prisma.FieldRef<"Student", 'Availability'>
   readonly isProfilePublic: Prisma.FieldRef<"Student", 'Boolean'>
   readonly skillsCompleted: Prisma.FieldRef<"Student", 'Int'>
 }

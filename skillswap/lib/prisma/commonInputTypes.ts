@@ -123,6 +123,13 @@ export type EnumExperienceLevelFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumExperienceLevelFilter<$PrismaModel> | $Enums.ExperienceLevel
 }
 
+export type EnumAvailabilityFilter<$PrismaModel = never> = {
+  equals?: $Enums.Availability | Prisma.EnumAvailabilityFieldRefInput<$PrismaModel>
+  in?: $Enums.Availability[]
+  notIn?: $Enums.Availability[]
+  not?: Prisma.NestedEnumAvailabilityFilter<$PrismaModel> | $Enums.Availability
+}
+
 export type BoolFilter<$PrismaModel = never> = {
   equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
   not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
@@ -136,6 +143,16 @@ export type EnumExperienceLevelWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumExperienceLevelFilter<$PrismaModel>
   _max?: Prisma.NestedEnumExperienceLevelFilter<$PrismaModel>
+}
+
+export type EnumAvailabilityWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.Availability | Prisma.EnumAvailabilityFieldRefInput<$PrismaModel>
+  in?: $Enums.Availability[]
+  notIn?: $Enums.Availability[]
+  not?: Prisma.NestedEnumAvailabilityWithAggregatesFilter<$PrismaModel> | $Enums.Availability
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAvailabilityFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAvailabilityFilter<$PrismaModel>
 }
 
 export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -346,6 +363,13 @@ export type NestedEnumExperienceLevelFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumExperienceLevelFilter<$PrismaModel> | $Enums.ExperienceLevel
 }
 
+export type NestedEnumAvailabilityFilter<$PrismaModel = never> = {
+  equals?: $Enums.Availability | Prisma.EnumAvailabilityFieldRefInput<$PrismaModel>
+  in?: $Enums.Availability[]
+  notIn?: $Enums.Availability[]
+  not?: Prisma.NestedEnumAvailabilityFilter<$PrismaModel> | $Enums.Availability
+}
+
 export type NestedBoolFilter<$PrismaModel = never> = {
   equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
   not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
@@ -359,6 +383,16 @@ export type NestedEnumExperienceLevelWithAggregatesFilter<$PrismaModel = never> 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumExperienceLevelFilter<$PrismaModel>
   _max?: Prisma.NestedEnumExperienceLevelFilter<$PrismaModel>
+}
+
+export type NestedEnumAvailabilityWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.Availability | Prisma.EnumAvailabilityFieldRefInput<$PrismaModel>
+  in?: $Enums.Availability[]
+  notIn?: $Enums.Availability[]
+  not?: Prisma.NestedEnumAvailabilityWithAggregatesFilter<$PrismaModel> | $Enums.Availability
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAvailabilityFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAvailabilityFilter<$PrismaModel>
 }
 
 export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {

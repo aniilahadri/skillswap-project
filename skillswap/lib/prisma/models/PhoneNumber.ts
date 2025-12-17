@@ -27,57 +27,57 @@ export type AggregatePhoneNumber = {
 }
 
 export type PhoneNumberAvgAggregateOutputType = {
-  id: number | null
+  phone_ID: number | null
 }
 
 export type PhoneNumberSumAggregateOutputType = {
-  id: number | null
+  phone_ID: number | null
 }
 
 export type PhoneNumberMinAggregateOutputType = {
-  id: number | null
+  phone_ID: number | null
   number: string | null
-  userId: string | null
+  user_ID: string | null
 }
 
 export type PhoneNumberMaxAggregateOutputType = {
-  id: number | null
+  phone_ID: number | null
   number: string | null
-  userId: string | null
+  user_ID: string | null
 }
 
 export type PhoneNumberCountAggregateOutputType = {
-  id: number
+  phone_ID: number
   number: number
-  userId: number
+  user_ID: number
   _all: number
 }
 
 
 export type PhoneNumberAvgAggregateInputType = {
-  id?: true
+  phone_ID?: true
 }
 
 export type PhoneNumberSumAggregateInputType = {
-  id?: true
+  phone_ID?: true
 }
 
 export type PhoneNumberMinAggregateInputType = {
-  id?: true
+  phone_ID?: true
   number?: true
-  userId?: true
+  user_ID?: true
 }
 
 export type PhoneNumberMaxAggregateInputType = {
-  id?: true
+  phone_ID?: true
   number?: true
-  userId?: true
+  user_ID?: true
 }
 
 export type PhoneNumberCountAggregateInputType = {
-  id?: true
+  phone_ID?: true
   number?: true
-  userId?: true
+  user_ID?: true
   _all?: true
 }
 
@@ -168,9 +168,9 @@ export type PhoneNumberGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 export type PhoneNumberGroupByOutputType = {
-  id: number
+  phone_ID: number
   number: string
-  userId: string
+  user_ID: string
   _count: PhoneNumberCountAggregateOutputType | null
   _avg: PhoneNumberAvgAggregateOutputType | null
   _sum: PhoneNumberSumAggregateOutputType | null
@@ -197,34 +197,34 @@ export type PhoneNumberWhereInput = {
   AND?: Prisma.PhoneNumberWhereInput | Prisma.PhoneNumberWhereInput[]
   OR?: Prisma.PhoneNumberWhereInput[]
   NOT?: Prisma.PhoneNumberWhereInput | Prisma.PhoneNumberWhereInput[]
-  id?: Prisma.IntFilter<"PhoneNumber"> | number
+  phone_ID?: Prisma.IntFilter<"PhoneNumber"> | number
   number?: Prisma.StringFilter<"PhoneNumber"> | string
-  userId?: Prisma.StringFilter<"PhoneNumber"> | string
+  user_ID?: Prisma.StringFilter<"PhoneNumber"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type PhoneNumberOrderByWithRelationInput = {
-  id?: Prisma.SortOrder
+  phone_ID?: Prisma.SortOrder
   number?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  user_ID?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   _relevance?: Prisma.PhoneNumberOrderByRelevanceInput
 }
 
 export type PhoneNumberWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  phone_ID?: number
   AND?: Prisma.PhoneNumberWhereInput | Prisma.PhoneNumberWhereInput[]
   OR?: Prisma.PhoneNumberWhereInput[]
   NOT?: Prisma.PhoneNumberWhereInput | Prisma.PhoneNumberWhereInput[]
   number?: Prisma.StringFilter<"PhoneNumber"> | string
-  userId?: Prisma.StringFilter<"PhoneNumber"> | string
+  user_ID?: Prisma.StringFilter<"PhoneNumber"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id">
+}, "phone_ID">
 
 export type PhoneNumberOrderByWithAggregationInput = {
-  id?: Prisma.SortOrder
+  phone_ID?: Prisma.SortOrder
   number?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  user_ID?: Prisma.SortOrder
   _count?: Prisma.PhoneNumberCountOrderByAggregateInput
   _avg?: Prisma.PhoneNumberAvgOrderByAggregateInput
   _max?: Prisma.PhoneNumberMaxOrderByAggregateInput
@@ -236,9 +236,9 @@ export type PhoneNumberScalarWhereWithAggregatesInput = {
   AND?: Prisma.PhoneNumberScalarWhereWithAggregatesInput | Prisma.PhoneNumberScalarWhereWithAggregatesInput[]
   OR?: Prisma.PhoneNumberScalarWhereWithAggregatesInput[]
   NOT?: Prisma.PhoneNumberScalarWhereWithAggregatesInput | Prisma.PhoneNumberScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"PhoneNumber"> | number
+  phone_ID?: Prisma.IntWithAggregatesFilter<"PhoneNumber"> | number
   number?: Prisma.StringWithAggregatesFilter<"PhoneNumber"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"PhoneNumber"> | string
+  user_ID?: Prisma.StringWithAggregatesFilter<"PhoneNumber"> | string
 }
 
 export type PhoneNumberCreateInput = {
@@ -247,9 +247,9 @@ export type PhoneNumberCreateInput = {
 }
 
 export type PhoneNumberUncheckedCreateInput = {
-  id?: number
+  phone_ID?: number
   number: string
-  userId: string
+  user_ID: string
 }
 
 export type PhoneNumberUpdateInput = {
@@ -258,15 +258,15 @@ export type PhoneNumberUpdateInput = {
 }
 
 export type PhoneNumberUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  phone_ID?: Prisma.IntFieldUpdateOperationsInput | number
   number?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  user_ID?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type PhoneNumberCreateManyInput = {
-  id?: number
+  phone_ID?: number
   number: string
-  userId: string
+  user_ID: string
 }
 
 export type PhoneNumberUpdateManyMutationInput = {
@@ -274,9 +274,9 @@ export type PhoneNumberUpdateManyMutationInput = {
 }
 
 export type PhoneNumberUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  phone_ID?: Prisma.IntFieldUpdateOperationsInput | number
   number?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  user_ID?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type PhoneNumberListRelationFilter = {
@@ -296,29 +296,29 @@ export type PhoneNumberOrderByRelevanceInput = {
 }
 
 export type PhoneNumberCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
+  phone_ID?: Prisma.SortOrder
   number?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  user_ID?: Prisma.SortOrder
 }
 
 export type PhoneNumberAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
+  phone_ID?: Prisma.SortOrder
 }
 
 export type PhoneNumberMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
+  phone_ID?: Prisma.SortOrder
   number?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  user_ID?: Prisma.SortOrder
 }
 
 export type PhoneNumberMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
+  phone_ID?: Prisma.SortOrder
   number?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  user_ID?: Prisma.SortOrder
 }
 
 export type PhoneNumberSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
+  phone_ID?: Prisma.SortOrder
 }
 
 export type PhoneNumberCreateNestedManyWithoutUserInput = {
@@ -376,7 +376,7 @@ export type PhoneNumberCreateWithoutUserInput = {
 }
 
 export type PhoneNumberUncheckedCreateWithoutUserInput = {
-  id?: number
+  phone_ID?: number
   number: string
 }
 
@@ -410,13 +410,13 @@ export type PhoneNumberScalarWhereInput = {
   AND?: Prisma.PhoneNumberScalarWhereInput | Prisma.PhoneNumberScalarWhereInput[]
   OR?: Prisma.PhoneNumberScalarWhereInput[]
   NOT?: Prisma.PhoneNumberScalarWhereInput | Prisma.PhoneNumberScalarWhereInput[]
-  id?: Prisma.IntFilter<"PhoneNumber"> | number
+  phone_ID?: Prisma.IntFilter<"PhoneNumber"> | number
   number?: Prisma.StringFilter<"PhoneNumber"> | string
-  userId?: Prisma.StringFilter<"PhoneNumber"> | string
+  user_ID?: Prisma.StringFilter<"PhoneNumber"> | string
 }
 
 export type PhoneNumberCreateManyUserInput = {
-  id?: number
+  phone_ID?: number
   number: string
 }
 
@@ -425,33 +425,33 @@ export type PhoneNumberUpdateWithoutUserInput = {
 }
 
 export type PhoneNumberUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  phone_ID?: Prisma.IntFieldUpdateOperationsInput | number
   number?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type PhoneNumberUncheckedUpdateManyWithoutUserInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  phone_ID?: Prisma.IntFieldUpdateOperationsInput | number
   number?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
 
 export type PhoneNumberSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
+  phone_ID?: boolean
   number?: boolean
-  userId?: boolean
+  user_ID?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["phoneNumber"]>
 
 
 
 export type PhoneNumberSelectScalar = {
-  id?: boolean
+  phone_ID?: boolean
   number?: boolean
-  userId?: boolean
+  user_ID?: boolean
 }
 
-export type PhoneNumberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "number" | "userId", ExtArgs["result"]["phoneNumber"]>
+export type PhoneNumberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"phone_ID" | "number" | "user_ID", ExtArgs["result"]["phoneNumber"]>
 export type PhoneNumberInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -462,9 +462,9 @@ export type $PhoneNumberPayload<ExtArgs extends runtime.Types.Extensions.Interna
     user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
+    phone_ID: number
     number: string
-    userId: string
+    user_ID: string
   }, ExtArgs["result"]["phoneNumber"]>
   composites: {}
 }
@@ -548,8 +548,8 @@ export interface PhoneNumberDelegate<ExtArgs extends runtime.Types.Extensions.In
    * // Get first 10 PhoneNumbers
    * const phoneNumbers = await prisma.phoneNumber.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const phoneNumberWithIdOnly = await prisma.phoneNumber.findMany({ select: { id: true } })
+   * // Only select the `phone_ID`
+   * const phoneNumberWithPhone_IDOnly = await prisma.phoneNumber.findMany({ select: { phone_ID: true } })
    * 
    */
   findMany<T extends PhoneNumberFindManyArgs>(args?: Prisma.SelectSubset<T, PhoneNumberFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PhoneNumberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -835,9 +835,9 @@ export interface Prisma__PhoneNumberClient<T, Null = never, ExtArgs extends runt
  * Fields of the PhoneNumber model
  */
 export interface PhoneNumberFieldRefs {
-  readonly id: Prisma.FieldRef<"PhoneNumber", 'Int'>
+  readonly phone_ID: Prisma.FieldRef<"PhoneNumber", 'Int'>
   readonly number: Prisma.FieldRef<"PhoneNumber", 'String'>
-  readonly userId: Prisma.FieldRef<"PhoneNumber", 'String'>
+  readonly user_ID: Prisma.FieldRef<"PhoneNumber", 'String'>
 }
     
 

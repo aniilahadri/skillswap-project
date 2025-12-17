@@ -25,41 +25,41 @@ export type AggregateSkillOffered = {
 }
 
 export type SkillOfferedMinAggregateOutputType = {
-  id: string | null
-  studentId: string | null
-  skillId: string | null
+  skillOffered_ID: string | null
+  student_ID: string | null
+  skill_ID: string | null
 }
 
 export type SkillOfferedMaxAggregateOutputType = {
-  id: string | null
-  studentId: string | null
-  skillId: string | null
+  skillOffered_ID: string | null
+  student_ID: string | null
+  skill_ID: string | null
 }
 
 export type SkillOfferedCountAggregateOutputType = {
-  id: number
-  studentId: number
-  skillId: number
+  skillOffered_ID: number
+  student_ID: number
+  skill_ID: number
   _all: number
 }
 
 
 export type SkillOfferedMinAggregateInputType = {
-  id?: true
-  studentId?: true
-  skillId?: true
+  skillOffered_ID?: true
+  student_ID?: true
+  skill_ID?: true
 }
 
 export type SkillOfferedMaxAggregateInputType = {
-  id?: true
-  studentId?: true
-  skillId?: true
+  skillOffered_ID?: true
+  student_ID?: true
+  skill_ID?: true
 }
 
 export type SkillOfferedCountAggregateInputType = {
-  id?: true
-  studentId?: true
-  skillId?: true
+  skillOffered_ID?: true
+  student_ID?: true
+  skill_ID?: true
   _all?: true
 }
 
@@ -136,9 +136,9 @@ export type SkillOfferedGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 export type SkillOfferedGroupByOutputType = {
-  id: string
-  studentId: string
-  skillId: string
+  skillOffered_ID: string
+  student_ID: string
+  skill_ID: string
   _count: SkillOfferedCountAggregateOutputType | null
   _min: SkillOfferedMinAggregateOutputType | null
   _max: SkillOfferedMaxAggregateOutputType | null
@@ -163,18 +163,18 @@ export type SkillOfferedWhereInput = {
   AND?: Prisma.SkillOfferedWhereInput | Prisma.SkillOfferedWhereInput[]
   OR?: Prisma.SkillOfferedWhereInput[]
   NOT?: Prisma.SkillOfferedWhereInput | Prisma.SkillOfferedWhereInput[]
-  id?: Prisma.StringFilter<"SkillOffered"> | string
-  studentId?: Prisma.StringFilter<"SkillOffered"> | string
-  skillId?: Prisma.StringFilter<"SkillOffered"> | string
+  skillOffered_ID?: Prisma.StringFilter<"SkillOffered"> | string
+  student_ID?: Prisma.StringFilter<"SkillOffered"> | string
+  skill_ID?: Prisma.StringFilter<"SkillOffered"> | string
   student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   skill?: Prisma.XOR<Prisma.SkillScalarRelationFilter, Prisma.SkillWhereInput>
   requests?: Prisma.RequestListRelationFilter
 }
 
 export type SkillOfferedOrderByWithRelationInput = {
-  id?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
-  skillId?: Prisma.SortOrder
+  skillOffered_ID?: Prisma.SortOrder
+  student_ID?: Prisma.SortOrder
+  skill_ID?: Prisma.SortOrder
   student?: Prisma.StudentOrderByWithRelationInput
   skill?: Prisma.SkillOrderByWithRelationInput
   requests?: Prisma.RequestOrderByRelationAggregateInput
@@ -182,21 +182,21 @@ export type SkillOfferedOrderByWithRelationInput = {
 }
 
 export type SkillOfferedWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  skillOffered_ID?: string
   AND?: Prisma.SkillOfferedWhereInput | Prisma.SkillOfferedWhereInput[]
   OR?: Prisma.SkillOfferedWhereInput[]
   NOT?: Prisma.SkillOfferedWhereInput | Prisma.SkillOfferedWhereInput[]
-  studentId?: Prisma.StringFilter<"SkillOffered"> | string
-  skillId?: Prisma.StringFilter<"SkillOffered"> | string
+  student_ID?: Prisma.StringFilter<"SkillOffered"> | string
+  skill_ID?: Prisma.StringFilter<"SkillOffered"> | string
   student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   skill?: Prisma.XOR<Prisma.SkillScalarRelationFilter, Prisma.SkillWhereInput>
   requests?: Prisma.RequestListRelationFilter
-}, "id">
+}, "skillOffered_ID">
 
 export type SkillOfferedOrderByWithAggregationInput = {
-  id?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
-  skillId?: Prisma.SortOrder
+  skillOffered_ID?: Prisma.SortOrder
+  student_ID?: Prisma.SortOrder
+  skill_ID?: Prisma.SortOrder
   _count?: Prisma.SkillOfferedCountOrderByAggregateInput
   _max?: Prisma.SkillOfferedMaxOrderByAggregateInput
   _min?: Prisma.SkillOfferedMinOrderByAggregateInput
@@ -206,53 +206,53 @@ export type SkillOfferedScalarWhereWithAggregatesInput = {
   AND?: Prisma.SkillOfferedScalarWhereWithAggregatesInput | Prisma.SkillOfferedScalarWhereWithAggregatesInput[]
   OR?: Prisma.SkillOfferedScalarWhereWithAggregatesInput[]
   NOT?: Prisma.SkillOfferedScalarWhereWithAggregatesInput | Prisma.SkillOfferedScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"SkillOffered"> | string
-  studentId?: Prisma.StringWithAggregatesFilter<"SkillOffered"> | string
-  skillId?: Prisma.StringWithAggregatesFilter<"SkillOffered"> | string
+  skillOffered_ID?: Prisma.StringWithAggregatesFilter<"SkillOffered"> | string
+  student_ID?: Prisma.StringWithAggregatesFilter<"SkillOffered"> | string
+  skill_ID?: Prisma.StringWithAggregatesFilter<"SkillOffered"> | string
 }
 
 export type SkillOfferedCreateInput = {
-  id?: string
+  skillOffered_ID?: string
   student: Prisma.StudentCreateNestedOneWithoutSkillOfferedInput
   skill: Prisma.SkillCreateNestedOneWithoutSkillOfferedInput
   requests?: Prisma.RequestCreateNestedManyWithoutRequestedSkillInput
 }
 
 export type SkillOfferedUncheckedCreateInput = {
-  id?: string
-  studentId: string
-  skillId: string
+  skillOffered_ID?: string
+  student_ID: string
+  skill_ID: string
   requests?: Prisma.RequestUncheckedCreateNestedManyWithoutRequestedSkillInput
 }
 
 export type SkillOfferedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  skillOffered_ID?: Prisma.StringFieldUpdateOperationsInput | string
   student?: Prisma.StudentUpdateOneRequiredWithoutSkillOfferedNestedInput
   skill?: Prisma.SkillUpdateOneRequiredWithoutSkillOfferedNestedInput
   requests?: Prisma.RequestUpdateManyWithoutRequestedSkillNestedInput
 }
 
 export type SkillOfferedUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  skillId?: Prisma.StringFieldUpdateOperationsInput | string
+  skillOffered_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  student_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  skill_ID?: Prisma.StringFieldUpdateOperationsInput | string
   requests?: Prisma.RequestUncheckedUpdateManyWithoutRequestedSkillNestedInput
 }
 
 export type SkillOfferedCreateManyInput = {
-  id?: string
-  studentId: string
-  skillId: string
+  skillOffered_ID?: string
+  student_ID: string
+  skill_ID: string
 }
 
 export type SkillOfferedUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  skillOffered_ID?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type SkillOfferedUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  skillId?: Prisma.StringFieldUpdateOperationsInput | string
+  skillOffered_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  student_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  skill_ID?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type SkillOfferedListRelationFilter = {
@@ -272,21 +272,21 @@ export type SkillOfferedOrderByRelevanceInput = {
 }
 
 export type SkillOfferedCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
-  skillId?: Prisma.SortOrder
+  skillOffered_ID?: Prisma.SortOrder
+  student_ID?: Prisma.SortOrder
+  skill_ID?: Prisma.SortOrder
 }
 
 export type SkillOfferedMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
-  skillId?: Prisma.SortOrder
+  skillOffered_ID?: Prisma.SortOrder
+  student_ID?: Prisma.SortOrder
+  skill_ID?: Prisma.SortOrder
 }
 
 export type SkillOfferedMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
-  skillId?: Prisma.SortOrder
+  skillOffered_ID?: Prisma.SortOrder
+  student_ID?: Prisma.SortOrder
+  skill_ID?: Prisma.SortOrder
 }
 
 export type SkillOfferedScalarRelationFilter = {
@@ -393,14 +393,14 @@ export type SkillOfferedUpdateOneRequiredWithoutRequestsNestedInput = {
 }
 
 export type SkillOfferedCreateWithoutStudentInput = {
-  id?: string
+  skillOffered_ID?: string
   skill: Prisma.SkillCreateNestedOneWithoutSkillOfferedInput
   requests?: Prisma.RequestCreateNestedManyWithoutRequestedSkillInput
 }
 
 export type SkillOfferedUncheckedCreateWithoutStudentInput = {
-  id?: string
-  skillId: string
+  skillOffered_ID?: string
+  skill_ID: string
   requests?: Prisma.RequestUncheckedCreateNestedManyWithoutRequestedSkillInput
 }
 
@@ -434,20 +434,20 @@ export type SkillOfferedScalarWhereInput = {
   AND?: Prisma.SkillOfferedScalarWhereInput | Prisma.SkillOfferedScalarWhereInput[]
   OR?: Prisma.SkillOfferedScalarWhereInput[]
   NOT?: Prisma.SkillOfferedScalarWhereInput | Prisma.SkillOfferedScalarWhereInput[]
-  id?: Prisma.StringFilter<"SkillOffered"> | string
-  studentId?: Prisma.StringFilter<"SkillOffered"> | string
-  skillId?: Prisma.StringFilter<"SkillOffered"> | string
+  skillOffered_ID?: Prisma.StringFilter<"SkillOffered"> | string
+  student_ID?: Prisma.StringFilter<"SkillOffered"> | string
+  skill_ID?: Prisma.StringFilter<"SkillOffered"> | string
 }
 
 export type SkillOfferedCreateWithoutSkillInput = {
-  id?: string
+  skillOffered_ID?: string
   student: Prisma.StudentCreateNestedOneWithoutSkillOfferedInput
   requests?: Prisma.RequestCreateNestedManyWithoutRequestedSkillInput
 }
 
 export type SkillOfferedUncheckedCreateWithoutSkillInput = {
-  id?: string
-  studentId: string
+  skillOffered_ID?: string
+  student_ID: string
   requests?: Prisma.RequestUncheckedCreateNestedManyWithoutRequestedSkillInput
 }
 
@@ -478,15 +478,15 @@ export type SkillOfferedUpdateManyWithWhereWithoutSkillInput = {
 }
 
 export type SkillOfferedCreateWithoutRequestsInput = {
-  id?: string
+  skillOffered_ID?: string
   student: Prisma.StudentCreateNestedOneWithoutSkillOfferedInput
   skill: Prisma.SkillCreateNestedOneWithoutSkillOfferedInput
 }
 
 export type SkillOfferedUncheckedCreateWithoutRequestsInput = {
-  id?: string
-  studentId: string
-  skillId: string
+  skillOffered_ID?: string
+  student_ID: string
+  skill_ID: string
 }
 
 export type SkillOfferedCreateOrConnectWithoutRequestsInput = {
@@ -506,59 +506,59 @@ export type SkillOfferedUpdateToOneWithWhereWithoutRequestsInput = {
 }
 
 export type SkillOfferedUpdateWithoutRequestsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  skillOffered_ID?: Prisma.StringFieldUpdateOperationsInput | string
   student?: Prisma.StudentUpdateOneRequiredWithoutSkillOfferedNestedInput
   skill?: Prisma.SkillUpdateOneRequiredWithoutSkillOfferedNestedInput
 }
 
 export type SkillOfferedUncheckedUpdateWithoutRequestsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  skillId?: Prisma.StringFieldUpdateOperationsInput | string
+  skillOffered_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  student_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  skill_ID?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type SkillOfferedCreateManyStudentInput = {
-  id?: string
-  skillId: string
+  skillOffered_ID?: string
+  skill_ID: string
 }
 
 export type SkillOfferedUpdateWithoutStudentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  skillOffered_ID?: Prisma.StringFieldUpdateOperationsInput | string
   skill?: Prisma.SkillUpdateOneRequiredWithoutSkillOfferedNestedInput
   requests?: Prisma.RequestUpdateManyWithoutRequestedSkillNestedInput
 }
 
 export type SkillOfferedUncheckedUpdateWithoutStudentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  skillId?: Prisma.StringFieldUpdateOperationsInput | string
+  skillOffered_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  skill_ID?: Prisma.StringFieldUpdateOperationsInput | string
   requests?: Prisma.RequestUncheckedUpdateManyWithoutRequestedSkillNestedInput
 }
 
 export type SkillOfferedUncheckedUpdateManyWithoutStudentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  skillId?: Prisma.StringFieldUpdateOperationsInput | string
+  skillOffered_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  skill_ID?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type SkillOfferedCreateManySkillInput = {
-  id?: string
-  studentId: string
+  skillOffered_ID?: string
+  student_ID: string
 }
 
 export type SkillOfferedUpdateWithoutSkillInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  skillOffered_ID?: Prisma.StringFieldUpdateOperationsInput | string
   student?: Prisma.StudentUpdateOneRequiredWithoutSkillOfferedNestedInput
   requests?: Prisma.RequestUpdateManyWithoutRequestedSkillNestedInput
 }
 
 export type SkillOfferedUncheckedUpdateWithoutSkillInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  skillOffered_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  student_ID?: Prisma.StringFieldUpdateOperationsInput | string
   requests?: Prisma.RequestUncheckedUpdateManyWithoutRequestedSkillNestedInput
 }
 
 export type SkillOfferedUncheckedUpdateManyWithoutSkillInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  skillOffered_ID?: Prisma.StringFieldUpdateOperationsInput | string
+  student_ID?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -593,9 +593,9 @@ export type SkillOfferedCountOutputTypeCountRequestsArgs<ExtArgs extends runtime
 
 
 export type SkillOfferedSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  studentId?: boolean
-  skillId?: boolean
+  skillOffered_ID?: boolean
+  student_ID?: boolean
+  skill_ID?: boolean
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   skill?: boolean | Prisma.SkillDefaultArgs<ExtArgs>
   requests?: boolean | Prisma.SkillOffered$requestsArgs<ExtArgs>
@@ -605,12 +605,12 @@ export type SkillOfferedSelect<ExtArgs extends runtime.Types.Extensions.Internal
 
 
 export type SkillOfferedSelectScalar = {
-  id?: boolean
-  studentId?: boolean
-  skillId?: boolean
+  skillOffered_ID?: boolean
+  student_ID?: boolean
+  skill_ID?: boolean
 }
 
-export type SkillOfferedOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "skillId", ExtArgs["result"]["skillOffered"]>
+export type SkillOfferedOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"skillOffered_ID" | "student_ID" | "skill_ID", ExtArgs["result"]["skillOffered"]>
 export type SkillOfferedInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   skill?: boolean | Prisma.SkillDefaultArgs<ExtArgs>
@@ -626,9 +626,9 @@ export type $SkillOfferedPayload<ExtArgs extends runtime.Types.Extensions.Intern
     requests: Prisma.$RequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
-    studentId: string
-    skillId: string
+    skillOffered_ID: string
+    student_ID: string
+    skill_ID: string
   }, ExtArgs["result"]["skillOffered"]>
   composites: {}
 }
@@ -712,8 +712,8 @@ export interface SkillOfferedDelegate<ExtArgs extends runtime.Types.Extensions.I
    * // Get first 10 SkillOffereds
    * const skillOffereds = await prisma.skillOffered.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const skillOfferedWithIdOnly = await prisma.skillOffered.findMany({ select: { id: true } })
+   * // Only select the `skillOffered_ID`
+   * const skillOfferedWithSkillOffered_IDOnly = await prisma.skillOffered.findMany({ select: { skillOffered_ID: true } })
    * 
    */
   findMany<T extends SkillOfferedFindManyArgs>(args?: Prisma.SelectSubset<T, SkillOfferedFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SkillOfferedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -1001,9 +1001,9 @@ export interface Prisma__SkillOfferedClient<T, Null = never, ExtArgs extends run
  * Fields of the SkillOffered model
  */
 export interface SkillOfferedFieldRefs {
-  readonly id: Prisma.FieldRef<"SkillOffered", 'String'>
-  readonly studentId: Prisma.FieldRef<"SkillOffered", 'String'>
-  readonly skillId: Prisma.FieldRef<"SkillOffered", 'String'>
+  readonly skillOffered_ID: Prisma.FieldRef<"SkillOffered", 'String'>
+  readonly student_ID: Prisma.FieldRef<"SkillOffered", 'String'>
+  readonly skill_ID: Prisma.FieldRef<"SkillOffered", 'String'>
 }
     
 
