@@ -7,13 +7,13 @@ export class NextAuthDomain {
     async logInUser(email: string, passwordCdn: string) {
 
         if (!email || !passwordCdn) {
-            return null;
+            throw new Error("Email and password are required");
         }
 
         const user = await userRepository.findByEmail(email);
 
         if (!user) {
-            return null;
+            throw new Error("Invalid email or password");
         }
 
         const isValid = await bcrypt.compare(
@@ -22,15 +22,16 @@ export class NextAuthDomain {
         );
 
         if (!isValid) {
-            return null;
+            throw new Error("Invalid email or password");
         }
 
         const { password, ...userWithoutPassword } = user;
 
-        
+
         return {
             ...userWithoutPassword,
             id: user.user_ID,
+            fullname: user.fullName
         };
     }
 }

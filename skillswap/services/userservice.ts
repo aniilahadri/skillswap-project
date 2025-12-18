@@ -3,7 +3,7 @@ import { UserDomain } from "@/domain/userdomain";
 const userDomain = new UserDomain();
 
 export class UserService {
-    
+
     async signup(data: {
         fullName: string;
         email: string;
@@ -24,10 +24,10 @@ export class UserService {
             };
         }
 
-        
+
         const availability = data.availability.charAt(0).toUpperCase() + data.availability.slice(1);
 
-        
+
         const result = await userDomain.createUser({
             fullName: data.fullName,
             email: data.email,
@@ -40,7 +40,7 @@ export class UserService {
             skillsWanted: data.skillsWanted || [],
         });
 
-        
+
         return result;
     }
 }

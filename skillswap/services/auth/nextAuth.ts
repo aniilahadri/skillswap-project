@@ -23,18 +23,15 @@ export const nextAuthHandler = NextAuth({
                 },
             },
             authorize: async (credentials) => {
-                console.log("Authorize called with:", credentials);
-
-                if (!credentials?.email || !credentials?.password) {
-                    return null;
+                try {
+                    if (!credentials?.email || !credentials?.password) {
+                        throw new Error("Email and password are required");
+                    }
+                    const user = await nextAuthService.logInUser(credentials.email, credentials.password);
+                    return user;
+                } catch (error: any) {
+                    throw error;
                 }
-                return await nextAuthService.logInUser(credentials?.email, credentials?.password);
-                // if (credentials?.email === "student@test.com" && credentials?.password === "password123") {
-                //     console.log("Authorize success");
-                //     return { id: "test-id", role: "student", name: "Test User", email: credentials.email };
-                // }
-                // console.log("Authorize failed");
-                // return null;
             }
         }),
     ],
@@ -61,6 +58,7 @@ export const nextAuthHandler = NextAuth({
                         ...token,
                         id: user.id,
                         role: user.role,
+                        fullname: user.fullName,
                         refresh_token: refreshToken,
                         exp: Math.floor(Date.now() / 1000) + 15 * 60,
                     };
@@ -103,9 +101,11 @@ export const nextAuthHandler = NextAuth({
                     ...session.user,
                     id: token.id,
                     role: token.role,
+                    fullname: token.fullname
                 },
                 error: token.error || undefined,
             };
+
         },
     },
     secret: process.env.NEXTAUTH_SECRET,

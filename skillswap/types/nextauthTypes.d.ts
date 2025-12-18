@@ -9,6 +9,6 @@ declare module "next-auth" {
         } & DefaultSession["user"];
         error?: string
     }
-    interface User extends DefaultUser { role: string; }
+    interface User extends DefaultUser { role: string; fullName: string }
 
 }

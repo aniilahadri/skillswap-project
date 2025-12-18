@@ -12,8 +12,8 @@ export default function SignUp() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
-    
-    
+
+
     const [skillsOffered, setSkillsOffered] = useState<string[]>([]);
     const [skillsWanted, setSkillsWanted] = useState<string[]>([]);
 
@@ -26,7 +26,7 @@ export default function SignUp() {
         try {
             const formData = new FormData(e.currentTarget);
 
-           
+
             const signupData = {
                 fullName: formData.get('name') as string,
                 email: formData.get('email') as string,
@@ -40,7 +40,7 @@ export default function SignUp() {
                 skillsWanted,
             };
 
-            
+
             const response = await fetch('/api/signup', {
                 method: 'POST',
                 headers: {
@@ -53,8 +53,8 @@ export default function SignUp() {
 
             if (result.success) {
                 setSuccess(true);
-                
-               
+
+
                 const signInResult = await signIn("credentials", {
                     email: signupData.email,
                     password: signupData.password,
@@ -62,10 +62,10 @@ export default function SignUp() {
                 });
 
                 if (signInResult?.ok) {
-                    
+
                     router.push('/');
                 } else {
-                    
+
                     setError("Account created but automatic login failed. Please sign in manually.");
                     setTimeout(() => {
                         router.push('/signin');
@@ -198,7 +198,7 @@ export default function SignUp() {
                                         </select>
                                     </div>
                                 </div>
-                                
+
 
                                 <div className="w-full">
                                     <label className="text-slate-900 text-sm font-medium mb-2 block" htmlFor="userBio">Bio</label>
@@ -208,16 +208,16 @@ export default function SignUp() {
 
                                 <div className="w-full">
                                     <label className="text-slate-900 text-lg font-medium mb-2 block" htmlFor="skillsOffer">Skills You Can Offer</label>
-                                    <SkillInput 
-                                        id="skillsOffer" 
+                                    <SkillInput
+                                        id="skillsOffer"
                                         onSkillsChange={setSkillsOffered}
                                     />
                                 </div>
 
                                 <div className="w-full">
                                     <label className="text-slate-900 text-lg font-medium mb-2 block" htmlFor="skillsLearn">Skills You Want to Learn</label>
-                                    <SkillInput 
-                                        id="skillsLearn" 
+                                    <SkillInput
+                                        id="skillsLearn"
                                         onSkillsChange={setSkillsWanted}
                                     />
                                 </div>
@@ -233,14 +233,6 @@ export default function SignUp() {
                                         Account created successfully! Redirecting to sign in...
                                     </div>
                                 )}
-
-                                <div className="flex flex-wrap items-center gap-4 justify-between">
-                                    <div className="text-sm">
-                                        <Link href="#" className="text-blue-600 font-medium hover:underline">
-                                            Forgot password?
-                                        </Link>
-                                    </div>
-                                </div>
                             </div>
 
                             <div className="mt-8">

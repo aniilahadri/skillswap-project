@@ -15,6 +15,7 @@ export default function Header() {
 
     const navbarToggleHandler = () => {
         setNavbarOpen(!navbarOpen);
+        setIsOpen(false);
     };
 
     const handleStickyNavbar = () => {
@@ -36,8 +37,6 @@ export default function Header() {
             setOpenIndex(index);
         }
     };
-
-    // Show loading spinner while session is loading
     if (status === "loading") {
         return (
             <div className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center bg-gray-100 z-[9999]">
@@ -79,7 +78,7 @@ export default function Header() {
                                     id="navbarToggler"
                                     aria-label="Mobile Menu"
                                     className="absolute right-4 top-1/2 block translate-y-[-50%] rounded-lg
-                                     px-3 py-[6px] ring-primary focus:ring-2 lg:hidden"
+                                     px-3 py-[6px] ring-primary focus:ring-2 lg:hidden z-50"
                                 >
                                     <span
                                         className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all 
@@ -170,13 +169,16 @@ export default function Header() {
                                     </Link>
                                 </div>
                             ) : (
-                                <li className="relative group">
+                                <div className="relative group pr-16 lg:pr-10">
                                     <button
-                                        className="flex items-center px-4 py-2 text-sm font-medium text-dark hover:text-primary"
-                                        onClick={() => setIsOpen(!isOpen)}
+                                        className="flex items-center text-sm font-medium text-dark hover:text-primary"
+                                        onClick={() => {
+                                            setIsOpen(!isOpen);
+                                            setNavbarOpen(false);
+                                        }}
                                     >
-                                        <img className="mr-2" src="/avatar.png"></img>
-                                        {session?.user.fullname || "Account"}
+                                        <img className="mr-2 w-9 h-9 lg:w-12 lg:h-12" src="/avatar.png"></img>
+                                        <span className="hidden sm:inline">{session?.user.fullname || "Account"}</span>
                                     </button>
 
                                     <ul className={`absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200 ${isOpen ? 'block' : 'hidden'}`}>
@@ -194,7 +196,7 @@ export default function Header() {
                                             <li>
                                                 <Link
                                                     className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                    href="/resume"
+                                                    href="/request"
                                                     onClick={() => setIsOpen(false)}
                                                 >
                                                     Request
@@ -222,11 +224,11 @@ export default function Header() {
                                                 }}
                                                 className="flex items-center w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                                             >
-                                                <i className="lni lni-exit mr-2 -ml-0.5"></i> Sign Out
+                                                Sign Out
                                             </button>
                                         </li>
                                     </ul>
-                                </li>
+                                </div>
                             )}
                         </div>
                     </div>
