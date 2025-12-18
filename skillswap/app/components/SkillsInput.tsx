@@ -13,7 +13,7 @@ export default function SkillsInput({ id, styleInput, stylebutton, onSkillsChang
     const [skills, setSkills] = useState<string[]>([]);
     const [inputValue, setInputValue] = useState("");
 
-   
+
     useEffect(() => {
         onSkillsChange?.(skills);
     }, [skills, onSkillsChange]);

@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import type { UserModel } from "@/lib/prisma/models/User";
 import { Availability, ExperienceLevel } from "@/lib/prisma/enums";
+import { SkillRepository } from "./skillRepository";
 
 export interface CreateUserData {
     fullName: string;
@@ -35,13 +36,12 @@ export class UserRepository {
 
         const userId = user.user_ID;
 
+        const skillRepository = new SkillRepository();
+
         const createSkillConnections = async (skills: string[]) => {
             return Promise.all(
                 skills.map(async (name) => {
-                    let skill = await prisma.skill.findFirst({ where: { name } });
-                    if (!skill) {
-                        skill = await prisma.skill.create({ data: { name } });
-                    }
+                    const skill = await skillRepository.findOrCreateSkill(name);
                     return { skill_ID: skill.skill_ID };
                 })
             );

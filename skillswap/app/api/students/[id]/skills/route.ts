@@ -5,35 +5,56 @@ import { StudentService } from "@/services/studentservice";
 
 const studentService = new StudentService();
 
-export async function GET(
+export async function DELETE(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id: studentId } = await params;
+        const session = await getServerSession(authOptions);
+        if (!session || !session.user?.id) {
+            return NextResponse.json(
+                { success: false, error: "Unauthorized" },
+                { status: 401 }
+            );
+        }
 
-        const result = await studentService.fetchStudentById(studentId);
+        const { id: studentId } = await params;
+        if (session.user.id !== studentId) {
+            return NextResponse.json(
+                { success: false, error: "Unauthorized" },
+                { status: 403 }
+            );
+        }
+
+        const { searchParams } = new URL(request.url);
+        const skillName = searchParams.get('skillName');
+        const skillType = searchParams.get('skillType') as 'offered' | 'wanted';
+
+        if (!skillName || !skillType) {
+            return NextResponse.json(
+                { success: false, error: "skillName and skillType are required" },
+                { status: 400 }
+            );
+        }
+
+        const result = await studentService.removeSkill(studentId, skillName, skillType);
 
         if (result.success) {
             return NextResponse.json(
-                {
-                    success: true,
-                    student: result.student
-                },
+                { success: true },
                 { status: 200 }
             );
         } else {
-            const statusCode = result.error === "Student not found" ? 404 : 500;
             return NextResponse.json(
                 {
                     success: false,
-                    error: result.error || "Internal server error"
+                    error: result.error || "Failed to delete skill"
                 },
-                { status: statusCode }
+                { status: 400 }
             );
         }
     } catch (error: any) {
-        console.error("Student API error:", error);
+        console.error("Delete skill API error:", error);
         return NextResponse.json(
             {
                 success: false,
@@ -44,7 +65,7 @@ export async function GET(
     }
 }
 
-export async function PUT(
+export async function POST(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
@@ -66,36 +87,26 @@ export async function PUT(
         }
 
         const body = await request.json();
+        const { skillsOffered = [], skillsWanted = [] } = body;
 
-        const result = await studentService.updateProfile(studentId, {
-            fullName: body.fullName,
-            city: body.city,
-            country: body.country,
-            bio: body.bio,
-            availability: body.availability,
-            experienceLevel: body.experienceLevel,
-            isProfilePublic: body.isProfilePublic
-        });
+        const result = await studentService.addSkills(studentId, skillsOffered, skillsWanted);
 
         if (result.success) {
             return NextResponse.json(
-                {
-                    success: true,
-                    student: result.student
-                },
+                { success: true },
                 { status: 200 }
             );
         } else {
             return NextResponse.json(
                 {
                     success: false,
-                    error: result.error || "Failed to update profile"
+                    error: result.error || "Failed to add skills"
                 },
                 { status: 400 }
             );
         }
     } catch (error: any) {
-        console.error("Update profile API error:", error);
+        console.error("Add skills API error:", error);
         return NextResponse.json(
             {
                 success: false,
