@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { type NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { NextAuthDomain } from "@/domain/nextauthDomain";
 import { RefreshTokenRepository } from "@/data/refreshTokenRepository";
@@ -7,7 +7,7 @@ import crypto from "crypto";
 const nextAuthService = new NextAuthDomain();
 const refreshTokenRepo = new RefreshTokenRepository();
 
-export const nextAuthHandler = NextAuth({
+export const authOptions: NextAuthOptions = {
     providers: [
         Credentials({
             credentials: {
@@ -109,4 +109,5 @@ export const nextAuthHandler = NextAuth({
         },
     },
     secret: process.env.NEXTAUTH_SECRET,
-})
+}
+export const nextAuthHandler = NextAuth(authOptions);

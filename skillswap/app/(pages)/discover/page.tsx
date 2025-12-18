@@ -1,6 +1,46 @@
+'use client';
+
+import { useEffect, useState } from "react";
 import BoxOffer from "../../components/BoxOffer";
 
+interface Student {
+    student_ID: string;
+    fullName: string;
+    city: string;
+    country: string;
+    bio: string;
+    availability: string;
+    skillsOffered: string[];
+    skillsWanted: string[];
+}
+
 export default function Discover() {
+    const [students, setStudents] = useState<Student[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchStudents = async () => {
+            try {
+                setIsLoading(true);
+                const response = await fetch('/api/students');
+                const result = await response.json();
+
+                if (result.success) {
+                    setStudents(result.students);
+                } else {
+                    setError(result.error || 'Failed to load students');
+                }
+            } catch (err: any) {
+                setError(err.message || 'An error occurred');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchStudents();
+    }, []);
+
     return (
         <>
             <div className='bg-gray-100/30' >
@@ -58,13 +98,34 @@ export default function Discover() {
                     </div >
                 </section >
                 <section id="main-content" className="px-12 pb-12 lg:pb-16 lg:px-20 flex flex-wrap items-center justify-center lg:justify-start gap-6 ">
-                    <BoxOffer></BoxOffer>
-                    <BoxOffer></BoxOffer>
-                    <BoxOffer></BoxOffer>
-                    <BoxOffer></BoxOffer>
-                    <BoxOffer></BoxOffer>
-                    <BoxOffer></BoxOffer>
-                    <BoxOffer></BoxOffer>
+                    {isLoading && (
+                        <div className="w-full text-center py-8">
+                            <p className="text-gray-600">Loading offers...</p>
+                        </div>
+                    )}
+                    {error && (
+                        <div className="w-full text-center py-8">
+                            <p className="text-red-600">{error}</p>
+                        </div>
+                    )}
+                    {!isLoading && !error && students.length === 0 && (
+                        <div className="w-full text-center py-8">
+                            <p className="text-gray-600">No offers found</p>
+                        </div>
+                    )}
+                    {!isLoading && !error && students.map((student) => (
+                        <BoxOffer
+                            key={student.student_ID}
+                            student_ID={student.student_ID}
+                            fullName={student.fullName}
+                            city={student.city}
+                            country={student.country}
+                            bio={student.bio}
+                            availability={student.availability}
+                            skillsOffered={student.skillsOffered}
+                            skillsWanted={student.skillsWanted}
+                        />
+                    ))}
                 </section>
             </div>
         </>
