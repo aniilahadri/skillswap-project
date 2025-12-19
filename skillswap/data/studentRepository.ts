@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { Availability, ExperienceLevel } from "@/lib/prisma/enums";
 import { SkillRepository } from "./skillRepository";
+import { RequestRepository } from "./requestRepository";
 
 export interface StudentWithSkills {
     student_ID: string;
@@ -159,25 +160,87 @@ export class StudentRepository {
     }
 
     async deleteSkillOffered(studentId: string, skillName: string): Promise<void> {
-        const skill = await prisma.skill.findFirst({ where: { name: skillName } });
+        const skillRepository = new SkillRepository();
+        const requestRepository = new RequestRepository();
+
+        const skill = await skillRepository.findSkillByName(skillName);
         if (!skill) return;
 
-        await prisma.skillOffered.deleteMany({
+        // Find the SkillOffered connection
+        const skillOffered = await prisma.skillOffered.findFirst({
             where: {
                 student_ID: studentId,
                 skill_ID: skill.skill_ID
             }
         });
+
+        if (!skillOffered) return;
+
+        // Check for requests that reference this SkillOffered
+        const requests = await requestRepository.findRequestsBySkillOfferedId(skillOffered.skillOffered_ID);
+
+        // Check if there are any ACCEPTED requests - if so, prevent deletion
+        const hasAcceptedRequests = requests.some((r: { request_ID: string; status: string }) => r.status === 'ACCEPTED');
+        if (hasAcceptedRequests) {
+            throw new Error("Cannot delete skill: There are accepted requests involving this skill.");
+        }
+
+        // Delete all non-ACCEPTED requests (PENDING, REJECTED, COMPLETED) that reference this skill
+        const nonAcceptedRequestIds = requests
+            .filter((r: { request_ID: string; status: string }) => r.status !== 'ACCEPTED')
+            .map((r: { request_ID: string; status: string }) => r.request_ID);
+
+        if (nonAcceptedRequestIds.length > 0) {
+            await requestRepository.deleteNonAcceptedRequests(nonAcceptedRequestIds);
+        }
+
+        // Now delete the skill connection
+        await prisma.skillOffered.delete({
+            where: {
+                skillOffered_ID: skillOffered.skillOffered_ID
+            }
+        });
     }
 
     async deleteSkillWanted(studentId: string, skillName: string): Promise<void> {
-        const skill = await prisma.skill.findFirst({ where: { name: skillName } });
+        const skillRepository = new SkillRepository();
+        const requestRepository = new RequestRepository();
+
+        const skill = await skillRepository.findSkillByName(skillName);
         if (!skill) return;
 
-        await prisma.skillWanted.deleteMany({
+        // Find the SkillWanted connection
+        const skillWanted = await prisma.skillWanted.findFirst({
             where: {
                 student_ID: studentId,
                 skill_ID: skill.skill_ID
+            }
+        });
+
+        if (!skillWanted) return;
+
+        // Check for requests that reference this SkillWanted
+        const requests = await requestRepository.findRequestsBySkillWantedId(skillWanted.skillWanted_ID);
+
+        // Check if there are any ACCEPTED requests - if so, prevent deletion
+        const hasAcceptedRequests = requests.some((r: { request_ID: string; status: string }) => r.status === 'ACCEPTED');
+        if (hasAcceptedRequests) {
+            throw new Error("Cannot delete skill: There are accepted requests involving this skill.");
+        }
+
+        // Delete all non-ACCEPTED requests (PENDING, REJECTED, COMPLETED) that reference this skill
+        const nonAcceptedRequestIds = requests
+            .filter((r: { request_ID: string; status: string }) => r.status !== 'ACCEPTED')
+            .map((r: { request_ID: string; status: string }) => r.request_ID);
+
+        if (nonAcceptedRequestIds.length > 0) {
+            await requestRepository.deleteNonAcceptedRequests(nonAcceptedRequestIds);
+        }
+
+        // Now delete the skill connection
+        await prisma.skillWanted.delete({
+            where: {
+                skillWanted_ID: skillWanted.skillWanted_ID
             }
         });
     }

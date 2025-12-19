@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode } from "react"
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Modal from "./Modal";
@@ -33,6 +34,9 @@ export default function BoxOffer({
     const { data: session } = useSession();
     const router = useRouter();
     const { isOpen, toggle } = useModal();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const handleSwapRequestClick = () => {
         if (!session?.user) {
@@ -40,7 +44,49 @@ export default function BoxOffer({
             router.push('/signin');
             return;
         }
+        setSuccessMessage(null);
+        setErrorMessage(null);
         toggle();
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!session?.user || !student_ID) return;
+
+        setIsSubmitting(true);
+        setErrorMessage(null);
+        setSuccessMessage(null);
+
+        const formData = new FormData(e.currentTarget);
+        const offeredSkillName = formData.get('skillOffer') as string;
+        const requestedSkillName = formData.get('skillLearn') as string;
+
+        try {
+            const response = await fetch('/api/requests', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    receiverId: student_ID,
+                    requestedSkillName: requestedSkillName,
+                    offeredSkillName: offeredSkillName
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                setSuccessMessage(result.message || 'Request sent successfully!');
+            } else {
+                setErrorMessage(result.error || 'Failed to send request');
+            }
+        } catch (error: any) {
+            console.error('Error sending request:', error);
+            setErrorMessage('An error occurred. Please try again.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const getInitials = (name: string) => {
@@ -125,48 +171,82 @@ export default function BoxOffer({
                                     <p className="text-sm mt-1 text-gray-600">Choose what skill you want to offer and what you want to learn</p>
                                 </div>
 
-                                <form action="">
-                                    <div className="mb-2">
-                                        <label className="text-base font-bold" htmlFor="skillOffer">I want to offer:</label>
-                                        <select
-                                            id="skillOffer"
-                                            required
-                                            className="w-full mt-1 text-sm text-slate-900 bg-slate-100 focus:bg-transparent py-2 rounded-lg border-2 border-slate-100 focus:border-primary outline-none transition-all"
-                                        >
-                                            <option value="">Select a skill they want to learn</option>
-                                            {skillsWanted.map((skill, index) => (
-                                                <option key={index} value={skill}>{skill}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <div className="mb-4">
-                                        <label className="text-base font-bold" htmlFor="skillLearn">I want to learn:</label>
-                                        <select
-                                            id="skillLearn"
-                                            required
-                                            className="w-full mt-1 text-sm text-slate-900 bg-slate-100 focus:bg-transparent py-2 rounded-lg border-2 border-slate-100 focus:border-primary outline-none transition-all"
-                                        >
-                                            <option value="">Select a skill they offer</option>
-                                            {skillsOffered.map((skill, index) => (
-                                                <option key={index} value={skill}>{skill}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-
-                                    <div className="flex items-center justify-center gap-2">
+                                {successMessage ? (
+                                    <div className="text-center py-4">
+                                        <div className="mb-4 p-4 bg-green-100 text-green-700 rounded-lg">
+                                            <p className="font-semibold">{successMessage}</p>
+                                        </div>
                                         <button
                                             type="button"
-                                            data-overlay="#middle-center-modal"
-                                            className="px-4 py-2 bg-gray-200 rounded-lg w-full"
-                                            onClick={toggle}
+                                            className="px-4 py-2 bg-blue-600 text-white rounded-lg w-full"
+                                            onClick={() => {
+                                                setSuccessMessage(null);
+                                                setErrorMessage(null);
+                                                toggle();
+                                            }}
                                         >
                                             Close
                                         </button>
-                                        <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-lg w-full">
-                                            Send Request
-                                        </button>
                                     </div>
-                                </form>
+                                ) : (
+                                    <form onSubmit={handleSubmit}>
+                                        {errorMessage && (
+                                            <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
+                                                {errorMessage}
+                                            </div>
+                                        )}
+                                        <div className="mb-2">
+                                            <label className="text-base font-bold" htmlFor="skillOffer">I want to offer:</label>
+                                            <select
+                                                id="skillOffer"
+                                                name="skillOffer"
+                                                required
+                                                className="w-full mt-1 text-sm text-slate-900 bg-slate-100 focus:bg-transparent py-2 rounded-lg border-2 border-slate-100 focus:border-primary outline-none transition-all"
+                                            >
+                                                <option value="">Select a skill they want to learn</option>
+                                                {skillsWanted.map((skill, index) => (
+                                                    <option key={index} value={skill}>{skill}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className="mb-4">
+                                            <label className="text-base font-bold" htmlFor="skillLearn">I want to learn:</label>
+                                            <select
+                                                id="skillLearn"
+                                                name="skillLearn"
+                                                required
+                                                className="w-full mt-1 text-sm text-slate-900 bg-slate-100 focus:bg-transparent py-2 rounded-lg border-2 border-slate-100 focus:border-primary outline-none transition-all"
+                                            >
+                                                <option value="">Select a skill they offer</option>
+                                                {skillsOffered.map((skill, index) => (
+                                                    <option key={index} value={skill}>{skill}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+
+                                        <div className="flex items-center justify-center gap-2">
+                                            <button
+                                                type="button"
+                                                data-overlay="#middle-center-modal"
+                                                className="px-4 py-2 bg-gray-200 rounded-lg w-full"
+                                                onClick={() => {
+                                                    setErrorMessage(null);
+                                                    toggle();
+                                                }}
+                                                disabled={isSubmitting}
+                                            >
+                                                Close
+                                            </button>
+                                            <button
+                                                type="submit"
+                                                className="px-4 py-2 bg-blue-600 text-white rounded-lg w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                                                disabled={isSubmitting}
+                                            >
+                                                {isSubmitting ? 'Sending...' : 'Send Request'}
+                                            </button>
+                                        </div>
+                                    </form>
+                                )}
                             </>
                         )}
                     </Modal>

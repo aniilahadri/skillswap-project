@@ -3,15 +3,17 @@ import type { SkillModel } from "@/lib/prisma/models/Skill";
 
 export class SkillRepository {
     async findSkillByName(name: string): Promise<SkillModel | null> {
-        return prisma.skill.findFirst({ where: { name } });
+        const normalizedName = name.trim();
+        const allSkills = await prisma.skill.findMany();
+        return allSkills.find(s => s.name.trim().toLowerCase() === normalizedName.toLowerCase()) || null;
     }
 
     async createSkill(name: string, category?: string | null): Promise<SkillModel> {
-        return prisma.skill.create({ 
-            data: { 
+        return prisma.skill.create({
+            data: {
                 name,
                 category: category || null
-            } 
+            }
         });
     }
 

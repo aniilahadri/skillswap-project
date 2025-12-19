@@ -106,8 +106,9 @@ model Request {
   requestedSkill_ID String
   offeredSkill_ID   String
 
-  sender         Student       @relation("RequestSent", fields: [sender_ID], references: [student_ID], onDelete: Cascade)
-  receiver       Student       @relation("RequestReceived", fields: [receiver_ID], references: [student_ID])
+  sender   Student @relation("RequestSent", fields: [sender_ID], references: [student_ID], onDelete: Cascade)
+  receiver Student @relation("RequestReceived", fields: [receiver_ID], references: [student_ID])
+
   requestedSkill SkillOffered  @relation(fields: [requestedSkill_ID], references: [skillOffered_ID])
   offeredSkill   SkillWanted   @relation(fields: [offeredSkill_ID], references: [skillWanted_ID])
   status         RequestStatus @default(PENDING)
