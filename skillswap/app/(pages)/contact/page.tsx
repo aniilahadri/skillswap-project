@@ -1,19 +1,82 @@
+'use client';
+
+import { useState, FormEvent } from 'react';
+
 export default function Contact() {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        message: '',
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error' | null; message: string }>({ type: null, message: '' });
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setSubmitStatus({ type: null, message: '' });
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setSubmitStatus({ type: 'success', message: data.message || 'Message sent successfully!' });
+                setFormData({ name: '', email: '', message: '' });
+            } else {
+                setSubmitStatus({ type: 'error', message: data.error || 'Failed to send message. Please try again.' });
+            }
+        } catch (error) {
+            setSubmitStatus({ type: 'error', message: 'An error occurred. Please try again later.' });
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
     return (
         <>
-            
+
             <div className="max-w-7xl max-lg:max-w-3xl mx-auto p-4 md:p-8 mt-20 py-12 lg:py-16 max-h-fit">
                 <div className="flex flex-col lg:flex-row  gap-8 items-start">
                     <div className="bg-gray-50 rounded-lg p-8 border border-gray-200 w-full">
                         <h2 className="text-2xl font-bold text-slate-900 mb-4">Get in touch</h2>
                         <p className="text-slate-600 text-[15px] mb-8 leading-relaxed">Feel free to contact us and we will get back to you as soon as possible</p>
 
-                        <form className="space-y-6">
+                        {submitStatus.type && (
+                            <div
+                                className={`mb-6 p-4 rounded-lg ${submitStatus.type === 'success'
+                                    ? 'bg-green-50 text-green-800 border border-green-200'
+                                    : 'bg-red-50 text-red-800 border border-red-200'
+                                    }`}
+                            >
+                                {submitStatus.message}
+                            </div>
+                        )}
+
+                        <form className="space-y-6" onSubmit={handleSubmit}>
                             <div>
                                 <label className="text-slate-900 text-sm font-medium mb-2 block">Name</label>
                                 <input
                                     type="text"
+                                    name="name"
                                     placeholder="Name"
+                                    value={formData.name}
+                                    onChange={handleChange}
                                     required
                                     className="w-full text-sm text-slate-900 bg-white pl-4 pr-10 py-3 rounded-md border
                                      border-slate-100 focus:border-blue-600 outline-none transition-all"
@@ -23,7 +86,10 @@ export default function Contact() {
                                 <label className="text-slate-900 text-sm font-medium mb-2 block">Email</label>
                                 <input
                                     type="email"
+                                    name="email"
                                     placeholder="E-mail"
+                                    value={formData.email}
+                                    onChange={handleChange}
                                     required
                                     className="w-full text-sm text-slate-900 bg-white pl-4 pr-10 py-3 rounded-md border
                                      border-slate-100 focus:border-blue-600 outline-none transition-all"
@@ -32,7 +98,10 @@ export default function Contact() {
                             <div>
                                 <label className="text-slate-900 text-sm font-medium mb-2 block">Message</label>
                                 <textarea
+                                    name="message"
                                     placeholder="Message"
+                                    value={formData.message}
+                                    onChange={handleChange}
                                     required
                                     rows={4}
                                     className="w-full text-sm text-slate-900 bg-white pl-4 pr-10 py-3 rounded-md border
@@ -41,9 +110,10 @@ export default function Contact() {
                             </div>
                             <button
                                 type="submit"
-                                className="w-full text-sm bg-indigo-600 hover:bg-primary text-white font-medium py-3 px-6 rounded-lg transition-colors border-0 cursor-pointer"
+                                disabled={isSubmitting}
+                                className="w-full text-sm bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 disabled:cursor-not-allowed text-white font-medium py-3 px-6 rounded-lg transition-colors border-0 cursor-pointer"
                             >
-                                Send message
+                                {isSubmitting ? 'Sending...' : 'Send message'}
                             </button>
                         </form>
                     </div>
@@ -107,7 +177,7 @@ export default function Contact() {
                     </div>
                 </div>
             </div >
-          
+
         </>
     );
 }
