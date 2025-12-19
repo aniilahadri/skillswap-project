@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/services/auth/nextAuth";
+import { validateAdminSession } from "@/utils/adminAuth";
 import { AdminService } from "@/services/adminservice";
 
 const adminService = new AdminService();
@@ -10,17 +9,16 @@ export async function GET(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const session = await getServerSession(authOptions);
-        if (!session || !session.user?.id) {
-            return NextResponse.json(
-                { success: false, error: "Unauthorized" },
-                { status: 401 }
-            );
+        const validation = await validateAdminSession();
+        if (!validation.isValid) {
+            return validation.response;
         }
+        
+        const session = validation.session;
 
         const { id: adminId } = await params;
 
-        if (session.user.id !== adminId || session.user.role !== "ADMIN") {
+        if (session.user.id !== adminId) {
             return NextResponse.json(
                 { success: false, error: "Unauthorized" },
                 { status: 403 }
@@ -63,18 +61,15 @@ export async function PUT(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const session = await getServerSession(authOptions);
-        if (!session || !session.user?.id) {
-            return NextResponse.json(
-                { success: false, error: "Unauthorized" },
-                { status: 401 }
-            );
+        const validation = await validateAdminSession();
+        if (!validation.isValid) {
+            return validation.response;
         }
 
+        const session = validation.session;
         const { id: adminId } = await params;
 
-        // Only allow admins to update their own profile
-        if (session.user.id !== adminId || session.user.role !== "ADMIN") {
+        if (session.user.id !== adminId) {
             return NextResponse.json(
                 { success: false, error: "Unauthorized" },
                 { status: 403 }

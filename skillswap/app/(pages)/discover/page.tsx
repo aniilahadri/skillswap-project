@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
+import Fuse from "fuse.js";
 import BoxOffer from "../../components/BoxOffer";
 
 interface Student {
@@ -17,8 +18,12 @@ interface Student {
 
 export default function Discover() {
     const [students, setStudents] = useState<Student[]>([]);
+    const [studentsResult, setStudentsResult] = useState<Student[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [keyword, setKeyword] = useState("");
+    const [location, setLocation] = useState("");
+    const [availability, setAvailability] = useState("");
 
     useEffect(() => {
         const fetchStudents = async () => {
@@ -29,6 +34,7 @@ export default function Discover() {
 
                 if (result.success) {
                     setStudents(result.students);
+                    setStudentsResult(result.students);
                 } else {
                     setError(result.error || 'Failed to load students');
                 }
@@ -42,6 +48,55 @@ export default function Discover() {
         fetchStudents();
     }, []);
 
+    function handleFiltering(e: React.FormEvent) {
+        setIsLoading(true);
+        e.preventDefault();
+        let tmpStudents = students;
+
+        // Filter by availability first if selected
+        if (availability) {
+            tmpStudents = tmpStudents.filter(student =>
+                student.availability === availability
+            );
+        }
+
+        // If no keyword and no location, just return availability filtered results
+        if (!keyword && !location) {
+            setStudentsResult(tmpStudents);
+            setIsLoading(false);
+            return;
+        }
+
+        // Filter by keyword using Fuse
+        if (keyword) {
+            const fuse = new Fuse(tmpStudents, {
+                keys: [
+                    "fullName",
+                    "bio",
+                    "skillsOffered",
+                    "skillsWanted"
+                ],
+                threshold: 0.3,
+            });
+            tmpStudents = fuse.search(keyword).map(result => result.item);
+        }
+
+        // Filter by location using Fuse
+        if (location) {
+            const fuse = new Fuse(tmpStudents, {
+                keys: [
+                    "city",
+                    "country"
+                ],
+                threshold: 0.3,
+            });
+            tmpStudents = fuse.search(location).map(result => result.item);
+        }
+
+        setStudentsResult(tmpStudents);
+        setIsLoading(false);
+    }
+
     return (
         <>
             <div className='bg-gray-100/30' >
@@ -51,7 +106,7 @@ export default function Discover() {
                         <p className="text-base lg:text-xl md:text-l mb-8 text-gray-500"><i>Find people to exchange skills with in our community</i></p>
                     </div>
                     <div>
-                        <form className="flex flex-col gap-4 md:flex-row md:items-center justify-center lg:mb-4">
+                        <form onSubmit={handleFiltering} className="flex flex-col gap-4 md:flex-row md:items-center justify-center lg:mb-4">
                             <label htmlFor="default-search" className="sr-only ">Search</label>
                             <div className="relative flex-1">
                                 <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -59,8 +114,15 @@ export default function Discover() {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                     </svg>
                                 </div>
-                                <input type="search" id="default-search" className="block py-3 px-10 w-full text-sm text-slate-900 bg-white 
-                             rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all lg:text-base" placeholder="Search ..." required />
+                                <input
+                                    type="search"
+                                    id="default-search"
+                                    className="block py-3 px-10 w-full text-sm text-slate-900 bg-white 
+                             rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all lg:text-base"
+                                    placeholder="Search ..."
+                                    value={keyword}
+                                    onChange={(e) => setKeyword(e.target.value)}
+                                />
 
                                 <button type="submit" className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 
                             focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1 lg:text-base">Search</button>
@@ -71,13 +133,13 @@ export default function Discover() {
                                     id="availability"
                                     className="w-full text-sm text-slate-900 bg-white pl-4 pr-10 py-3 rounded-md border
                                  border-slate-100 focus:border-blue-600 outline-none transition-all lg:text-base"
-                                    required
+                                    value={availability}
+                                    onChange={(e) => setAvailability(e.target.value)}
                                 >
                                     <option value="">Select Availability</option>
-                                    <option value="morning">Morning</option>
-                                    <option value="afternoon">Afternoon</option>
-                                    <option value="evening">Evening</option>
-                                    <option value="weekends">Weekends</option>
+                                    <option value="Morning">Morning</option>
+                                    <option value="Afternoon">Afternoon</option>
+                                    <option value="Evening">Evening</option>
                                 </select>
                             </div>
                             <div id="location-container">
@@ -86,13 +148,42 @@ export default function Discover() {
                                     id="location"
                                     className="w-full text-sm text-slate-900 bg-white  pl-4 pr-10 py-3 rounded-md border
                                      border-slate-100 focus:border-blue-600 outline-none transition-all lg:text-base"
-                                    required
+                                    value={location}
+                                    onChange={(e) => setLocation(e.target.value)}
                                 >
                                     <option value="">Select Location</option>
-                                    <option value="prishtina">Prishtina</option>
-                                    <option value="ferizaj">Ferizaj</option>
-                                    <option value="gjakova">Gjakova</option>
-                                    <option value="mitrovica">Mitrovica</option>
+                                    <option value="Prishtina">Prishtina</option>
+                                    <option value="Peja">Peja</option>
+                                    <option value="Prizren">Prizren</option>
+                                    <option value="Mitrovica">Mitrovica</option>
+                                    <option value="Gjakova">Gjakova</option>
+                                    <option value="Ferizaj">Ferizaj</option>
+                                    <option value="Gjilan">Gjilan</option>
+                                    <option value="Podujeva">Podujeva</option>
+                                    <option value="Vushtrri">Vushtrri</option>
+                                    <option value="Suhareka">Suhareka</option>
+                                    <option value="Rahovec">Rahovec</option>
+                                    <option value="Lipjan">Lipjan</option>
+                                    <option value="Malisheva">Malisheva</option>
+                                    <option value="Skenderaj">Skenderaj</option>
+                                    <option value="Deçan">Deçan</option>
+                                    <option value="Istog">Istog</option>
+                                    <option value="Klinë">Klinë</option>
+                                    <option value="Junik">Junik</option>
+                                    <option value="Dragash">Dragash</option>
+                                    <option value="Shtime">Shtime</option>
+                                    <option value="Kaçanik">Kaçanik</option>
+                                    <option value="Viti">Viti</option>
+                                    <option value="Kamenica">Kamenica</option>
+                                    <option value="Leposaviq">Leposaviq</option>
+                                    <option value="Zveçan">Zveçan</option>
+                                    <option value="Zubin Potok">Zubin Potok</option>
+                                    <option value="Graçanica">Graçanica</option>
+                                    <option value="Ranillug">Ranillug</option>
+                                    <option value="Partesh">Partesh</option>
+                                    <option value="Kllokot">Kllokot</option>
+                                    <option value="Hani i Elezit">Hani i Elezit</option>
+                                    <option value="Shtrpce">Shtrpce</option>
                                 </select>
                             </div>
                         </form>
@@ -109,12 +200,12 @@ export default function Discover() {
                             <p className="text-red-600">{error}</p>
                         </div>
                     )}
-                    {!isLoading && !error && students.length === 0 && (
+                    {!isLoading && !error && studentsResult.length === 0 && (
                         <div className="w-full text-center py-8">
                             <p className="text-gray-600">No offers found</p>
                         </div>
                     )}
-                    {!isLoading && !error && students.map((student) => (
+                    {!isLoading && !error && studentsResult.map((student) => (
                         <BoxOffer
                             key={student.student_ID}
                             student_ID={student.student_ID}
@@ -137,6 +228,13 @@ export default function Discover() {
                                         if (!a.isFavorite && b.isFavorite) return 1;
                                         return a.fullName.localeCompare(b.fullName);
                                     })
+                                );
+                                setStudentsResult(prevResults =>
+                                    prevResults.map(s =>
+                                        s.student_ID === studentId
+                                            ? { ...s, isFavorite }
+                                            : s
+                                    )
                                 );
                             }}
                         />
