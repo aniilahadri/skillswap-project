@@ -179,8 +179,6 @@ export default function Request() {
 
     return (
         <>
-
-            {/* make if no message make h-screen if message h-fit */}
             <section className={`w-screen ${sentRequests || receivedRequests ? "h-fit" : "h-screen"} bg-gray-100/30 lg:pb-16`}>
                 <div className=" m-auto w-11/12 mt-20 p-4 py-10 space-y-5 md:w-8/12 lg:w-7/12">
                     <div className="flex flex-col items-center justify-center gap-2 text-center">

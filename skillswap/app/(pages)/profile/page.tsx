@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import SkillsInput from "../../components/SkillsInput";
+import PhoneNumberInput from "../../components/PhoneNumberInput";
 import ProfileSkillsDisplay from "../../components/ProfileSkillsDisplay";
 import { ExperienceLevel, Availability } from "@/lib/prisma/enums";
 
@@ -20,6 +21,7 @@ interface StudentData {
     createdAt?: Date;
     skillsOffered: string[];
     skillsWanted: string[];
+    phoneNumbers?: string[];
 }
 
 export default function Profile() {
@@ -45,6 +47,7 @@ export default function Profile() {
 
     const [newSkillsOffered, setNewSkillsOffered] = useState<string[]>([]);
     const [newSkillsWanted, setNewSkillsWanted] = useState<string[]>([]);
+    const [newPhoneNumbers, setNewPhoneNumbers] = useState<string[]>([]);
 
     useEffect(() => {
         if (status === "unauthenticated") {
@@ -68,7 +71,7 @@ export default function Profile() {
             const response = await fetch(`/api/students/${session?.user?.id}`);
             const result = await response.json();
 
-            if (result.success && result.student) {
+            if (result.success && result.student && !isAdmin) {
                 const student = result.student;
                 setStudentData(student);
                 setFormData({
@@ -80,37 +83,115 @@ export default function Profile() {
                     experienceLevel: student.experienceLevel || ExperienceLevel.BEGINNER,
                     isProfilePublic: student.isProfilePublic ?? true
                 });
-            } else {
-                if (session?.user?.role === "ADMIN") {
+            } else if (isAdmin) {
+                try {
+                    const adminResponse = await fetch(`/api/admin/${session.user.id}`);
+                    const adminResult = await adminResponse.json();
+                    const admin = adminResult.success ? adminResult.admin : null;
+
+                    const phoneResponse = await fetch(`/api/users/${session.user.id}/phone-numbers`);
+                    const phoneResult = await phoneResponse.json();
+                    const phoneNumbers = phoneResult.success && phoneResult.phoneNumbers
+                        ? phoneResult.phoneNumbers.map((pn: any) => pn.number)
+                        : [];
+
+                    setError(null);
+                    setStudentData({
+                        student_ID: session.user.id,
+                        fullName: admin?.fullName || session.user.fullname || '',
+                        email: admin?.email || session.user.email || '',
+                        city: admin?.city || '',
+                        country: admin?.country || '',
+                        bio: admin?.bio || '',
+                        availability: '',
+                        skillsOffered: [],
+                        skillsWanted: [],
+                        phoneNumbers: phoneNumbers
+                    });
+
+                    if (admin) {
+                        setFormData({
+                            fullName: admin.fullName || '',
+                            city: admin.city || '',
+                            country: admin.country || '',
+                            bio: admin.bio || '',
+                            availability: '',
+                            experienceLevel: ExperienceLevel.BEGINNER,
+                            isProfilePublic: true
+                        });
+                    }
+                } catch (phoneErr: any) {
                     setError(null);
                     setStudentData({
                         student_ID: session.user.id,
                         fullName: session.user.fullname || '',
+                        email: session.user.email || '',
                         city: '',
                         country: '',
                         bio: '',
                         availability: '',
                         skillsOffered: [],
-                        skillsWanted: []
+                        skillsWanted: [],
+                        phoneNumbers: []
                     });
-                } else {
-                    setError("Failed to load profile data");
                 }
+            } else {
+                setError("Failed to load profile data");
             }
         } catch (err: any) {
             console.error("Error loading profile:", err);
             if (session?.user?.role === "ADMIN") {
-                setError(null);
-                setStudentData({
-                    student_ID: session.user.id,
-                    fullName: session.user.fullname || '',
-                    city: '',
-                    country: '',
-                    bio: '',
-                    availability: '',
-                    skillsOffered: [],
-                    skillsWanted: []
-                });
+                try {
+                    const adminResponse = await fetch(`/api/admin/${session.user.id}`);
+                    const adminResult = await adminResponse.json();
+                    const admin = adminResult.success ? adminResult.admin : null;
+
+                    const phoneResponse = await fetch(`/api/users/${session.user.id}/phone-numbers`);
+                    const phoneResult = await phoneResponse.json();
+                    const phoneNumbers = phoneResult.success && phoneResult.phoneNumbers
+                        ? phoneResult.phoneNumbers.map((pn: any) => pn.number)
+                        : [];
+
+                    setError(null);
+                    setStudentData({
+                        student_ID: session.user.id,
+                        fullName: admin?.fullName || session.user.fullname || '',
+                        email: admin?.email || session.user.email || '',
+                        city: admin?.city || '',
+                        country: admin?.country || '',
+                        bio: admin?.bio || '',
+                        availability: '',
+                        skillsOffered: [],
+                        skillsWanted: [],
+                        phoneNumbers: phoneNumbers
+                    });
+
+                    if (admin) {
+                        setFormData({
+                            fullName: admin.fullName || '',
+                            city: admin.city || '',
+                            country: admin.country || '',
+                            bio: admin.bio || '',
+                            availability: '',
+                            experienceLevel: ExperienceLevel.BEGINNER,
+                            isProfilePublic: true
+                        });
+                    }
+                } catch (phoneErr: any) {
+                    setError(null);
+                    setStudentData({
+                        student_ID: session.user.id,
+                        fullName: session.user.fullname || '',
+                        email: session.user.email || '',
+                        city: '',
+                        country: '',
+                        bio: '',
+                        availability: '',
+                        skillsOffered: [],
+                        skillsWanted: [],
+                        phoneNumbers: []
+                    });
+                }
             } else {
                 setError("Failed to load profile");
             }
@@ -151,6 +232,62 @@ export default function Profile() {
         }
     };
 
+    const handleDeletePhoneNumber = async (phoneNumber: string) => {
+        if (!studentData) return;
+
+        try {
+            const response = await fetch(
+                `/api/users/${session?.user?.id}/phone-numbers?phoneNumber=${encodeURIComponent(phoneNumber)}`,
+                { method: 'DELETE' }
+            );
+
+            const result = await response.json();
+
+            if (result.success) {
+                setStudentData({
+                    ...studentData,
+                    phoneNumbers: (studentData.phoneNumbers || []).filter(pn => pn !== phoneNumber)
+                });
+            } else {
+                setError(result.error || "Failed to delete phone number");
+            }
+        } catch (err: any) {
+            console.error("Error deleting phone number:", err);
+            setError("Failed to delete phone number");
+        }
+    };
+
+    const handleAddPhoneNumbers = async (phoneNumbers: string[]): Promise<boolean> => {
+        if (phoneNumbers.length === 0) return true;
+
+        try {
+            for (const phoneNumber of phoneNumbers) {
+                const response = await fetch(
+                    `/api/users/${session?.user?.id}/phone-numbers`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ phoneNumber })
+                    }
+                );
+
+                const result = await response.json();
+                if (!result.success) {
+                    setError(result.error || "Failed to add phone number");
+                    return false;
+                }
+            }
+
+            await loadProfileData();
+            setNewPhoneNumbers([]);
+            return true;
+        } catch (err: any) {
+            console.error("Error adding phone numbers:", err);
+            setError("Failed to add phone numbers");
+            return false;
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!displayData) return;
@@ -175,6 +312,14 @@ export default function Profile() {
                 const result = await response.json();
 
                 if (result.success) {
+                    if (newPhoneNumbers.length > 0) {
+                        const phoneNumbersAdded = await handleAddPhoneNumbers(newPhoneNumbers);
+                        if (!phoneNumbersAdded) {
+                            setError("Profile updated but failed to add new phone numbers");
+                            return;
+                        }
+                    }
+
                     setSuccess(true);
                     await loadProfileData();
                     setTimeout(() => setSuccess(false), 3000);
@@ -216,6 +361,14 @@ export default function Profile() {
                     const addSkillsResult = await addSkillsResponse.json();
                     if (!addSkillsResult.success) {
                         setError("Profile updated but failed to add new skills");
+                        return;
+                    }
+                }
+
+                if (newPhoneNumbers.length > 0) {
+                    const phoneNumbersAdded = await handleAddPhoneNumbers(newPhoneNumbers);
+                    if (!phoneNumbersAdded) {
+                        setError("Profile updated but failed to add new phone numbers");
                         return;
                     }
                 }
@@ -318,6 +471,7 @@ export default function Profile() {
         availability: '',
         skillsOffered: [],
         skillsWanted: [],
+        phoneNumbers: [],
         email: '',
         createdAt: undefined,
         experienceLevel: undefined,
@@ -550,6 +704,19 @@ export default function Profile() {
                                             className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all min-h-20 resize-none"
                                             placeholder="Hello!!!"
                                             required
+                                        />
+                                    </div>
+
+                                    {/* Phone Numbers Section */}
+                                    <div className="w-full">
+                                        <label className="text-slate-900 text-sm font-medium mb-2 block" htmlFor="phoneNumbers">Phone Numbers</label>
+                                        <PhoneNumberInput
+                                            id="phoneNumbers"
+                                            styleInput="px-2 text-xs"
+                                            stylebutton="px-3 py-2"
+                                            onPhoneNumbersChange={setNewPhoneNumbers}
+                                            existingPhoneNumbers={displayData.phoneNumbers || []}
+                                            onDeleteExisting={handleDeletePhoneNumber}
                                         />
                                     </div>
                                 </div>

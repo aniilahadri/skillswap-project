@@ -19,6 +19,7 @@ export interface StudentWithSkills {
     skillsWanted: string[];
     isFavorite?: boolean;
     skillsCompleted?: number;
+    phoneNumbers?: string[]; // Array of phone numbers
 }
 
 export class StudentRepository {
@@ -101,7 +102,12 @@ export class StudentRepository {
                         country: true,
                         bio: true,
                         email: true,
-                        createdAt: true
+                        createdAt: true,
+                        phoneNumber: {
+                            select: {
+                                number: true
+                            }
+                        }
                     }
                 },
                 skillOffered: {
@@ -142,7 +148,8 @@ export class StudentRepository {
             createdAt: student.user.createdAt,
             skillsOffered: student.skillOffered.map(so => so.skill.name),
             skillsWanted: student.skillWanted.map(sw => sw.skill.name),
-            skillsCompleted: student.skillsCompleted
+            skillsCompleted: student.skillsCompleted,
+            phoneNumbers: student.user.phoneNumber.map(pn => pn.number) // Extract phone numbers
         };
     }
 

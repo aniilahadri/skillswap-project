@@ -7,18 +7,6 @@ export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
 
-       
-        const requiredFields = ['fullName', 'email', 'password', 'confirmPassword', 'city', 'country', 'bio', 'availability'];
-        for (const field of requiredFields) {
-            if (!body[field]) {
-                return NextResponse.json(
-                    { success: false, error: `${field} is required` },
-                    { status: 400 }
-                );
-            }
-        }
-
-        
         const signupData = {
             fullName: body.fullName,
             email: body.email,
@@ -30,25 +18,25 @@ export async function POST(request: NextRequest) {
             availability: body.availability,
             skillsOffered: body.skillsOffered || [],
             skillsWanted: body.skillsWanted || [],
+            phoneNumbers: body.phoneNumbers || [],
         };
 
-       
         const result = await userService.signup(signupData);
 
-        if (result.success) {
+        if (result.success && 'user' in result) {
             return NextResponse.json(
-                { 
-                    success: true, 
+                {
+                    success: true,
                     message: "User created successfully",
-                    user: result.user 
+                    user: result.user
                 },
                 { status: 201 }
             );
         } else {
             return NextResponse.json(
-                { 
-                    success: false, 
-                    error: result.error 
+                {
+                    success: false,
+                    errors: 'errors' in result ? result.errors : undefined
                 },
                 { status: 400 }
             );
@@ -56,13 +44,12 @@ export async function POST(request: NextRequest) {
     } catch (error: any) {
         console.error("Signup API error:", error);
         return NextResponse.json(
-            { 
-                success: false, 
-                error: error.message || "Internal server error" 
+            {
+                success: false,
+                error: error.message || "Internal server error"
             },
             { status: 500 }
         );
     }
 }
-
 

@@ -4,28 +4,28 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import SkillInput from "../../components/SkillsInput";
+import PhoneNumberInput from "../../components/PhoneNumberInput";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function SignUp() {
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
-
+    const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
 
     const [skillsOffered, setSkillsOffered] = useState<string[]>([]);
     const [skillsWanted, setSkillsWanted] = useState<string[]>([]);
+    const [phoneNumbers, setPhoneNumbers] = useState<string[]>([]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
-        setError(null);
         setSuccess(false);
+        setFieldErrors({});
 
         try {
             const formData = new FormData(e.currentTarget);
-
 
             const signupData = {
                 fullName: formData.get('name') as string,
@@ -38,10 +38,11 @@ export default function SignUp() {
                 availability: (document.getElementById('availability') as HTMLSelectElement)?.value || '',
                 skillsOffered,
                 skillsWanted,
+                phoneNumbers,
             };
 
 
-            const response = await fetch('/api/user', {
+            const response = await fetch('/api/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -52,6 +53,7 @@ export default function SignUp() {
             const result = await response.json();
 
             if (result.success) {
+                setFieldErrors({});
                 setSuccess(true);
 
 
@@ -65,17 +67,20 @@ export default function SignUp() {
 
                     router.push('/');
                 } else {
-
-                    setError("Account created but automatic login failed. Please sign in manually.");
+                    setFieldErrors({ general: "Account created but automatic login failed. Please sign in manually." });
                     setTimeout(() => {
                         router.push('/signin');
                     }, 3000);
                 }
             } else {
-                setError(result.error || 'Failed to create account');
+                if (result.errors) {
+                    setFieldErrors(result.errors);
+                } else {
+                    setFieldErrors({ general: result.error || 'Failed to create account' });
+                }
             }
         } catch (err: any) {
-            setError(err.message || 'An error occurred. Please try again.');
+            setFieldErrors({ general: err.message || 'An error occurred. Please try again.' });
         } finally {
             setIsSubmitting(false);
         }
@@ -105,10 +110,15 @@ export default function SignUp() {
                                                 name="name"
                                                 type="text"
                                                 required
-                                                className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
+                                                className={`w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border ${fieldErrors.fullName ? 'border-red-300' : 'border-slate-100'} focus:border-blue-600 outline-none transition-all`}
                                                 placeholder="Enter full name.."
                                             />
                                         </div>
+                                        {fieldErrors.fullName && (
+                                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm mt-2">
+                                                {fieldErrors.fullName}
+                                            </div>
+                                        )}
                                     </div>
 
                                     <div className="w-full">
@@ -118,11 +128,16 @@ export default function SignUp() {
                                                 name="email"
                                                 type="email"
                                                 required
-                                                className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
+                                                className={`w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border ${fieldErrors.email ? 'border-red-300' : 'border-slate-100'} focus:border-blue-600 outline-none transition-all`}
                                                 placeholder="Enter email"
                                             />
                                             <Image src="/mail.png" alt="email-photo" className="absolute right-4" width={18} height={18} />
                                         </div>
+                                        {fieldErrors.email && (
+                                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm mt-2">
+                                                {fieldErrors.email}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
@@ -134,11 +149,16 @@ export default function SignUp() {
                                                 name="confirm-pass"
                                                 type="password"
                                                 required
-                                                className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
+                                                className={`w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border ${fieldErrors.password ? 'border-red-300' : 'border-slate-100'} focus:border-blue-600 outline-none transition-all`}
                                                 placeholder="Enter password"
                                             />
                                             <Image src="/lock.png" alt="password-photo" className=" absolute right-4" width={18} height={18} />
                                         </div>
+                                        {fieldErrors.password && (
+                                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm mt-2">
+                                                {fieldErrors.password}
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="w-full">
                                         <label className="text-slate-900 text-sm font-medium mb-2 block">Confirm Password</label>
@@ -147,11 +167,16 @@ export default function SignUp() {
                                                 name="password"
                                                 type="password"
                                                 required
-                                                className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
+                                                className={`w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border ${fieldErrors.confirmPassword ? 'border-red-300' : 'border-slate-100'} focus:border-blue-600 outline-none transition-all`}
                                                 placeholder="Confirm passoword"
                                             />
                                             <Image src="/lock.png" alt="password-photo" className="absolute right-4" width={18} height={18} />
                                         </div>
+                                        {fieldErrors.confirmPassword && (
+                                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm mt-2">
+                                                {fieldErrors.confirmPassword}
+                                            </div>
+                                        )}
                                     </div>
 
                                 </div>
@@ -164,11 +189,16 @@ export default function SignUp() {
                                                 name="country"
                                                 type="text"
                                                 required
-                                                className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
+                                                className={`w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border ${fieldErrors.country ? 'border-red-300' : 'border-slate-100'} focus:border-blue-600 outline-none transition-all`}
                                                 placeholder="Country"
                                             />
                                             <Image src="/location.png" alt="location-photo" className="absolute right-4" width={18} height={18} />
                                         </div>
+                                        {fieldErrors.country && (
+                                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm mt-2">
+                                                {fieldErrors.country}
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="w-full">
                                         <label className="text-slate-900 text-sm font-medium mb-2 block">City</label>
@@ -177,11 +207,16 @@ export default function SignUp() {
                                                 name="city"
                                                 type="text"
                                                 required
-                                                className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
+                                                className={`w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border ${fieldErrors.city ? 'border-red-300' : 'border-slate-100'} focus:border-blue-600 outline-none transition-all`}
                                                 placeholder="City"
                                             />
                                             <Image src="/location.png" alt="location-photo" className="absolute right-4" width={18} height={18} />
                                         </div>
+                                        {fieldErrors.city && (
+                                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm mt-2">
+                                                {fieldErrors.city}
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="w-full">
                                         <label className="text-slate-900 text-sm font-medium mb-2 block">Availability</label>
@@ -189,20 +224,50 @@ export default function SignUp() {
                                             id="availability"
                                             name="availability"
                                             required
-                                            className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
+                                            className={`w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border ${fieldErrors.availability ? 'border-red-300' : 'border-slate-100'} focus:border-blue-600 outline-none transition-all`}
                                         >
                                             <option value="">Select</option>
                                             <option value="morning">Morning</option>
                                             <option value="afternoon">Afternoon</option>
                                             <option value="evening">Evening</option>
                                         </select>
+                                        {fieldErrors.availability && (
+                                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm mt-2">
+                                                {fieldErrors.availability}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
 
                                 <div className="w-full">
                                     <label className="text-slate-900 text-sm font-medium mb-2 block" htmlFor="userBio">Bio</label>
-                                    <textarea name="userBio" className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all min-h-20 resize-none" id="userBio" placeholder="Hello!!!" required></textarea>
+                                    <textarea
+                                        name="userBio"
+                                        className={`w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border ${fieldErrors.bio ? 'border-red-300' : 'border-slate-100'} focus:border-blue-600 outline-none transition-all min-h-20 resize-none`}
+                                        id="userBio"
+                                        placeholder="Hello!!!"
+                                        required
+                                    ></textarea>
+                                    {fieldErrors.bio && (
+                                        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm mt-2">
+                                            {fieldErrors.bio}
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="w-full">
+                                    <label className="text-slate-900 text-lg font-medium mb-2 block" htmlFor="phoneNumbers">Phone Numbers</label>
+                                    <PhoneNumberInput
+                                        id="phoneNumbers"
+                                        onPhoneNumbersChange={setPhoneNumbers}
+                                        allowDeleteLast={true}
+                                    />
+                                    {fieldErrors.phoneNumbers && (
+                                        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm mt-2">
+                                            {fieldErrors.phoneNumbers}
+                                        </div>
+                                    )}
                                 </div>
                                 <hr />
 
@@ -212,6 +277,11 @@ export default function SignUp() {
                                         id="skillsOffer"
                                         onSkillsChange={setSkillsOffered}
                                     />
+                                    {fieldErrors.skillsOffered && (
+                                        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm mt-2">
+                                            {fieldErrors.skillsOffered}
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="w-full">
@@ -220,11 +290,16 @@ export default function SignUp() {
                                         id="skillsLearn"
                                         onSkillsChange={setSkillsWanted}
                                     />
+                                    {fieldErrors.skillsWanted && (
+                                        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm mt-2">
+                                            {fieldErrors.skillsWanted}
+                                        </div>
+                                    )}
                                 </div>
 
-                                {error && (
+                                {fieldErrors.general && (
                                     <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">
-                                        {error}
+                                        {fieldErrors.general}
                                     </div>
                                 )}
 
