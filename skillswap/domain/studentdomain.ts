@@ -3,9 +3,9 @@ import { StudentRepository, type StudentWithSkills } from "@/data/studentReposit
 const studentRepository = new StudentRepository();
 
 export class StudentDomain {
-    async validateAndGetPublicStudents(excludeStudentId?: string): Promise<{ success: boolean; students?: StudentWithSkills[]; error?: string }> {
+    async validateAndGetPublicStudents(excludeStudentId?: string, loggedInStudentId?: string): Promise<{ success: boolean; students?: StudentWithSkills[]; error?: string }> {
         try {
-            const students = await studentRepository.findManyPublic(excludeStudentId);
+            const students = await studentRepository.findManyPublic(excludeStudentId, loggedInStudentId);
             return { success: true, students };
         } catch (error: any) {
             console.error("Error getting public students:", error);

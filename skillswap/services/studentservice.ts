@@ -3,8 +3,8 @@ import { StudentDomain } from "@/domain/studentdomain";
 const studentDomain = new StudentDomain();
 
 export class StudentService {
-    async fetchPublicStudents(excludeStudentId?: string) {
-        return await studentDomain.validateAndGetPublicStudents(excludeStudentId);
+    async fetchPublicStudents(excludeStudentId?: string, loggedInStudentId?: string) {
+        return await studentDomain.validateAndGetPublicStudents(excludeStudentId, loggedInStudentId);
     }
 
     async fetchStudentById(studentId: string) {

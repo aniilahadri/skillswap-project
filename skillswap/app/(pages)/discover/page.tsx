@@ -12,6 +12,7 @@ interface Student {
     availability: string;
     skillsOffered: string[];
     skillsWanted: string[];
+    isFavorite?: boolean;
 }
 
 export default function Discover() {
@@ -124,6 +125,20 @@ export default function Discover() {
                             availability={student.availability}
                             skillsOffered={student.skillsOffered}
                             skillsWanted={student.skillsWanted}
+                            isFavorite={student.isFavorite}
+                            onFavoriteToggle={async (studentId, isFavorite) => {
+                                setStudents(prevStudents =>
+                                    prevStudents.map(s =>
+                                        s.student_ID === studentId
+                                            ? { ...s, isFavorite }
+                                            : s
+                                    ).sort((a, b) => {
+                                        if (a.isFavorite && !b.isFavorite) return -1;
+                                        if (!a.isFavorite && b.isFavorite) return 1;
+                                        return a.fullName.localeCompare(b.fullName);
+                                    })
+                                );
+                            }}
                         />
                     ))}
                 </section>

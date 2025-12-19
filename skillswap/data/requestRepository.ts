@@ -300,10 +300,6 @@ export class RequestRepository {
         return this.findSkillOfferedId(receiverId, skillName);
     }
 
-    async findSkillWantedIdBySender(senderId: string, skillName: string): Promise<string | null> {
-        return this.findSkillWantedId(senderId, skillName);
-    }
-
     async findSkillWantedIdByReceiver(receiverId: string, skillName: string): Promise<string | null> {
         return this.findSkillWantedId(receiverId, skillName);
     }

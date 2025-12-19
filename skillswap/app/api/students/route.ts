@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
         const session = await getServerSession(authOptions);
         const loggedInUserId = (session as any)?.user?.id;
 
-        const result = await studentService.fetchPublicStudents(loggedInUserId);
+        const result = await studentService.fetchPublicStudents(loggedInUserId, loggedInUserId);
 
         if (result.success) {
             return NextResponse.json(

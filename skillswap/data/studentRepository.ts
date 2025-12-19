@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { Availability, ExperienceLevel } from "@/lib/prisma/enums";
 import { SkillRepository } from "./skillRepository";
 import { RequestRepository } from "./requestRepository";
+import { FavoriteRepository } from "./favoriteRepository";
 
 export interface StudentWithSkills {
     student_ID: string;
@@ -16,10 +17,12 @@ export interface StudentWithSkills {
     createdAt?: Date;
     skillsOffered: string[];
     skillsWanted: string[];
+    isFavorite?: boolean;
+    skillsCompleted?: number;
 }
 
 export class StudentRepository {
-    async findManyPublic(excludeStudentId?: string): Promise<StudentWithSkills[]> {
+    async findManyPublic(excludeStudentId?: string, loggedInStudentId?: string): Promise<StudentWithSkills[]> {
         const students = await prisma.student.findMany({
             where: {
                 isProfilePublic: true,
@@ -55,7 +58,13 @@ export class StudentRepository {
             }
         });
 
-        return students.map(student => ({
+        let favoriteIds: string[] = [];
+        if (loggedInStudentId) {
+            const favoriteRepository = new FavoriteRepository();
+            favoriteIds = await favoriteRepository.getFavoriteIds(loggedInStudentId);
+        }
+
+        const studentsWithFavorites = students.map(student => ({
             student_ID: student.student_ID,
             fullName: student.user.fullName,
             city: student.user.city,
@@ -65,8 +74,15 @@ export class StudentRepository {
             skillsOffered: student.skillOffered.map(so => so.skill.name),
             skillsWanted: student.skillWanted.map(sw => sw.skill.name),
             experienceLevel: student.experienceLevel,
-            isProfilePublic: student.isProfilePublic
+            isProfilePublic: student.isProfilePublic,
+            isFavorite: favoriteIds.includes(student.student_ID)
         }));
+
+        return studentsWithFavorites.sort((a, b) => {
+            if (a.isFavorite && !b.isFavorite) return -1;
+            if (!a.isFavorite && b.isFavorite) return 1;
+            return a.fullName.localeCompare(b.fullName);
+        });
     }
 
     async findById(studentId: string): Promise<StudentWithSkills | null> {
@@ -122,7 +138,8 @@ export class StudentRepository {
             email: student.user.email,
             createdAt: student.user.createdAt,
             skillsOffered: student.skillOffered.map(so => so.skill.name),
-            skillsWanted: student.skillWanted.map(sw => sw.skill.name)
+            skillsWanted: student.skillWanted.map(sw => sw.skill.name),
+            skillsCompleted: student.skillsCompleted
         };
     }
 
@@ -166,7 +183,6 @@ export class StudentRepository {
         const skill = await skillRepository.findSkillByName(skillName);
         if (!skill) return;
 
-        // Find the SkillOffered connection
         const skillOffered = await prisma.skillOffered.findFirst({
             where: {
                 student_ID: studentId,
@@ -176,16 +192,13 @@ export class StudentRepository {
 
         if (!skillOffered) return;
 
-        // Check for requests that reference this SkillOffered
         const requests = await requestRepository.findRequestsBySkillOfferedId(skillOffered.skillOffered_ID);
 
-        // Check if there are any ACCEPTED requests - if so, prevent deletion
         const hasAcceptedRequests = requests.some((r: { request_ID: string; status: string }) => r.status === 'ACCEPTED');
         if (hasAcceptedRequests) {
             throw new Error("Cannot delete skill: There are accepted requests involving this skill.");
         }
 
-        // Delete all non-ACCEPTED requests (PENDING, REJECTED, COMPLETED) that reference this skill
         const nonAcceptedRequestIds = requests
             .filter((r: { request_ID: string; status: string }) => r.status !== 'ACCEPTED')
             .map((r: { request_ID: string; status: string }) => r.request_ID);
@@ -194,7 +207,6 @@ export class StudentRepository {
             await requestRepository.deleteNonAcceptedRequests(nonAcceptedRequestIds);
         }
 
-        // Now delete the skill connection
         await prisma.skillOffered.delete({
             where: {
                 skillOffered_ID: skillOffered.skillOffered_ID
@@ -209,7 +221,6 @@ export class StudentRepository {
         const skill = await skillRepository.findSkillByName(skillName);
         if (!skill) return;
 
-        // Find the SkillWanted connection
         const skillWanted = await prisma.skillWanted.findFirst({
             where: {
                 student_ID: studentId,
@@ -219,16 +230,13 @@ export class StudentRepository {
 
         if (!skillWanted) return;
 
-        // Check for requests that reference this SkillWanted
         const requests = await requestRepository.findRequestsBySkillWantedId(skillWanted.skillWanted_ID);
 
-        // Check if there are any ACCEPTED requests - if so, prevent deletion
         const hasAcceptedRequests = requests.some((r: { request_ID: string; status: string }) => r.status === 'ACCEPTED');
         if (hasAcceptedRequests) {
             throw new Error("Cannot delete skill: There are accepted requests involving this skill.");
         }
 
-        // Delete all non-ACCEPTED requests (PENDING, REJECTED, COMPLETED) that reference this skill
         const nonAcceptedRequestIds = requests
             .filter((r: { request_ID: string; status: string }) => r.status !== 'ACCEPTED')
             .map((r: { request_ID: string; status: string }) => r.request_ID);
@@ -237,7 +245,6 @@ export class StudentRepository {
             await requestRepository.deleteNonAcceptedRequests(nonAcceptedRequestIds);
         }
 
-        // Now delete the skill connection
         await prisma.skillWanted.delete({
             where: {
                 skillWanted_ID: skillWanted.skillWanted_ID

@@ -1,11 +1,12 @@
 'use client';
 
 import type { ReactNode } from "react"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Modal from "./Modal";
 import useModal from "../hooks/useModal";
+import ProfileViewModal from "./ProfileViewModal";
 import Image from "next/image";
 
 interface BoxOfferProps {
@@ -18,6 +19,8 @@ interface BoxOfferProps {
     availability?: string;
     skillsOffered?: string[];
     skillsWanted?: string[];
+    isFavorite?: boolean;
+    onFavoriteToggle?: (studentId: string, isFavorite: boolean) => void;
 }
 
 export default function BoxOffer({
@@ -28,15 +31,41 @@ export default function BoxOffer({
     availability = "Available",
     bio = "This is a bio...",
     skillsOffered = [],
-    skillsWanted = []
+    skillsWanted = [],
+    isFavorite = false,
+    onFavoriteToggle
 }: BoxOfferProps) {
 
     const { data: session } = useSession();
     const router = useRouter();
     const { isOpen, toggle } = useModal();
+    const { isOpen: isProfileOpen, toggle: toggleProfile } = useModal();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [favorite, setFavorite] = useState(isFavorite);
+    const [isTogglingFavorite, setIsTogglingFavorite] = useState(false);
+
+    useEffect(() => {
+        setFavorite(isFavorite);
+    }, [isFavorite]);
+
+    useEffect(() => {
+        const checkFavoriteStatus = async () => {
+            if (session?.user && student_ID) {
+                try {
+                    const response = await fetch(`/api/favorites?favStudentId=${student_ID}`);
+                    const result = await response.json();
+                    if (result.success) {
+                        setFavorite(result.isFavorite);
+                    }
+                } catch (error) {
+                    console.error('Error checking favorite status:', error);
+                }
+            }
+        };
+        checkFavoriteStatus();
+    }, [session, student_ID]);
 
     const handleSwapRequestClick = () => {
         if (!session?.user) {
@@ -47,6 +76,56 @@ export default function BoxOffer({
         setSuccessMessage(null);
         setErrorMessage(null);
         toggle();
+    };
+
+    const handleFavoriteToggle = async () => {
+        if (!session?.user) {
+            alert('Please log in first');
+            router.push('/signin');
+            return;
+        }
+
+        if (!student_ID) return;
+
+        setIsTogglingFavorite(true);
+        try {
+            if (favorite) {
+                const response = await fetch(`/api/favorites?favStudentId=${student_ID}`, {
+                    method: 'DELETE'
+                });
+                const result = await response.json();
+                if (result.success) {
+                    setFavorite(false);
+                    if (onFavoriteToggle) {
+                        onFavoriteToggle(student_ID, false);
+                    }
+                } else {
+                    alert(result.error || 'Failed to remove from favorites');
+                }
+            } else {
+                const response = await fetch('/api/favorites', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ favStudentId: student_ID })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    setFavorite(true);
+                    if (onFavoriteToggle) {
+                        onFavoriteToggle(student_ID, true);
+                    }
+                } else {
+                    alert(result.error || 'Failed to add to favorites');
+                }
+            }
+        } catch (error: any) {
+            console.error('Error toggling favorite:', error);
+            alert('An error occurred. Please try again.');
+        } finally {
+            setIsTogglingFavorite(false);
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -102,9 +181,29 @@ export default function BoxOffer({
         <>
             <div className={`p-5 border rounded-lg h-fit bg-gradient-to-tl w-96 lg:w-80 flex-shrink-0 from-primary to-sky-300 flex flex-col
                  items-start justify-center ${styles}`}>
-                <div className="flex gap-4 items-center justify-center">
-                    <span className="py-2 px-3 md:py-3 md:px-4 rounded-3xl bg-black/30 text-white">{getInitials(fullName)}</span>
-                    <h3 className=" text-xl py-2 font-semibold text-white">{fullName}</h3>
+                <div className="flex gap-4 items-center justify-between w-full">
+                    <div className="flex gap-4 items-center justify-center">
+                        <span className="py-2 px-3 md:py-3 md:px-4 rounded-3xl bg-black/30 text-white">{getInitials(fullName)}</span>
+                        <h3 className=" text-xl py-2 font-semibold text-white">{fullName}</h3>
+                    </div>
+                    <button
+                        onClick={handleFavoriteToggle}
+                        disabled={isTogglingFavorite || !session?.user}
+                        className="flex-shrink-0 hover:opacity-80 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                        title={favorite ? "Remove from favorites" : "Add to favorites"}
+                    >
+                        <Image
+                            src="/favorite.png"
+                            alt="favorite"
+                            width={favorite ? 28 : 24}
+                            height={favorite ? 28 : 24}
+                            className={
+                                favorite
+                                    ? "opacity-100 drop-shadow-lg brightness-110 scale-110 transition-all"
+                                    : "opacity-50 transition-all"
+                            }
+                        />
+                    </button>
                 </div>
                 <div className="pt-2">
                     <div className="flex gap-2 items-center justify-start p-1">
@@ -143,11 +242,17 @@ export default function BoxOffer({
                         )}
                     </div>
                 </div>
-                {/* Maybe add a button for view profile */}
-                <div className="w-full mt-5">
-
-                    <button className="py-2 text-center w-full rounded-lg bg-black/50 text-white font-medium hover:bg-black/70 text-"
-                        onClick={handleSwapRequestClick}>
+                <div className="w-full mt-5 space-y-2">
+                    <button
+                        className="py-2 text-center w-full rounded-lg bg-sky-600 text-white font-medium hover:bg-sky-700 transition-colors"
+                        onClick={toggleProfile}
+                    >
+                        <span>View Profile</span>
+                    </button>
+                    <button
+                        className="py-2 text-center w-full rounded-lg bg-black/50 text-white font-medium hover:bg-black/70 transition-colors"
+                        onClick={handleSwapRequestClick}
+                    >
                         <span>Swap Request</span>
                     </button>
                     <Modal isOpen={isOpen} toggle={toggle}>
@@ -250,6 +355,11 @@ export default function BoxOffer({
                             </>
                         )}
                     </Modal>
+                    <ProfileViewModal
+                        isOpen={isProfileOpen}
+                        toggle={toggleProfile}
+                        studentId={student_ID || ''}
+                    />
                 </div>
 
             </div >

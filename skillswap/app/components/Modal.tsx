@@ -5,6 +5,7 @@ interface ModalType {
     children?: ReactNode;
     isOpen: boolean;
     toggle: () => void;
+    size?: 'small' | 'medium' | 'large';
 }
 
 export default function Modal(props: ModalType) {
@@ -17,7 +18,12 @@ export default function Modal(props: ModalType) {
                     role="dialog"
                     onClick={props.toggle}
                 >
-                    <div className="w-80 md:w-full max-w-md rounded-lg bg-white p-6 shadow-lg" onClick={(e) => e.stopPropagation()}>
+                    <div className={`rounded-lg bg-white p-4 md:p-6 shadow-lg ${props.size === 'large'
+                            ? 'w-full max-w-[95vw] md:max-w-3xl'
+                            : props.size === 'medium'
+                                ? 'w-full max-w-[90vw] md:max-w-xl'
+                                : 'w-[90vw] md:w-full max-w-md'
+                        }`} onClick={(e) => e.stopPropagation()}>
                         {props.children}
                     </div>
                 </div >
