@@ -31,10 +31,14 @@ export default function Request() {
     const [completedRequests, setCompletedRequests] = useState<RequestData[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [showAuthMessage, setShowAuthMessage] = useState(false);
 
     useEffect(() => {
         if (status === "unauthenticated") {
-            router.push("/signin");
+            setShowAuthMessage(true);
+            setTimeout(() => {
+                router.push("/signin");
+            }, 3000);
             return;
         }
 
@@ -141,6 +145,26 @@ export default function Request() {
         }
     };
 
+    if (showAuthMessage || status === "unauthenticated") {
+        return (
+            <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100/30">
+                <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-200 max-w-md mx-4">
+                    <div className="text-center">
+                        <div className="mb-4">
+                            <svg className="mx-auto h-12 w-12 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                            </svg>
+                        </div>
+                        <h2 className="text-2xl font-bold text-gray-800 mb-3">Access Restricted</h2>
+                        <p className="text-gray-600 mb-2">You're not authorized to access this feature.</p>
+                        <p className="text-gray-600 mb-6">If you want to use this feature, please sign in for a better experience!</p>
+                        <p className="text-sm text-indigo-600 font-medium">Redirecting to sign in page...</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     if (status === "loading" || loading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
@@ -152,7 +176,6 @@ export default function Request() {
             </div>
         );
     }
-
 
     return (
         <>

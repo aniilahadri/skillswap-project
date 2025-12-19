@@ -30,6 +30,8 @@ export default function Profile() {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
     const [studentData, setStudentData] = useState<StudentData | null>(null);
+    const [showAuthMessage, setShowAuthMessage] = useState(false);
+    const isAdmin = session?.user?.role === "ADMIN";
 
     const [formData, setFormData] = useState({
         fullName: '',
@@ -46,12 +48,17 @@ export default function Profile() {
 
     useEffect(() => {
         if (status === "unauthenticated") {
-            router.push("/signin");
+            setShowAuthMessage(true);
+            setTimeout(() => {
+                router.push("/signin");
+            }, 3000);
             return;
         }
 
         if (status === "authenticated" && session?.user?.id) {
-            loadProfileData();
+            if (session.user.role === "ADMIN" || session.user.role === "STUDENT") {
+                loadProfileData();
+            }
         }
     }, [status, session]);
 
@@ -74,18 +81,46 @@ export default function Profile() {
                     isProfilePublic: student.isProfilePublic ?? true
                 });
             } else {
-                setError("Failed to load profile data");
+                if (session?.user?.role === "ADMIN") {
+                    setError(null);
+                    setStudentData({
+                        student_ID: session.user.id,
+                        fullName: session.user.fullname || '',
+                        city: '',
+                        country: '',
+                        bio: '',
+                        availability: '',
+                        skillsOffered: [],
+                        skillsWanted: []
+                    });
+                } else {
+                    setError("Failed to load profile data");
+                }
             }
         } catch (err: any) {
             console.error("Error loading profile:", err);
-            setError("Failed to load profile");
+            if (session?.user?.role === "ADMIN") {
+                setError(null);
+                setStudentData({
+                    student_ID: session.user.id,
+                    fullName: session.user.fullname || '',
+                    city: '',
+                    country: '',
+                    bio: '',
+                    availability: '',
+                    skillsOffered: [],
+                    skillsWanted: []
+                });
+            } else {
+                setError("Failed to load profile");
+            }
         } finally {
             setLoading(false);
         }
     };
 
     const handleDeleteSkill = async (skillName: string, type: 'offered' | 'wanted') => {
-        if (!studentData) return;
+        if (!studentData || isAdmin) return;
 
         try {
             const response = await fetch(
@@ -118,12 +153,38 @@ export default function Profile() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!studentData) return;
+        if (!displayData) return;
 
         try {
             setSaving(true);
             setError(null);
             setSuccess(false);
+
+            if (isAdmin) {
+                const response = await fetch(`/api/admin/${session?.user?.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        fullName: formData.fullName,
+                        city: formData.city,
+                        country: formData.country,
+                        bio: formData.bio
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    setSuccess(true);
+                    await loadProfileData();
+                    setTimeout(() => setSuccess(false), 3000);
+                } else {
+                    setError(result.error || "Failed to update profile");
+                }
+                return;
+            }
+
+            if (!studentData) return;
 
             const response = await fetch(`/api/students/${studentData.student_ID}`, {
                 method: 'PUT',
@@ -176,7 +237,7 @@ export default function Profile() {
     };
 
     const toggleProfileVisibility = async () => {
-        if (!studentData) return;
+        if (!studentData || isAdmin) return;
 
         const newVisibility = !formData.isProfilePublic;
         setFormData({ ...formData, isProfilePublic: newVisibility });
@@ -208,6 +269,34 @@ export default function Profile() {
         return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     };
 
+    if (showAuthMessage || status === "unauthenticated") {
+        return (
+            <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100/30">
+                <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-200 max-w-md mx-4">
+                    <div className="text-center">
+                        <div className="mb-4">
+                            <svg className="mx-auto h-12 w-12 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                        </div>
+                        <h2 className="text-2xl font-bold text-gray-800 mb-3">Access Restricted</h2>
+                        <p className="text-gray-600 mb-2">You're not authorized to access this feature.</p>
+                        <p className="text-gray-600 mb-6">If you want to use this feature, please sign in for a better experience!</p>
+                        <p className="text-sm text-indigo-600 font-medium">Redirecting to sign in page...</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (!studentData && !isAdmin) {
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <div className="text-red-500">Failed to load profile data</div>
+            </div>
+        );
+    }
+
     if (status === "loading" || loading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
@@ -220,7 +309,22 @@ export default function Profile() {
         );
     }
 
-    if (!studentData) {
+    const displayData = studentData || (isAdmin ? {
+        student_ID: session?.user?.id || '',
+        fullName: session?.user?.fullname || '',
+        city: '',
+        country: '',
+        bio: '',
+        availability: '',
+        skillsOffered: [],
+        skillsWanted: [],
+        email: '',
+        createdAt: undefined,
+        experienceLevel: undefined,
+        isProfilePublic: true
+    } : null);
+
+    if (!displayData) {
         return (
             <div className="flex justify-center items-center min-h-screen">
                 <div className="text-red-500">Failed to load profile data</div>
@@ -253,40 +357,50 @@ export default function Profile() {
                         </div>
 
                         <div className="space-y-1 md:space-y-2">
-                            <h3 className="text-lg font-bold md:text-xl">{studentData.fullName}</h3>
-                            <div className="flex items-center justify-start gap-2">
-                                <img src="/location.png" alt="" className="max-w-3 max-h-3 md:max-w-4 md:max-h-4" />
-                                <span className="text-gray-500 text-sm md:text-base">{studentData.country}, {studentData.city}</span>
-                            </div>
+                            <h3 className="text-lg font-bold md:text-xl">{displayData.fullName}</h3>
+                            {(displayData.country || displayData.city) && (
+                                <div className="flex items-center justify-start gap-2">
+                                    <img src="/location.png" alt="" className="max-w-3 max-h-3 md:max-w-4 md:max-h-4" />
+                                    <span className="text-gray-500 text-sm md:text-base">{displayData.country || ''}{displayData.country && displayData.city ? ', ' : ''}{displayData.city || ''}</span>
+                                </div>
+                            )}
                             <div className="flex items-center justify-start gap-3">
-                                <div className="flex items-center justify-start gap-2">
-                                    <img src="/clock.png" alt="" className="max-w-3 max-h-3 md:max-w-4 md:max-h-4" />
-                                    <span className="text-gray-500 text-sm md:text-base">{studentData.availability}</span>
-                                </div>
-                                <div className="flex items-center justify-start gap-2">
-                                    <img src="/calendar.png" alt="" className="max-w-3 max-h-3 md:max-w-4 md:max-h-4" />
-                                    <span className="text-gray-500 text-sm md:text-base">Joined {formatDate(studentData.createdAt)}</span>
-                                </div>
-                                <div className="flex items-center justify-start gap-2">
-                                    <span className="text-gray-500 text-sm md:text-base">Level: {studentData.experienceLevel}</span>
-                                </div>
+                                {displayData.availability && (
+                                    <div className="flex items-center justify-start gap-2">
+                                        <img src="/clock.png" alt="" className="max-w-3 max-h-3 md:max-w-4 md:max-h-4" />
+                                        <span className="text-gray-500 text-sm md:text-base">{displayData.availability}</span>
+                                    </div>
+                                )}
+                                {displayData.createdAt && (
+                                    <div className="flex items-center justify-start gap-2">
+                                        <img src="/calendar.png" alt="" className="max-w-3 max-h-3 md:max-w-4 md:max-h-4" />
+                                        <span className="text-gray-500 text-sm md:text-base">Joined {formatDate(displayData.createdAt)}</span>
+                                    </div>
+                                )}
+                                {displayData.experienceLevel && (
+                                    <div className="flex items-center justify-start gap-2">
+                                        <span className="text-gray-500 text-sm md:text-base">Level: {displayData.experienceLevel}</span>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
-                        <div className="flex flex-col w-60 md:w-40 ml-auto">
-                            <div className={`flex items-center justify-center gap-2 shadow-sm shadow-slate-500 px-1 py-1 rounded-md lg:px-3 ${formData.isProfilePublic ? 'bg-green-100' : 'bg-gray-200'}`}>
-                                <img src="/eye-public.png" alt="" className="max-w-3 max-h-3 md:max-w-4 md:max-h-4" />
-                                <span className="text-xs font-semibold md:text-sm">
-                                    Profile is {formData.isProfilePublic ? 'Public' : 'Private'}
-                                </span>
+                        {!isAdmin && (
+                            <div className="flex flex-col w-60 md:w-40 ml-auto">
+                                <div className={`flex items-center justify-center gap-2 shadow-sm shadow-slate-500 px-1 py-1 rounded-md lg:px-3 ${formData.isProfilePublic ? 'bg-green-100' : 'bg-gray-200'}`}>
+                                    <img src="/eye-public.png" alt="" className="max-w-3 max-h-3 md:max-w-4 md:max-h-4" />
+                                    <span className="text-xs font-semibold md:text-sm">
+                                        Profile is {formData.isProfilePublic ? 'Public' : 'Private'}
+                                    </span>
+                                </div>
+                                <button
+                                    onClick={toggleProfileVisibility}
+                                    className="mt-auto ml-auto rounded-md bg-red-500 text-white px-3 py-1 hover:bg-red-600 text-xs md:text-sm"
+                                >
+                                    {formData.isProfilePublic ? 'Make Private' : 'Make Public'}
+                                </button>
                             </div>
-                            <button
-                                onClick={toggleProfileVisibility}
-                                className="mt-auto ml-auto rounded-md bg-red-500 text-white px-3 py-1 hover:bg-red-600 text-xs md:text-sm"
-                            >
-                                {formData.isProfilePublic ? 'Make Private' : 'Make Public'}
-                            </button>
-                        </div>
+                        )}
                     </div>
 
                     <div className="w-full bg-white [box-shadow:0_2px_10px_-3px_rgba(6,81,237,0.3)] p-4 lg:p-5 rounded-md">
@@ -316,7 +430,7 @@ export default function Profile() {
                                                 <input
                                                     name="email"
                                                     type="text"
-                                                    value={studentData.email || ''}
+                                                    value={displayData.email || ''}
                                                     disabled
                                                     className="w-full text-sm text-slate-500 bg-slate-200 pl-4 pr-10 py-3 rounded-md border border-slate-100 cursor-not-allowed"
                                                     placeholder="Enter email"
@@ -357,71 +471,75 @@ export default function Profile() {
                                                 <img src="/location.png" alt="location-photo" className="w-[18px] h-[18px] absolute right-4" />
                                             </div>
                                         </div>
-                                        <div className="w-full">
-                                            <label className="text-slate-900 text-sm font-medium mb-2 block">Availability</label>
-                                            <select
-                                                id="availability"
-                                                value={formData.availability}
-                                                onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
-                                                className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
-                                            >
-                                                <option value="">Select Availability</option>
-                                                <option value={Availability.Morning}>Morning</option>
-                                                <option value={Availability.Afternoon}>Afternoon</option>
-                                                <option value={Availability.Evening}>Evening</option>
-                                            </select>
-                                        </div>
+                                        {!isAdmin && (
+                                            <div className="w-full">
+                                                <label className="text-slate-900 text-sm font-medium mb-2 block">Availability</label>
+                                                <select
+                                                    id="availability"
+                                                    value={formData.availability}
+                                                    onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
+                                                    className="w-full text-sm text-slate-900 bg-slate-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-slate-100 focus:border-blue-600 outline-none transition-all"
+                                                >
+                                                    <option value="">Select Availability</option>
+                                                    <option value={Availability.Morning}>Morning</option>
+                                                    <option value={Availability.Afternoon}>Afternoon</option>
+                                                    <option value={Availability.Evening}>Evening</option>
+                                                </select>
+                                            </div>
+                                        )}
                                     </div>
 
-                                    <div className="w-full">
-                                        <label className="text-slate-900 text-sm font-medium mb-2 block">Experience Level</label>
-                                        <div className="flex flex-wrap gap-4">
-                                            <label className="flex items-center cursor-pointer">
-                                                <input
-                                                    type="radio"
-                                                    name="experienceLevel"
-                                                    value={ExperienceLevel.BEGINNER}
-                                                    checked={formData.experienceLevel === ExperienceLevel.BEGINNER}
-                                                    onChange={(e) => setFormData({ ...formData, experienceLevel: e.target.value })}
-                                                    className="w-4 h-4 text-blue-600 bg-slate-100 border-slate-300 focus:ring-blue-500 focus:ring-2"
-                                                />
-                                                <span className="ml-2 text-sm text-slate-900">Beginner</span>
-                                            </label>
-                                            <label className="flex items-center cursor-pointer">
-                                                <input
-                                                    type="radio"
-                                                    name="experienceLevel"
-                                                    value={ExperienceLevel.INTERMEDIATE}
-                                                    checked={formData.experienceLevel === ExperienceLevel.INTERMEDIATE}
-                                                    onChange={(e) => setFormData({ ...formData, experienceLevel: e.target.value })}
-                                                    className="w-4 h-4 text-blue-600 bg-slate-100 border-slate-300 focus:ring-blue-500 focus:ring-2"
-                                                />
-                                                <span className="ml-2 text-sm text-slate-900">Intermediate</span>
-                                            </label>
-                                            <label className="flex items-center cursor-pointer">
-                                                <input
-                                                    type="radio"
-                                                    name="experienceLevel"
-                                                    value={ExperienceLevel.ADVANCED}
-                                                    checked={formData.experienceLevel === ExperienceLevel.ADVANCED}
-                                                    onChange={(e) => setFormData({ ...formData, experienceLevel: e.target.value })}
-                                                    className="w-4 h-4 text-blue-600 bg-slate-100 border-slate-300 focus:ring-blue-500 focus:ring-2"
-                                                />
-                                                <span className="ml-2 text-sm text-slate-900">Advanced</span>
-                                            </label>
-                                            <label className="flex items-center cursor-pointer">
-                                                <input
-                                                    type="radio"
-                                                    name="experienceLevel"
-                                                    value={ExperienceLevel.EXPERT}
-                                                    checked={formData.experienceLevel === ExperienceLevel.EXPERT}
-                                                    onChange={(e) => setFormData({ ...formData, experienceLevel: e.target.value })}
-                                                    className="w-4 h-4 text-blue-600 bg-slate-100 border-slate-300 focus:ring-blue-500 focus:ring-2"
-                                                />
-                                                <span className="ml-2 text-sm text-slate-900">Expert</span>
-                                            </label>
+                                    {!isAdmin && (
+                                        <div className="w-full">
+                                            <label className="text-slate-900 text-sm font-medium mb-2 block">Experience Level</label>
+                                            <div className="flex flex-wrap gap-4">
+                                                <label className="flex items-center cursor-pointer">
+                                                    <input
+                                                        type="radio"
+                                                        name="experienceLevel"
+                                                        value={ExperienceLevel.BEGINNER}
+                                                        checked={formData.experienceLevel === ExperienceLevel.BEGINNER}
+                                                        onChange={(e) => setFormData({ ...formData, experienceLevel: e.target.value })}
+                                                        className="w-4 h-4 text-blue-600 bg-slate-100 border-slate-300 focus:ring-blue-500 focus:ring-2"
+                                                    />
+                                                    <span className="ml-2 text-sm text-slate-900">Beginner</span>
+                                                </label>
+                                                <label className="flex items-center cursor-pointer">
+                                                    <input
+                                                        type="radio"
+                                                        name="experienceLevel"
+                                                        value={ExperienceLevel.INTERMEDIATE}
+                                                        checked={formData.experienceLevel === ExperienceLevel.INTERMEDIATE}
+                                                        onChange={(e) => setFormData({ ...formData, experienceLevel: e.target.value })}
+                                                        className="w-4 h-4 text-blue-600 bg-slate-100 border-slate-300 focus:ring-blue-500 focus:ring-2"
+                                                    />
+                                                    <span className="ml-2 text-sm text-slate-900">Intermediate</span>
+                                                </label>
+                                                <label className="flex items-center cursor-pointer">
+                                                    <input
+                                                        type="radio"
+                                                        name="experienceLevel"
+                                                        value={ExperienceLevel.ADVANCED}
+                                                        checked={formData.experienceLevel === ExperienceLevel.ADVANCED}
+                                                        onChange={(e) => setFormData({ ...formData, experienceLevel: e.target.value })}
+                                                        className="w-4 h-4 text-blue-600 bg-slate-100 border-slate-300 focus:ring-blue-500 focus:ring-2"
+                                                    />
+                                                    <span className="ml-2 text-sm text-slate-900">Advanced</span>
+                                                </label>
+                                                <label className="flex items-center cursor-pointer">
+                                                    <input
+                                                        type="radio"
+                                                        name="experienceLevel"
+                                                        value={ExperienceLevel.EXPERT}
+                                                        checked={formData.experienceLevel === ExperienceLevel.EXPERT}
+                                                        onChange={(e) => setFormData({ ...formData, experienceLevel: e.target.value })}
+                                                        className="w-4 h-4 text-blue-600 bg-slate-100 border-slate-300 focus:ring-blue-500 focus:ring-2"
+                                                    />
+                                                    <span className="ml-2 text-sm text-slate-900">Expert</span>
+                                                </label>
+                                            </div>
                                         </div>
-                                    </div>
+                                    )}
 
                                     <div className="w-full">
                                         <label className="text-slate-900 text-sm font-medium mb-2 block" htmlFor="userBio">Bio</label>
@@ -436,37 +554,39 @@ export default function Profile() {
                                     </div>
                                 </div>
 
-                                <div className="flex items-center justify-center gap-5 pt-2">
-                                    <div className="bg-gray-300/50 p-4 rounded-lg w-full">
-                                        <label className="text-slate-900 text-sm font-medium mb-2 block" htmlFor="skillsOffer">Skills | Offer</label>
-                                        <SkillsInput
-                                            id="skillsOffer"
-                                            styleInput="px-2 text-xs"
-                                            stylebutton="px-3 py-2"
-                                            onSkillsChange={setNewSkillsOffered}
-                                        />
-                                        <ProfileSkillsDisplay
-                                            skills={studentData.skillsOffered}
-                                            onDelete={(skill) => handleDeleteSkill(skill, 'offered')}
-                                            type="offered"
-                                        />
-                                    </div>
+                                {!isAdmin && (
+                                    <div className="flex items-center justify-center gap-5 pt-2">
+                                        <div className="bg-gray-300/50 p-4 rounded-lg w-full">
+                                            <label className="text-slate-900 text-sm font-medium mb-2 block" htmlFor="skillsOffer">Skills | Offer</label>
+                                            <SkillsInput
+                                                id="skillsOffer"
+                                                styleInput="px-2 text-xs"
+                                                stylebutton="px-3 py-2"
+                                                onSkillsChange={setNewSkillsOffered}
+                                            />
+                                            <ProfileSkillsDisplay
+                                                skills={displayData.skillsOffered}
+                                                onDelete={(skill) => handleDeleteSkill(skill, 'offered')}
+                                                type="offered"
+                                            />
+                                        </div>
 
-                                    <div className="bg-gray-300/50 p-4 rounded-lg w-full">
-                                        <label className="text-slate-900 text-sm font-medium mb-2 block" htmlFor="skillsLearn">Skills | Learn</label>
-                                        <SkillsInput
-                                            id="skillsLearn"
-                                            styleInput="px-2 text-xs"
-                                            stylebutton="px-3 py-2"
-                                            onSkillsChange={setNewSkillsWanted}
-                                        />
-                                        <ProfileSkillsDisplay
-                                            skills={studentData.skillsWanted}
-                                            onDelete={(skill) => handleDeleteSkill(skill, 'wanted')}
-                                            type="wanted"
-                                        />
+                                        <div className="bg-gray-300/50 p-4 rounded-lg w-full">
+                                            <label className="text-slate-900 text-sm font-medium mb-2 block" htmlFor="skillsLearn">Skills | Learn</label>
+                                            <SkillsInput
+                                                id="skillsLearn"
+                                                styleInput="px-2 text-xs"
+                                                stylebutton="px-3 py-2"
+                                                onSkillsChange={setNewSkillsWanted}
+                                            />
+                                            <ProfileSkillsDisplay
+                                                skills={displayData.skillsWanted}
+                                                onDelete={(skill) => handleDeleteSkill(skill, 'wanted')}
+                                                type="wanted"
+                                            />
+                                        </div>
                                     </div>
-                                </div>
+                                )}
 
                                 <div className="pt-3 flex items-center justify-start gap-5">
                                     <button

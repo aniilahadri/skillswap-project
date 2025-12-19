@@ -188,9 +188,9 @@ export default function BoxOffer({
                     </div>
                     <button
                         onClick={handleFavoriteToggle}
-                        disabled={isTogglingFavorite || !session?.user}
+                        disabled={isTogglingFavorite || !session?.user || session?.user?.role === "ADMIN"}
                         className="flex-shrink-0 hover:opacity-80 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                        title={favorite ? "Remove from favorites" : "Add to favorites"}
+                        title={session?.user?.role === "ADMIN" ? "Admins cannot favorite users" : (favorite ? "Remove from favorites" : "Add to favorites")}
                     >
                         <Image
                             src="/favorite.png"
@@ -249,12 +249,14 @@ export default function BoxOffer({
                     >
                         <span>View Profile</span>
                     </button>
-                    <button
-                        className="py-2 text-center w-full rounded-lg bg-black/50 text-white font-medium hover:bg-black/70 transition-colors"
-                        onClick={handleSwapRequestClick}
-                    >
-                        <span>Swap Request</span>
-                    </button>
+                    {session?.user?.role !== "ADMIN" && (
+                        <button
+                            className="py-2 text-center w-full rounded-lg bg-black/50 text-white font-medium hover:bg-black/70 transition-colors"
+                            onClick={handleSwapRequestClick}
+                        >
+                            <span>Swap Request</span>
+                        </button>
+                    )}
                     <Modal isOpen={isOpen} toggle={toggle}>
                         {!session?.user ? (
                             <div className="text-center py-4">

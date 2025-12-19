@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { Availability, ExperienceLevel } from "@/lib/prisma/enums";
+import { Availability, ExperienceLevel, Role } from "@/lib/prisma/enums";
 import { SkillRepository } from "./skillRepository";
 import { RequestRepository } from "./requestRepository";
 import { FavoriteRepository } from "./favoriteRepository";
@@ -26,6 +26,9 @@ export class StudentRepository {
         const students = await prisma.student.findMany({
             where: {
                 isProfilePublic: true,
+                user: {
+                    role: Role.STUDENT // Explicitly filter to only students, exclude admins
+                },
                 ...(excludeStudentId && { student_ID: { not: excludeStudentId } })
             },
             include: {

@@ -133,31 +133,41 @@ export default function ProfileViewModal({ isOpen, toggle, studentId }: ProfileV
                         </div>
 
                         <div className="space-y-4 mb-6">
-                            <div className="bg-gray-50 p-3 md:p-4 rounded-lg">
-                                <h3 className="font-semibold text-gray-700 mb-2 text-sm md:text-base">Bio</h3>
-                                <p className="text-gray-600 text-sm md:text-base">{profile.bio}</p>
-                            </div>
+                            {profile.bio && (
+                                <div className="bg-gray-50 p-3 md:p-4 rounded-lg">
+                                    <h3 className="font-semibold text-gray-700 mb-2 text-sm md:text-base">Bio</h3>
+                                    <p className="text-gray-600 text-sm md:text-base">{profile.bio}</p>
+                                </div>
+                            )}
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
-                                <div className="bg-gray-50 p-3 md:p-4 rounded-lg">
-                                    <h3 className="font-semibold text-gray-700 mb-1 text-xs md:text-sm">Experience Level</h3>
-                                    <p className="text-gray-600 text-sm md:text-base">{profile.experienceLevel || 'Not specified'}</p>
-                                </div>
+                                {profile.experienceLevel && (
+                                    <div className="bg-gray-50 p-3 md:p-4 rounded-lg">
+                                        <h3 className="font-semibold text-gray-700 mb-1 text-xs md:text-sm">Experience Level</h3>
+                                        <p className="text-gray-600 text-sm md:text-base">{profile.experienceLevel}</p>
+                                    </div>
+                                )}
 
-                                <div className="bg-gray-50 p-3 md:p-4 rounded-lg">
-                                    <h3 className="font-semibold text-gray-700 mb-1 text-xs md:text-sm">Skills Completed</h3>
-                                    <p className="text-gray-600 text-sm md:text-base">{profile.skillsCompleted || 0}</p>
-                                </div>
+                                {profile.skillsCompleted !== undefined && (
+                                    <div className="bg-gray-50 p-3 md:p-4 rounded-lg">
+                                        <h3 className="font-semibold text-gray-700 mb-1 text-xs md:text-sm">Skills Completed</h3>
+                                        <p className="text-gray-600 text-sm md:text-base">{profile.skillsCompleted || 0}</p>
+                                    </div>
+                                )}
 
-                                <div className="bg-gray-50 p-3 md:p-4 rounded-lg">
-                                    <h3 className="font-semibold text-gray-700 mb-1 text-xs md:text-sm">Availability</h3>
-                                    <p className="text-gray-600 text-sm md:text-base">{profile.availability}</p>
-                                </div>
+                                {profile.availability && (
+                                    <div className="bg-gray-50 p-3 md:p-4 rounded-lg">
+                                        <h3 className="font-semibold text-gray-700 mb-1 text-xs md:text-sm">Availability</h3>
+                                        <p className="text-gray-600 text-sm md:text-base">{profile.availability}</p>
+                                    </div>
+                                )}
 
-                                <div className="bg-gray-50 p-3 md:p-4 rounded-lg">
-                                    <h3 className="font-semibold text-gray-700 mb-1 text-xs md:text-sm">Member Since</h3>
-                                    <p className="text-gray-600 text-sm md:text-base">{formatDate(profile.createdAt)}</p>
-                                </div>
+                                {profile.createdAt && (
+                                    <div className="bg-gray-50 p-3 md:p-4 rounded-lg">
+                                        <h3 className="font-semibold text-gray-700 mb-1 text-xs md:text-sm">Member Since</h3>
+                                        <p className="text-gray-600 text-sm md:text-base">{formatDate(profile.createdAt)}</p>
+                                    </div>
+                                )}
                             </div>
 
                             <div className="bg-gray-50 p-3 md:p-4 rounded-lg">
@@ -193,7 +203,27 @@ export default function ProfileViewModal({ isOpen, toggle, studentId }: ProfileV
 
                         {session?.user && session.user.id !== studentId && (
                             <div className="border-t pt-4">
-                                {!showReportForm ? (
+                                {session.user.role === "ADMIN" ? (
+                                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                                        <div className="flex items-start gap-3">
+                                            <svg className="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <div>
+                                                <h4 className="font-semibold text-blue-900 mb-1">Admin Access</h4>
+                                                <p className="text-sm text-blue-800 mb-2">
+                                                    You're logged in as an administrator. To view and handle reports, please go to the Admin Panel.
+                                                </p>
+                                                <a
+                                                    href="/dashboard"
+                                                    className="inline-block px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                                                >
+                                                    Go to Admin Panel
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : !showReportForm ? (
                                     <button
                                         onClick={() => setShowReportForm(true)}
                                         className="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
